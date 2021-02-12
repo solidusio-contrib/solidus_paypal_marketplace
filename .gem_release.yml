@@ -1,0 +1,5 @@
+bump:
+  recurse: false
+  file: 'lib/solidus_paypal_marketplace/version.rb'
+  message: Bump SolidusPaypalMarketplace to %{version}
+  tag: true

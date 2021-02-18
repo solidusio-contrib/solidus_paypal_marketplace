@@ -2,9 +2,7 @@
 
 module SolidusPaypalMarketplace
   class Configuration
-    # Define here the settings for this extension, e.g.:
-    #
-    # attr_accessor :my_setting
+    attr_accessor :paypal_client_id, :paypal_client_secret, :partner_code
   end
 
   class << self

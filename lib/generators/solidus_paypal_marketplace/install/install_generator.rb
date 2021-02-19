@@ -25,7 +25,8 @@ module SolidusPaypalMarketplace
       end
 
       def run_migrations
-        run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask('Would you like to run the migrations now? [Y/n]')) # rubocop:disable Layout/LineLength
+        run_migrations = options[:auto_run_migrations]
+        run_migrations ||= ['', 'y', 'Y'].include?(ask('Would you like to run the migrations now? [Y/n]'))
         if run_migrations
           run 'bin/rails db:migrate'
         else

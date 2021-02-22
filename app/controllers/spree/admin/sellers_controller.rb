@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 
 module Spree
   module Admin
     class SellersController < Spree::Admin::ResourceController
-      before_action :set_merchant_id,
-                    :set_action_url, only: [:create]
+      before_action :set_merchant_id, :set_action_url, only: [:create]
 
       private
 

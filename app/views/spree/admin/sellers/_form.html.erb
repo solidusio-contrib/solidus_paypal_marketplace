@@ -1,0 +1,19 @@
+<div data-hook="admin_seller_form_fields">
+
+  <div data-hook="admin_seller_form_name">
+    <%= f.field_container :name do %>
+      <%= f.label :name, class: 'required' %>
+      <%= f.text_field :name, class: 'fullwidth title', required: true %>
+      <%= f.error_message_on :name %>
+    <% end %>
+  </div>
+
+  <div data-hook="admin_seller_form_percentage">
+    <%= f.field_container :percentage do %>
+      <%= f.label :percentage %>
+      <%= f.text_field :percentage, class: 'fullwidth title' %>
+      <%= f.error_message_on :percentage %>
+    <% end %>
+  </div>
+
+</div>

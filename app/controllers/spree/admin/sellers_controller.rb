@@ -8,11 +8,14 @@ module Spree
       private
 
       def set_action_url
-        @seller.action_url = 'url'
+        @seller.action_url = ''
       end
 
       def set_merchant_id
-        @seller.merchant_id = SecureRandom.uuid
+        @seller.merchant_id = Digest::UUID.uuid_v5(
+          Digest::UUID::DNS_NAMESPACE,
+          request.host
+        )
       end
     end
   end

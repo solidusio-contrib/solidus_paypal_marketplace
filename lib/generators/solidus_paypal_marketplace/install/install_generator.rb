@@ -11,8 +11,14 @@ module SolidusPaypalMarketplace
       end
 
       def add_javascripts
-        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/solidus_paypal_marketplace\n"
-        append_file 'vendor/assets/javascripts/spree/backend/all.js', "//= require spree/backend/solidus_paypal_marketplace\n"
+        append_file(
+          'vendor/assets/javascripts/spree/frontend/all.js',
+          "//= require spree/frontend/solidus_paypal_marketplace\n"
+        )
+        append_file(
+          'vendor/assets/javascripts/spree/backend/all.js',
+          "//= require spree/backend/solidus_paypal_marketplace\n"
+        )
       end
 
       def add_stylesheets

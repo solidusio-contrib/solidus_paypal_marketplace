@@ -1,0 +1,9 @@
+<% admin_breadcrumb(plural_resource_name(Spree::Seller)) %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= link_to "#{t('spree.new_seller')}", new_admin_seller_url, class: 'btn btn-primary' %>
+  </li>
+<% end %>
+
+<%= @sellers.count %>

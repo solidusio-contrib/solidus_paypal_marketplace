@@ -13,7 +13,9 @@
 <% if @collection.any? %>
   <table class="index" id="listing_sellers">
     <colgroup>
-       <col style="width: 35%;">
+       <col style="width: 25%;">
+       <col style="width: 10%;">
+       <col style="width: 10%;">
        <col style="width: 10%;">
        <col style="width: 5%;">
     </colgroup>
@@ -25,8 +27,14 @@
                         Spree::Seller.human_attribute_name(:name), 
                         { default_order: "desc" }, 
                         {title: 'admin_sellers_listing_name_title'} %></th>
-        <th colspan="2">
+        <th>
           <%= Spree::Variant.human_attribute_name(:percentage) %>
+        </th>
+        <th>
+          <%= Spree::Variant.human_attribute_name(:status) %>
+        </th>
+        <th colspan="2">
+          <%= Spree::Variant.human_attribute_name(:risk_status) %>
         </th>
       </tr>
     </thead>
@@ -35,6 +43,9 @@
           <tr id="<%= spree_dom_id seller %>" data-hook="admin_sellers_index_rows">
             <td><%= seller.name %></td>
             <td><%= seller.percentage %></td>
+
+            <td><%= seller.status %></td>
+            <td><%= seller.risk_status %></td>
             
             <td class="actions" data-hook="admin_sellers_index_row_actions">
               <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) %>              

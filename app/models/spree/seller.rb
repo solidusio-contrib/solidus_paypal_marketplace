@@ -4,7 +4,7 @@ module Spree
   class Seller < Spree::Base
     include Spree::SoftDeletable
 
-    validates :name, presence: true
+    validates :name, presence: true, uniqueness: true
     validates :merchant_id, uniqueness: { case_sensitive: false }
     validates :percentage, numericality: true, allow_blank: true
 

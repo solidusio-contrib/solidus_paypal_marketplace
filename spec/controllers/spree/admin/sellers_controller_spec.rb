@@ -10,14 +10,13 @@ describe Spree::Admin::SellersController, type: :controller do
     expect(response).to have_http_status(:ok)
   end
 
-  it "initialize seller" do
+  it 'initialize seller' do
     get :new
     expect(response).to have_http_status(:ok)
   end
 
-  it "create seller" do
+  it 'create seller' do
     post :create, params: { seller: { name: 'Seller' } }
     expect(response).to redirect_to(spree.admin_sellers_path)
   end
-
 end

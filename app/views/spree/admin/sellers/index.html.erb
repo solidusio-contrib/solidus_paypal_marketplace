@@ -37,9 +37,9 @@
             <td><%= seller.percentage %></td>
             
             <td class="actions" data-hook="admin_sellers_index_row_actions">
-              <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) && !seller.deleted? %>              
+              <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) %>              
               &nbsp;
-              <%= link_to_delete seller, no_text: true if can?(:destroy, seller) && !seller.deleted? %>
+              <%= link_to_delete seller, no_text: true if can?(:destroy, seller) %>
             </td>
           </tr>
       <% end %>

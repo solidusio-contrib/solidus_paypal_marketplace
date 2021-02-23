@@ -8,8 +8,19 @@ module Spree
     validates :merchant_id, uniqueness: { case_sensitive: false }
     validates :percentage, numericality: true, allow_blank: true
 
-    enum status: { pending: 0, accepted: 1, rejected: 2 }
-    enum risk_status: { subscribed: 0, subscribed_with_limit: 1, declined: 2, manual_review: 3, need_more_data: 4 }
+    enum status: { 
+      pending: 0, 
+      accepted: 1, 
+      rejected: 2 
+    }
+
+    enum risk_status: { 
+      subscribed: 0, 
+      subscribed_with_limit: 1, 
+      declined: 2, 
+      manual_review: 3, 
+      need_more_data: 4 
+    }
 
     before_create :set_merchant_id
 

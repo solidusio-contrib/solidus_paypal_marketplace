@@ -6,4 +6,51 @@
   </li>
 <% end %>
 
-<%= @sellers.count %>
+<% content_for :table_filter_title do %>
+  <%= t('spree.search') %>
+<% end %>
+
+<% if @collection.any? %>
+  <table class="index" id="listing_sellers">
+    <colgroup>
+       <col style="width: 35%;">
+       <col style="width: 10%;">
+       <col style="width: 5%;">
+    </colgroup>
+    <thead>
+      <tr data-hook="admin_sellers_index_headers">
+        <th>
+          <%= sort_link @search,
+                        :name, 
+                        Spree::Seller.human_attribute_name(:name), 
+                        { default_order: "desc" }, 
+                        {title: 'admin_sellers_listing_name_title'} %></th>
+        <th colspan="2">
+          <%= Spree::Variant.human_attribute_name(:percentage) %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @collection.each do |seller| %>
+          <tr id="<%= spree_dom_id seller %>" data-hook="admin_sellers_index_rows">
+            <td><%= seller.name %></td>
+            <td><%= seller.percentage %></td>
+            
+            <td class="actions" data-hook="admin_sellers_index_row_actions">
+              <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) && !seller.deleted? %>              
+              &nbsp;
+              <%= link_to_delete seller, no_text: true if can?(:destroy, seller) && !seller.deleted? %>
+            </td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="no-objects-found">
+    <%= render 'spree/admin/shared/no_objects_found',
+                  resource: Spree::Seller,
+                  new_resource_url: new_object_url %>
+  </div>
+<% end %>
+
+<%= paginate @collection, theme: "solidus_admin" %>

@@ -8,20 +8,23 @@ RSpec.describe Spree::Seller, type: :model do
 
   it do
     expect(described_class.new).to define_enum_for(:risk_status).with_values(
-      subscribed: 0, 
-      subscribed_with_limit: 1, 
-      declined: 2, 
-      manual_review: 3, 
+      subscribed: 0,
+      subscribed_with_limit: 1,
+      declined: 2,
+      manual_review: 3,
       need_more_data: 4
     )
   end
 
-  describe '#set_merchant_id' do
-    context 'before create assign merchant_id' do
-      it do
-        instance = described_class.create!(name: 'Mr Good')
-        expect(instance.merchant_id).to be_present
-      end
+  describe '#create' do
+    subject(:seller) { described_class.create!(name: 'Mr Good') }
+
+    it 'assign merchant_id' do
+      expect(seller.merchant_id).to be_present
     end
+  end
+
+  describe '#percentage' do
+    it { is_expected.to validate_inclusion_of(:percentage).in_range(0..100) }
   end
 end

@@ -13,10 +13,11 @@ Add solidus_paypal_marketplace to your Gemfile:
 gem 'solidus_paypal_marketplace'
 ```
 
-Bundle your dependencies and run the installation generator:
+Bundle your dependencies and run the installation generator, then seed the database:
 
 ```shell
 bin/rails generate solidus_paypal_marketplace:install
+bin/rails solidus_paypal_marketplace:db:seed
 ```
 
 ## Usage

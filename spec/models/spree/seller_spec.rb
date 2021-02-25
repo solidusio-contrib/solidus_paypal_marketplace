@@ -25,6 +25,11 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#percentage' do
-    it { is_expected.to validate_inclusion_of(:percentage).in_range(0..100) }
+    it { 
+      is_expected.to validate_numericality_of(:percentage).is_greater_than_or_equal_to(0) 
+    }
+    it { 
+      is_expected.to validate_numericality_of(:percentage).is_less_than_or_equal_to(100) 
+    }
   end
 end

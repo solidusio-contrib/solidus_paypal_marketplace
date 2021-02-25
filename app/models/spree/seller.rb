@@ -6,12 +6,9 @@ module Spree
 
     validates :name, presence: true, uniqueness: true
     validates :merchant_id, uniqueness: { case_sensitive: false }
-    validates :percentage, numericality: {
-                            greater_than_or_equal_to: 0, 
-                            less_than_or_equal_to: 100
-                           }, 
+    validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
                            allow_blank: true
-                           
+
     enum status: {
       pending: 0,
       accepted: 1,

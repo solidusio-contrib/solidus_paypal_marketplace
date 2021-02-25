@@ -28,11 +28,11 @@ RSpec.describe Spree::Seller, type: :model do
     subject(:seller) { described_class.create!(name: 'Mr Good') }
 
     it {
-      seller.to validate_numericality_of(:percentage).is_greater_than_or_equal_to(0)
+      expect(seller).to validate_numericality_of(:percentage).is_greater_than_or_equal_to(0)
     }
 
     it {
-      seller.to validate_numericality_of(:percentage).is_less_than_or_equal_to(100)
+      expect(seller).to validate_numericality_of(:percentage).is_less_than_or_equal_to(100)
     }
   end
 end

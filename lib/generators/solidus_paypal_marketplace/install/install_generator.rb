@@ -6,6 +6,10 @@ module SolidusPaypalMarketplace
       class_option :auto_run_migrations, type: :boolean, default: false
       source_root File.expand_path('templates', __dir__)
 
+      def install_solidus_paypal_commerce_platform
+        run 'bin/rails generate solidus_paypal_commerce_platform:install'
+      end
+
       def copy_initializer
         template 'initializer.rb', 'config/initializers/solidus_paypal_marketplace.rb'
       end

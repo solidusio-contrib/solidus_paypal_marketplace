@@ -16,7 +16,7 @@ describe Spree::Admin::SellersController, type: :controller do
   end
 
   it 'create seller' do
-    post :create, params: { seller: { name: 'Seller' } }
+    post :create, params: { seller: { name: 'Seller', percentage: 10.0 } }
     expect(response).to redirect_to(spree.admin_sellers_path)
   end
 end

@@ -8,9 +8,9 @@ module Spree
                      uniqueness: { case_sensitive: true }
     validates :merchant_id, presence: true,
                             uniqueness: { case_sensitive: false }
-    validates :percentage, allow_blank: true,
-                           numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
-
+    validates :percentage, presence: true
+    validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
+                           if: -> { percentage.present? }
 
     enum status: {
       pending: 0,

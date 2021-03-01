@@ -3,9 +3,9 @@
 
 <%= render partial: 'spree/shared/error_messages', locals: { target: @seller } %>
 
-<%= form_for [:admin, @seller], method: :post, url: admin_sellers_path, html: { multipart: true } do |f| %>
+<%= form_for [:admin, @seller] do |f| %>
   <fieldset data-hook="new_seller">
-    <legend align="center"><%= t('spree.new_seller') %></legend>
+    <legend align="center"><%= t('spree.edit_seller') %></legend>
 
     <%= render partial: 'form', locals: { f: f } %>
 

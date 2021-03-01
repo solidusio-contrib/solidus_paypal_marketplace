@@ -9,6 +9,7 @@ en:
         other: Sellers
   spree:
     new_seller: New Seller
+    edit_seller: Edit Seller
     admin:
       tab:
         sellers: Sellers

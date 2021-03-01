@@ -4,10 +4,13 @@ module Spree
   class Seller < Spree::Base
     include Spree::SoftDeletable
 
-    validates :name, presence: true, uniqueness: true
-    validates :merchant_id, uniqueness: { case_sensitive: false }
-    validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
-                           allow_blank: true
+    validates :name, presence: true,
+                     uniqueness: { case_sensitive: true }
+    validates :merchant_id, presence: true,
+                            uniqueness: { case_sensitive: false }
+    validates :percentage, allow_blank: true,
+                           numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+
 
     enum status: {
       pending: 0,
@@ -23,7 +26,7 @@ module Spree
       need_more_data: 4
     }
 
-    before_create :set_merchant_id
+    before_validation :set_merchant_id, on: :create
 
     def set_merchant_id
       self.merchant_id = SecureRandom.uuid

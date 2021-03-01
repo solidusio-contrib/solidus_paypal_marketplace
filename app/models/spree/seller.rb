@@ -26,6 +26,8 @@ module Spree
       need_more_data: 4
     }
 
+    has_one :stock_location, class_name: 'Spree::StockLocation',
+                             dependent: :destroy
     before_validation :set_merchant_id, on: :create
 
     def set_merchant_id

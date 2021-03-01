@@ -5,6 +5,7 @@ require 'spec_helper'
 RSpec.describe Spree::Seller, type: :model do
   it { is_expected.to be_kind_of Spree::SoftDeletable }
   it { is_expected.to define_enum_for(:status).with_values(pending: 0, accepted: 1, rejected: 2) }
+  it { is_expected.to have_one(:stock_location).dependent(:destroy) }
 
   it do
     expect(described_class.new).to define_enum_for(:risk_status).with_values(

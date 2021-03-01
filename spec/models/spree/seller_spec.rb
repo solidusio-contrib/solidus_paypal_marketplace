@@ -17,7 +17,7 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#create' do
-    subject(:seller) { described_class.create!(name: 'Mr Good') }
+    subject(:seller) { described_class.create!(name: 'Mr Good', percentage: 10.0) }
 
     it 'assign merchant_id' do
       expect(seller.merchant_id).to be_present
@@ -25,7 +25,11 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#percentage' do
-    subject(:seller) { described_class.create!(name: 'Mr Good') }
+    subject(:seller) { described_class.new(name: 'Mr Good', percentage: 10.0) }
+
+    it {
+      expect(seller).to validate_presence_of(:percentage)
+    }
 
     it {
       expect(seller).to validate_numericality_of(:percentage).is_greater_than_or_equal_to(0)

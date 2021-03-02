@@ -21,7 +21,8 @@ module Spree
     has_one :stock_location, class_name: 'Spree::StockLocation',
                              dependent: :destroy,
                              inverse_of: :seller
-                             dependent: :destroy
+    has_many :users, class_name: 'Spree::User',
+                     dependent: :destroy
 
     before_validation :set_merchant_id, on: :create
     after_create_commit :create_default_stock_location!

@@ -3,6 +3,12 @@
 
 en:
   activerecord:
+    errors:
+      models:
+        spree/stock_location:
+          attributes:
+            base:
+              cannot_destroy_sellers_stock_location: Cannot destroy a stock location if it belongs to a seller
     models:
       spree/seller:
         one: Seller

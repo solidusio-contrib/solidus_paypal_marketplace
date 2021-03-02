@@ -23,6 +23,10 @@ RSpec.describe Spree::Seller, type: :model do
     it 'assign merchant_id' do
       expect(seller.merchant_id).to be_present
     end
+
+    it 'creates default stock location' do
+      expect(seller.stock_location).to be_persisted
+    end
   end
 
   describe '#percentage' do

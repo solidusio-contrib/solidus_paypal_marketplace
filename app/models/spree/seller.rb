@@ -4,14 +4,6 @@ module Spree
   class Seller < Spree::Base
     include Spree::SoftDeletable
 
-    validates :name, presence: true,
-                     uniqueness: { case_sensitive: true }
-    validates :merchant_id, presence: true,
-                            uniqueness: { case_sensitive: false }
-    validates :percentage, presence: true
-    validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
-                           if: -> { percentage.present? }
-
     enum status: {
       pending: 0,
       accepted: 1,
@@ -27,8 +19,26 @@ module Spree
     }
 
     has_one :stock_location, class_name: 'Spree::StockLocation',
+                             dependent: :destroy,
+                             inverse_of: :seller
                              dependent: :destroy
+
     before_validation :set_merchant_id, on: :create
+    after_create_commit :create_default_stock_location!
+
+    validates :name, presence: true,
+                     uniqueness: { case_sensitive: true }
+    validates :merchant_id, presence: true,
+                            uniqueness: { case_sensitive: false }
+    validates :percentage, presence: true
+    validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
+                           if: -> { percentage.present? }
+
+    private
+
+    def create_default_stock_location!
+      create_stock_location!(name: "#{name} - default")
+    end
 
     def set_merchant_id
       self.merchant_id = SecureRandom.uuid

@@ -10,7 +10,7 @@
 
   <div data-hook="admin_seller_form_percentage">
     <%= f.field_container :percentage do %>
-      <%= f.label :percentage %>
+      <%= f.label :percentage, class: 'required' %>
       <%= f.text_field :percentage, class: 'fullwidth title' %>
       <%= f.error_message_on :percentage %>
     <% end %>

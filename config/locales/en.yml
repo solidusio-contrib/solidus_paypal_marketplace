@@ -19,6 +19,7 @@ en:
     attributes:
       spree/price:
         seller: Seller
+        seller_stock_availability: Stock availability
   spree:
     edit_price: Edit Price
     edit_seller: Edit Seller

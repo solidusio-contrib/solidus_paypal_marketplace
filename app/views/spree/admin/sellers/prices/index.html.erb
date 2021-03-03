@@ -1,0 +1,49 @@
+<% admin_breadcrumb(plural_resource_name(Spree::Price)) %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= link_to "#{t('spree.new_price')}", new_admin_price_url, class: 'btn btn-primary' %>
+  </li>
+<% end %>
+
+<% if @collection.any? %>
+  <table class="index" id="listing_sellers">
+    <thead>
+      <tr data-hook="admin_sellers_index_headers">
+        <th><%= Spree::Variant.model_name.human %></th>
+        <th></th>
+        <th><%= Spree::Variant.human_attribute_name(:sku) %></th>
+        <th><%= Spree::Price.human_attribute_name(:country) %></th>
+        <th><%= Spree::Price.human_attribute_name(:amount) %></th>
+        <th><%= Spree::Price.human_attribute_name(:seller_stock_availability)%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @collection.each do |price| %>
+        <tr id="<%= spree_dom_id price %>" data-hook="admin_prices_index_rows">
+          <td><%= price.variant.descriptive_name %></td>
+          <td class="align-center">
+              <%= render 'spree/admin/shared/image', image: price.product.gallery.images.first, size: :mini %>
+          </td>
+          <td><%= price.product.sku %></td>
+          <td><%= price.display_country %></td>
+          <td><%= price.display_price.to_html %></td>
+          <td><%= price.seller_stock_availability %></td>
+          <td class="actions" data-hook="admin_sellers_index_row_actions">
+            <%= link_to_edit price, no_text: true, class: 'edit' if can?(:edit, price) %>
+            &nbsp;
+            <%= link_to_delete price, no_text: true if can?(:destroy, price) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="no-objects-found">
+    <%= render 'spree/admin/shared/no_objects_found',
+                resource: Spree::Price,
+                new_resource_url: new_object_url %>
+  </div>
+<% end %>
+
+<%= paginate @collection, theme: "solidus_admin" %>

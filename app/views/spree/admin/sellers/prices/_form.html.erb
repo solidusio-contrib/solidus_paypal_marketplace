@@ -1,0 +1,51 @@
+<div data-hook="admin_price_form_fields">
+
+  <div data-hook="admin_prices_form_variant" class='col-sm-12'>
+    <%= f.field_container :variant do %>
+      <%= f.label :variant, class: 'required' %>
+      <%= f.select :variant_id,
+                    Spree::Variant.all.map { |v| [v.descriptive_name, v.id] },
+                    {},
+                    class: "custom-select fullwidth",
+                    disabled: !f.object.new_record?,
+                    required: true %>
+      <%= f.error_message_on :variant %>
+    <% end %>
+  </div>
+
+  <div data-hook="admin_product_price_form_country" class='col-sm-12'>
+    <%= f.field_container :country do %>
+      <%= f.label :country %>
+      <%= f.field_hint :country %>
+      <%= f.collection_select :country_iso, available_countries(restrict_to_zone: nil),
+                              :iso,
+                              :name,
+                              { include_blank: t(:any_country,
+                                scope: [:spree, :admin, :prices]) },
+                              class: 'custom-select fullwidth',
+                              disabled: !f.object.new_record?  %>
+    <% end %>
+  </div>
+
+  <div data-hook="admin_price_form_amount" class='col-sm-4'>
+    <%= f.field_container :amount do %>
+        <%= f.label :amount, class: 'required' %>
+        <%= render "spree/admin/shared/number_with_currency", f: f,
+                                                              amount_attr: :amount,
+                                                              currency_attr: :currency,
+                                                              required: true %>
+        <%= f.error_message_on :amount %>
+        <%= f.error_message_on :currency %>
+      <% end %>
+  </div>
+
+  <div data-hook="admin_price_form_seller_stock_availability" class='col-sm-4'>
+    <%= f.field_container :seller_stock_availability do %>
+      <%= f.label :seller_stock_availability, class: 'required' %>
+      <%= f.number_field :seller_stock_availability, class: 'fullwidth',
+                                                     required: true %>
+      <%= f.error_message_on :seller_stock_availability %>
+    <% end %>
+  </div>
+
+</div>

@@ -18,13 +18,16 @@ module Spree
       need_more_data: 4
     }
 
-    has_one :stock_location, class_name: 'Spree::StockLocation',
-                             dependent: :destroy,
-                             inverse_of: :seller
     has_many :users, class_name: 'Spree::User',
                      dependent: :destroy
 
+    has_one :stock_location, class_name: 'Spree::StockLocation',
+                             dependent: :destroy,
+                             inverse_of: :seller
+    has_many :stock_items, through: :stock_location
+
     before_validation :set_merchant_id, on: :create
+
     after_create_commit :create_default_stock_location!
 
     validates :name, presence: true,
@@ -38,7 +41,7 @@ module Spree
     private
 
     def create_default_stock_location!
-      create_stock_location!(name: "#{name} - default")
+      create_stock_location!(name: "#{name} - default", propagate_all_variants: false)
     end
 
     def set_merchant_id

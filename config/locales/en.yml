@@ -10,6 +10,9 @@ en:
             base:
               cannot_destroy_sellers_stock_location: Cannot destroy a stock location if it belongs to a seller
     models:
+      spree/price:
+        one: Price
+        other: Prices
       spree/seller:
         one: Seller
         other: Sellers
@@ -17,8 +20,11 @@ en:
       spree/price:
         seller: Seller
   spree:
-    new_seller: New Seller
+    edit_price: Edit Price
     edit_seller: Edit Seller
+    new_price: New Price
+    new_seller: New Seller
     admin:
       tab:
+        prices: Prices
         sellers: Sellers

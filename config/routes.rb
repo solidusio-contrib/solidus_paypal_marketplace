@@ -3,5 +3,8 @@
 Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :sellers
+    scope module: :sellers do
+      resources :prices
+    end
   end
 end

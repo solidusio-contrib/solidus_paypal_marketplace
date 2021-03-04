@@ -1,0 +1,2 @@
+<!-- insert_top 'tr:not(:first-child)' -->
+<td> <%= price.seller&.name  %> </td>

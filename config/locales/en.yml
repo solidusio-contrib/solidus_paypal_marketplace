@@ -13,6 +13,9 @@ en:
       spree/seller:
         one: Seller
         other: Sellers
+    attributes:
+      spree/price:
+        seller: Seller
   spree:
     new_seller: New Seller
     edit_seller: Edit Seller

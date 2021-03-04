@@ -11,9 +11,14 @@ module SolidusPaypalMarketplace
 
     engine_name 'solidus_paypal_marketplace'
 
-    # use rspec for tests
     config.generators do |g|
       g.test_framework :rspec
+    end
+
+    config.before_initialize do
+      Dir.glob(File.join(File.dirname(__FILE__), "../spree/permission_sets/*.rb")) do |c|
+        require_dependency(c)
+      end
     end
   end
 end

@@ -18,6 +18,9 @@ module Spree
       need_more_data: 4
     }
 
+    has_many :prices, class_name: 'Spree::Price',
+                      dependent: :destroy
+
     has_many :users, class_name: 'Spree::User',
                      dependent: :destroy
 

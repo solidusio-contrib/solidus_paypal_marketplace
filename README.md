@@ -22,7 +22,17 @@ bin/rails solidus_paypal_marketplace:db:seed
 
 ## Usage
 
-<!-- Explain how to use your extension once it's been installed. -->
+Configure it with:
+
+```
+# config/initializer/solidus_paypal_marketplace.rb
+
+SolidusPaypalMarketplace.configure do |config|
+  config.paypal_client_id = ENV.fetch('PAYPAL_CLIENT_ID')
+  config.paypal_client_secret = ENV.fetch('PAYPAL_CLIENT_SECRET')
+  config.partner_code = ENV.fetch('PAYPAL_PARTNER_CODE')
+end
+```
 
 ## Development
 

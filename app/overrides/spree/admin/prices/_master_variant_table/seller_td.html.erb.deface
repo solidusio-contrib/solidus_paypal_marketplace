@@ -1,0 +1,2 @@
+<!-- insert_top 'table thead tr' -->
+<th><%= Spree::Price.human_attribute_name(:seller) %></th>

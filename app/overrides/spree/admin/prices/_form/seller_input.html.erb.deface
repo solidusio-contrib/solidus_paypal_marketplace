@@ -1,0 +1,11 @@
+<!-- insert_after 'div[data-hook="admin_product_price_form_country"]' -->
+<div data-hook="admin_product_price_form_seller" class="col-12">
+  <%= f.field_container :seller do %>
+    <%= f.label :seller %>
+    <%= f.select :seller_id,
+                Spree::Seller.all.map { |s| [s.name, s.id] },
+                { include_blank: true },
+                class: "custom-select fullwidth",
+                disabled: !f.object.new_record? %>
+  <% end %>
+</div>

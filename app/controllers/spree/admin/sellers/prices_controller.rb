@@ -10,6 +10,14 @@ module Spree
           @collection = @search.result.page(params[:page])
           respond_with(@collection)
         end
+
+        private
+
+        def build_resource
+          super.tap do |price|
+            price.seller_id = spree_current_user.seller_id
+          end
+        end
       end
     end
   end

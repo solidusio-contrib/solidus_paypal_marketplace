@@ -3,3 +3,7 @@ require:
 
 AllCops:
   NewCops: disable
+
+Rails/Output:
+  Exclude:
+    - db/**/*

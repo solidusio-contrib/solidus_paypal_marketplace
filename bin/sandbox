@@ -77,6 +77,7 @@ unbundled bundle exec rails generate solidus:install \
 
 unbundled bundle exec rails generate solidus:auth:install
 unbundled bundle exec rails generate ${extension_name}:install
+unbundled bundle exec rails ${extension_name}:db:seed
 
 echo
 echo "🚀 Sandbox app successfully created for $extension_name!"

@@ -18,9 +18,9 @@ def prompt_for_seller_email
     email = ENV['SELLER_EMAIL'].dup
     puts "Seller User Email #{email}"
   else
-    print "Email [admin@seller.com]: "
+    print "Email [seller@example.com]: "
     email = $stdin.gets.strip
-    email = 'admin@seller.com' if email.blank?
+    email = 'seller@example.com' if email.blank?
   end
 
   email
@@ -29,7 +29,7 @@ end
 def create_seller_user
   if ENV['AUTO_ACCEPT']
     password = 'test123'
-    email = 'admin@seller.com'
+    email = 'seller@example.com'
   else
     puts 'Create the seller user (press enter for defaults).'
     email = prompt_for_seller_email
@@ -43,7 +43,7 @@ def create_seller_user
   }
 
   if Spree::User.find_by(email: email)
-    puts "\nWARNING: There is already a user with the email: #{email}, so no account changes were made.  If you wish to create an additional admin user, please run rake spree_auth:admin:create again with a different email.\n\n"
+    puts "\nWARNING: There is already a user with the email: #{email}, so no account changes were made.\n\n"
   else
     seller_user = Spree.user_class.new(attributes)
     if seller_user.save
@@ -52,9 +52,9 @@ def create_seller_user
       seller_user.seller = Spree::Seller.first
       seller_user.save
       seller_user.generate_spree_api_key!
-      puts "Done!"
+      puts 'Done!'
     else
-      puts "There were some problems with persisting a new admin user:"
+      puts "There were some problems with persisting a new seller user:"
       seller_user.errors.full_messages.each do |error|
         puts error
       end
@@ -70,6 +70,6 @@ else
   if ["yes", "y"].include? $stdin.gets.strip.downcase
     create_seller_user
   else
-    puts 'No admin user created.'
+    puts 'No seller user created.'
   end
 end

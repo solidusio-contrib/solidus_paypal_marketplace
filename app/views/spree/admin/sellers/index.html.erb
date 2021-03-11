@@ -1,4 +1,4 @@
-<% admin_breadcrumb(plural_resource_name(Spree::Seller)) %>
+<% admin_breadcrumb(t('spree.offers')) %>
 
 <% content_for :page_actions do %>
   <li>
@@ -23,9 +23,9 @@
       <tr data-hook="admin_sellers_index_headers">
         <th>
           <%= sort_link @search,
-                        :name, 
-                        Spree::Seller.human_attribute_name(:name), 
-                        { default_order: "desc" }, 
+                        :name,
+                        Spree::Seller.human_attribute_name(:name),
+                        { default_order: "desc" },
                         {title: 'admin_sellers_listing_name_title'} %></th>
         <th>
           <%= Spree::Variant.human_attribute_name(:percentage) %>
@@ -43,12 +43,10 @@
           <tr id="<%= spree_dom_id seller %>" data-hook="admin_sellers_index_rows">
             <td><%= seller.name %></td>
             <td><%= seller.percentage %></td>
-
             <td><%= seller.status %></td>
             <td><%= seller.risk_status %></td>
-            
             <td class="actions" data-hook="admin_sellers_index_row_actions">
-              <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) %>              
+              <%= link_to_edit seller, no_text: true, class: 'edit' if can?(:edit, seller) %>
               &nbsp;
               <%= link_to_delete seller, no_text: true if can?(:destroy, seller) %>
             </td>

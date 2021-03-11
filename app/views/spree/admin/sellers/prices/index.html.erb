@@ -1,15 +1,15 @@
-<% admin_breadcrumb(plural_resource_name(Spree::Price)) %>
+<% admin_breadcrumb(t('spree.offers')) %>
 
 <% content_for :page_actions do %>
   <li>
-    <%= link_to "#{t('spree.new_price')}", new_admin_price_url, class: 'btn btn-primary' %>
+    <%= link_to "#{t('spree.new_offer')}", new_object_url, class: 'btn btn-primary' %>
   </li>
 <% end %>
 
 <% if @collection.any? %>
-  <table class="index" id="listing_sellers">
+  <table class="index" id="listing_offers">
     <thead>
-      <tr data-hook="admin_sellers_index_headers">
+      <tr data-hook="admin_offers_index_headers">
         <th><%= Spree::Variant.model_name.human %></th>
         <th></th>
         <th><%= Spree::Variant.human_attribute_name(:sku) %></th>
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       <% @collection.each do |price| %>
-        <tr id="<%= spree_dom_id price %>" data-hook="admin_prices_index_rows">
+        <tr id="<%= spree_dom_id price %>" data-hook="admin_offers_index_rows">
           <td><%= price.variant.descriptive_name %></td>
           <td class="align-center">
               <%= render 'spree/admin/shared/image', image: price.product.gallery.images.first, size: :mini %>
@@ -29,7 +29,7 @@
           <td><%= price.display_country %></td>
           <td><%= price.display_price.to_html %></td>
           <td><%= price.seller_stock_availability %></td>
-          <td class="actions" data-hook="admin_sellers_index_row_actions">
+          <td class="actions" data-hook="admin_offers_index_row_actions">
             <%= link_to_edit price, no_text: true, class: 'edit' if can?(:edit, price) %>
             &nbsp;
             <%= link_to_delete price, no_text: true if can?(:destroy, price) %>

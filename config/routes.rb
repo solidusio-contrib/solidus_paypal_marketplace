@@ -4,7 +4,7 @@ Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :sellers
     scope module: :sellers do
-      resources :prices
+      resources :prices, path: 'offers'
     end
   end
 end

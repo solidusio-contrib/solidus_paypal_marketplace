@@ -21,11 +21,13 @@ en:
         seller: Seller
         seller_stock_availability: Stock availability
   spree:
-    edit_price: Edit Price
+    edit_offer: Edit Offer
     edit_seller: Edit Seller
-    new_price: New Price
+    new_offer: New Offer
     new_seller: New Seller
+    offer: Offer
+    offers: Offers
     admin:
       tab:
-        prices: Prices
+        offers: Offers
         sellers: Sellers

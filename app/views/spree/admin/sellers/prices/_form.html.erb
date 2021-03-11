@@ -1,6 +1,6 @@
-<div data-hook="admin_price_form_fields">
+<div data-hook="admin_offer_form_fields">
 
-  <div data-hook="admin_prices_form_variant" class='col-sm-12'>
+  <div data-hook="admin_offer_form_variant" class='col-sm-12'>
     <%= f.field_container :variant do %>
       <%= f.label :variant, class: 'required' %>
       <%= f.select :variant_id,
@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <div data-hook="admin_product_price_form_country" class='col-sm-12'>
+  <div data-hook="admin_offer_form_country" class='col-sm-12'>
     <%= f.field_container :country do %>
       <%= f.label :country %>
       <%= f.field_hint :country %>
@@ -27,7 +27,7 @@
     <% end %>
   </div>
 
-  <div data-hook="admin_price_form_amount" class='col-sm-4'>
+  <div data-hook="admin_offer_form_amount" class='col-sm-4'>
     <%= f.field_container :amount do %>
         <%= f.label :amount, class: 'required' %>
         <%= render "spree/admin/shared/number_with_currency", f: f,
@@ -39,7 +39,7 @@
       <% end %>
   </div>
 
-  <div data-hook="admin_price_form_seller_stock_availability" class='col-sm-4'>
+  <div data-hook="admin_offer_form_seller_stock_availability" class='col-sm-4'>
     <%= f.field_container :seller_stock_availability do %>
       <%= f.label :seller_stock_availability, class: 'required' %>
       <%= f.number_field :seller_stock_availability, class: 'fullwidth',

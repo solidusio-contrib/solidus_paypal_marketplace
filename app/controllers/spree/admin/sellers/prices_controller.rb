@@ -13,6 +13,10 @@ module Spree
 
         private
 
+        def flash_message_for(*args, **kwargs, &block)
+          super(*args, **kwargs, &block).gsub(@object.class.model_name.human, t('spree.offer'))
+        end
+
         def build_resource
           super.tap do |price|
             price.seller_id = spree_current_user.seller_id

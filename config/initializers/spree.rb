@@ -12,8 +12,8 @@ Spree::Backend::Config.configure do |config|
     url: :admin_sellers_path
   )
   config.menu_items << config.class::MenuItem.new(
-    [:prices],
-    'money',
+    [:offers],
+    'list',
     condition: -> { can?(:read, Spree::Price) && current_spree_user.has_spree_role?('seller') },
     url: :admin_prices_path
   )

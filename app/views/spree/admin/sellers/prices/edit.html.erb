@@ -1,11 +1,11 @@
-<% admin_breadcrumb(link_to plural_resource_name(Spree::Price), spree.admin_prices_path) %>
+<% admin_breadcrumb(link_to t('spree.offers'), collection_url) %>
 <% admin_breadcrumb(@price.product.name) %>
 
 <%= render partial: 'spree/shared/error_messages', locals: { target: @price } %>
 
-<%= form_for [:admin, @price] do |f| %>
-  <fieldset data-hook="new_price">
-    <legend align="center"><%= t('spree.edit_price') %></legend>
+<%= form_for @price, url: object_url(@price) do |f| %>
+  <fieldset data-hook="new_offer">
+    <legend align="center"><%= t('spree.edit_offer') %></legend>
 
     <%= render 'form', f: f %>
 

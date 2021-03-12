@@ -31,3 +31,7 @@ en:
       tab:
         offers: Offers
         sellers: Sellers
+      paypal_callbacks:
+        account_connected: PayPal Account connected
+        seller_already_processed: Seller has been already accepted or rejected
+        sign_up_link_not_related: This authorization link is not related to this seller

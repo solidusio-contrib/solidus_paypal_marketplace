@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 Spree.config do |config|
-  config.roles.assign_permissions :seller, ['Spree::PermissionSets::Seller']
+  config.roles.assign_permissions :seller, [
+    'Spree::PermissionSets::Seller',
+    'Spree::PermissionSets::PaypalCallbacks'
+  ]
+  config.roles.assign_permissions :admin, ['Spree::PermissionSets::PaypalCallbacks']
 end
 
 Spree::Backend::Config.configure do |config|

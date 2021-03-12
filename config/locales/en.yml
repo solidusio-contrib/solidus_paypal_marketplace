@@ -35,3 +35,8 @@ en:
         account_connected: PayPal Account connected
         seller_already_processed: Seller has been already accepted or rejected
         sign_up_link_not_related: This authorization link is not related to this seller
+    seller:
+      start_onboarding: Start Onboarding
+      refresh_sign_up_link: Refresh Sign-Up Link
+      start_onboarding_successfully: Seller action url update
+      start_onboarding_failed: Impossible to update the action_url. Please check the log

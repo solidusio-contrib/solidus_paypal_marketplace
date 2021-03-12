@@ -34,4 +34,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'shoulda-matchers'
   spec.add_development_dependency 'solidus_dev_support', '~> 2.4'
+  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'webmock'
 end

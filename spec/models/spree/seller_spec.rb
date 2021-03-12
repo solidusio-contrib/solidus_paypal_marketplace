@@ -47,4 +47,47 @@ RSpec.describe Spree::Seller, type: :model do
       expect(seller).to validate_numericality_of(:percentage).is_less_than_or_equal_to(100)
     }
   end
+
+  describe '#start_onboarding_process' do
+    subject(:start_onboarding_process) { seller.start_onboarding_process }
+
+    let(:action_url) { 'http://example.com/action_url' }
+    let(:seller) { create(:seller) }
+
+    before do
+      allow(SolidusPaypalMarketplace::PaypalPartnerSdk).to receive(:generate_paypal_sign_up_link).and_return(action_url)
+    end
+
+    it 'updates action_url with the new link' do
+      expect { start_onboarding_process }.to change { seller.reload.action_url }.from(nil).to(action_url)
+    end
+
+    it 'returns the action_url' do
+      expect(start_onboarding_process).to eq action_url
+    end
+
+    it 'calls generate_paypal_sign_up_link on PaypalPartnerSdk' do
+      start_onboarding_process
+
+      expect(SolidusPaypalMarketplace::PaypalPartnerSdk).to have_received(:generate_paypal_sign_up_link).with(
+        tracking_id: seller.merchant_id,
+        return_url: nil
+      )
+    end
+
+    context 'when the return_url is provided' do
+      subject(:start_onboarding_process) { seller.start_onboarding_process(return_url: return_url) }
+
+      let(:return_url) { 'http://example.com/return_url' }
+
+      it 'calls generate_paypal_sign_up_link on PaypalPartnerSdk' do
+        start_onboarding_process
+
+        expect(SolidusPaypalMarketplace::PaypalPartnerSdk).to have_received(:generate_paypal_sign_up_link).with(
+          tracking_id: seller.merchant_id,
+          return_url: return_url
+        )
+      end
+    end
+  end
 end

@@ -41,6 +41,10 @@ module Spree
     validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
                            if: -> { percentage.present? }
 
+    def start_onboarding_process(return_url: nil)
+      refresh_action_url(return_url: return_url).tap { |action_url| update!(action_url: action_url) }
+    end
+
     private
 
     def create_default_stock_location!
@@ -49,6 +53,12 @@ module Spree
 
     def set_merchant_id
       self.merchant_id = SecureRandom.uuid
+    end
+
+    def refresh_action_url(return_url: nil)
+      SolidusPaypalMarketplace::PaypalPartnerSdk.generate_paypal_sign_up_link(
+        tracking_id: merchant_id, return_url: return_url
+      )
     end
   end
 end

@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :seller, class: 'Spree::Seller' do
-    name { 'Seller Name' }
-    percentage { 2.0 }
+    sequence(:name) { |n| "Seller ##{n}" }
+    percentage { 20 }
   end
 
   factory :seller_user, parent: :user do

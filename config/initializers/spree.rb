@@ -15,6 +15,6 @@ Spree::Backend::Config.configure do |config|
     [:offers],
     'list',
     condition: -> { can?(:read, Spree::Price) && current_spree_user.has_spree_role?('seller') },
-    url: :admin_prices_path
+    url: :admin_sellers_prices_path
   )
 end

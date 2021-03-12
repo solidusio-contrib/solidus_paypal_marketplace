@@ -3,7 +3,7 @@
 module Spree
   module Admin
     module Sellers
-      class PricesController < Spree::Admin::ResourceController
+      class PricesController < Spree::Admin::Sellers::ResourceController
         def index
           session[:return_to] = request.url
           @search = @collection.ransack(params[:q])

@@ -4,6 +4,10 @@ FactoryBot.define do
   factory :seller, class: 'Spree::Seller' do
     sequence(:name) { |n| "Seller ##{n}" }
     percentage { 20 }
+
+    factory :accepted_seller do
+      status { :accepted }
+    end
   end
 
   factory :seller_user, parent: :user do

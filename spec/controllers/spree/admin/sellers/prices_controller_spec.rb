@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Spree::Admin::Sellers::PricesController, type: :controller do
   include Devise::Test::ControllerHelpers
-  let(:seller) { create(:seller) }
+  let(:seller) { create(:accepted_seller) }
   let(:variant) { create(:variant) }
 
   before do

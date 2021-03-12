@@ -5,6 +5,7 @@ Spree::Core::Engine.routes.draw do
     namespace :sellers do
       resources :prices, path: :offers
       get :paypal_callbacks, to: 'paypal_callbacks#create'
+      get :dashboard, to: 'dashboard#show'
     end
 
     resources :sellers do

@@ -31,6 +31,7 @@ en:
       tab:
         offers: Offers
         sellers: Sellers
+        dashboard: Dashboard
       paypal_callbacks:
         account_connected: PayPal Account connected
         seller_already_processed: Seller has been already accepted or rejected
@@ -40,3 +41,5 @@ en:
       refresh_sign_up_link: Refresh Sign-Up Link
       start_onboarding_successfully: Seller action url update
       start_onboarding_failed: Impossible to update the action_url. Please check the log
+      paypal_account_not_connected: PayPal Account not connected.
+      link_paypal_account: Link your PayPal Account

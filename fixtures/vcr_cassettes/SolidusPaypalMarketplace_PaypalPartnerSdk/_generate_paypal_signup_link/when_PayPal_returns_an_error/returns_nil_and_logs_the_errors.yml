@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v2/customer/partner-referrals
+    body:
+      encoding: UTF-8
+      string: '{"operations":[{"operation":"API_INTEGRATION","api_integration_preference":{"rest_api_integration":{"integration_method":"PAYPAL","integration_type":"THIRD_PARTY","third_party_details":{"features":["PAYMENT","REFUND"]}}}}],"products":["EXPRESS_CHECKOUT"],"legal_consents":[{"type":"SHARE_DATA_CONSENT","granted":true}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - "<Authorization Code>"
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.7.1
+      Api-Integration-Type:
+      - PAYPALSDK
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.7.1p83-x86_64-darwin19;OpenSSL
+        1.1.1g  21 Apr 2020)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '79'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 09 Mar 2021 20:44:53 GMT
+      Paypal-Debug-Id:
+      - dc50ecbdadd88
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_token","error_description":"Access Token not found
+        in cache"}'
+  recorded_at: Tue, 09 Mar 2021 20:44:53 GMT
+recorded_with: VCR 6.0.0

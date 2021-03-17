@@ -13,7 +13,7 @@ describe 'Seller Dashboard', type: :feature do
     end
 
     context 'when the seller is in pending' do
-      let(:seller) { create(:seller, action_url: 'https://example.com/onboarding') }
+      let(:seller) { create(:pending_seller, action_url: 'https://example.com/onboarding') }
 
       it 'shows the button to link the PayPal account' do
         visit spree.admin_sellers_dashboard_path
@@ -23,7 +23,7 @@ describe 'Seller Dashboard', type: :feature do
     end
 
     context 'when the seller is accepted' do
-      let(:seller) { create(:accepted_seller) }
+      let(:seller) { create(:seller) }
 
       it 'shows the accepted message' do
         visit spree.admin_sellers_dashboard_path

@@ -16,7 +16,7 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
   end
   let(:merchant_id_in_paypal) { 'PayPal#1' }
   let(:merchant_id) { 'MerchantId' }
-  let(:seller) { create(:seller, merchant_id: merchant_id) }
+  let(:seller) { create(:pending_seller, merchant_id: merchant_id) }
   let(:user) { create(:seller_user, seller: seller) }
 
   before do
@@ -37,7 +37,7 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
   end
 
   context 'when seller is not in pending state' do
-    let(:seller) { create(:accepted_seller, merchant_id: merchant_id) }
+    let(:seller) { create(:seller, merchant_id: merchant_id) }
 
     it "doesn't change the seller" do
       expect { do_request }.not_to(change { seller.reload.updated_at })

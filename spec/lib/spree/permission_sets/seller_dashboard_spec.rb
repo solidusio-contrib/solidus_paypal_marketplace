@@ -60,7 +60,7 @@ RSpec.describe Spree::PermissionSets::SellerDashboard do
     end
 
     context "when the user has the seller role but the seller is in pending state" do
-      let(:user) { create(:seller_user, seller: create(:seller)) }
+      let(:user) { create(:seller_user, seller: create(:pending_seller)) }
 
       it 'cannot visit seller_prices' do
         expect(ability).not_to be_able_to([:visit], :seller_prices)
@@ -68,7 +68,7 @@ RSpec.describe Spree::PermissionSets::SellerDashboard do
     end
 
     context 'when the user has the seller role and the seller is accepted' do
-      let(:user) { create(:seller_user, seller: create(:accepted_seller)) }
+      let(:user) { create(:seller_user, seller: create(:seller)) }
 
       it 'cannot visit seller_prices' do
         expect(ability).to be_able_to([:visit], :seller_prices)

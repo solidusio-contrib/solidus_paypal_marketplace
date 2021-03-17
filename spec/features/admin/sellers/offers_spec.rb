@@ -6,7 +6,7 @@ describe 'Sellers Offers', type: :feature do
   include Warden::Test::Helpers
 
   context 'when logged as seller user' do
-    let(:seller) { create(:accepted_seller) }
+    let(:seller) { create(:seller) }
     let(:user) { create(:seller_user, seller: seller) }
 
     before do

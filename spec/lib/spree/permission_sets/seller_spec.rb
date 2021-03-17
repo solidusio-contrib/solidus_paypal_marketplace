@@ -10,7 +10,7 @@ RSpec.describe Spree::PermissionSets::Seller do
   let(:user) { nil }
 
   context 'when is a seller' do
-    let(:seller) { Spree::Seller.create!(name: 'Seller', percentage: 10) }
+    let(:seller) { create(:seller) }
     let(:user){ create(:seller_user, seller: seller ) }
 
     it 'cannot manage base price' do

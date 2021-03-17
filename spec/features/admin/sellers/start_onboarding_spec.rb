@@ -6,7 +6,7 @@ describe 'Sellers Offers', type: :feature do
   include Warden::Test::Helpers
 
   context 'when logged as admin user' do
-    let(:seller) { create(:seller) }
+    let(:seller) { create(:pending_seller) }
     let(:admin) { create(:admin) }
     let(:user) { create(:admin_user) }
 

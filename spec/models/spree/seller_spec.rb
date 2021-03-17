@@ -21,7 +21,7 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#create' do
-    subject(:seller) { described_class.create!(name: 'Mr Good', percentage: 10.0) }
+    subject(:seller) { create(:base_seller) }
 
     it 'assign merchant_id' do
       expect(seller.merchant_id).to be_present
@@ -33,7 +33,7 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#percentage' do
-    subject(:seller) { described_class.new(name: 'Mr Good', percentage: 10.0) }
+    subject(:seller) { create(:base_seller) }
 
     it {
       expect(seller).to validate_presence_of(:percentage)
@@ -52,7 +52,7 @@ RSpec.describe Spree::Seller, type: :model do
     subject(:start_onboarding_process) { seller.start_onboarding_process }
 
     let(:action_url) { 'http://example.com/action_url' }
-    let(:seller) { create(:seller) }
+    let(:seller) { create(:pending_seller) }
 
     before do
       allow(SolidusPaypalMarketplace::PaypalPartnerSdk).to receive(:generate_paypal_sign_up_link).and_return(action_url)

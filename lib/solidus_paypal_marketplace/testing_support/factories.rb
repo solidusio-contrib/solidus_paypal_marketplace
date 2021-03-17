@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :seller, class: 'Spree::Seller' do
+  factory :base_seller, class: 'Spree::Seller' do
     sequence(:name) { |n| "Seller ##{n}" }
     percentage { 20 }
 
-    factory :accepted_seller do
+    factory :pending_seller do
+      status { :pending }
+    end
+
+    factory :seller do
       status { :accepted }
     end
   end

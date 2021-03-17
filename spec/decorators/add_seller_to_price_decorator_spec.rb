@@ -48,7 +48,7 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
     end
 
     context 'when seller is present' do
-      let(:seller) { create(:accepted_seller) }
+      let(:seller) { create(:seller) }
 
       it do
         expect(seller_stock_item).to be_kind_of(Spree::StockItem)
@@ -83,7 +83,7 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
     end
 
     context 'when seller is present' do
-      let(:seller) { create(:accepted_seller) }
+      let(:seller) { create(:seller) }
 
       it 'is 0 if variant stock item is blank' do
         expect(seller_stock_availability).to be 0

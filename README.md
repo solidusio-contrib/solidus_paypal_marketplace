@@ -36,6 +36,16 @@ end
 
 ## Development
 
+Step to test the seller onboarding process using localtunner.
+
+1) npm install -g localtunnel
+2) lt --port 3000
+3) Visit the tunneled link
+4) As Admin, visit the admin seller edit page
+5) Click on top right `Start Onboarding`
+6) Switch to seller user
+7) Click on `link PayPal account`
+
 ### Testing the extension
 
 First bundle your dependencies, then run `bin/rake`. `bin/rake` will default to building the dummy

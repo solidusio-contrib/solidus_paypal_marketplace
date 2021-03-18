@@ -4,7 +4,9 @@ module Spree
   module PermissionSets
     class Seller < PermissionSets::Base
       def activate!
-        can :manage, Spree::Price, seller_id: user.seller_id
+        can :visit, :seller_dashboard
+        can :visit, :seller_prices if user.seller&.accepted?
+        can :visit, :paypal_callbacks
       end
     end
   end

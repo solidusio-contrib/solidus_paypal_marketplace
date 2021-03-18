@@ -6,26 +6,78 @@ require 'cancan/matchers'
 RSpec.describe Spree::PermissionSets::Seller do
   subject(:ability) { Spree::Ability.new(user) }
 
-  let(:price) { create(:price) }
   let(:user) { nil }
 
-  context 'when is a seller' do
-    let(:seller) { create(:seller) }
-    let(:user){ create(:seller_user, seller: seller ) }
+  [
+    :seller_dashboard,
+    :paypal_callbacks
+  ].each do |page|
+    describe "visit #{page}" do
+      it "cannot visit #{page}" do
+        expect(ability).not_to be_able_to([:visit], page)
+      end
 
-    it 'cannot manage base price' do
-      expect(ability).not_to be_able_to([:create, :update, :destroy], price)
+      context 'when the user is provided without roles' do
+        let(:user) { create(:user) }
+
+        it "cannot visit #{page}" do
+          expect(ability).not_to be_able_to([:visit], page)
+        end
+      end
+
+      context "when the user doesn't have the seller role" do
+        let(:user) { create(:admin_user) }
+
+        it "cannot visit #{page}" do
+          expect(ability).not_to be_able_to([:visit], page)
+        end
+      end
+
+      context "when the user has the seller role" do
+        let(:user) { create(:seller_user) }
+
+        it "can visit #{page}" do
+          expect(ability).to be_able_to([:visit], page)
+        end
+      end
+    end
+  end
+
+  describe 'visit seller_prices' do
+    it 'cannot visit seller_prices' do
+      expect(ability).not_to be_able_to([:visit], :seller_prices)
     end
 
-    it 'cannot manage other seller\'s price' do
-      seller = create(:seller, name: 'Other Seller')
-      price.update!(seller_id: seller.id)
-      expect(ability).not_to be_able_to([:create, :update, :destroy], price)
+    context 'when the user is provided without roles' do
+      let(:user) { create(:user) }
+
+      it 'cannot visit seller_prices' do
+        expect(ability).not_to be_able_to([:visit], :seller_prices)
+      end
     end
 
-    it 'can manage his price' do
-      price.update!(seller_id: seller.id)
-      expect(ability).to be_able_to([:create, :update, :destroy], price)
+    context "when the user doesn't have the seller role" do
+      let(:user) { create(:admin_user) }
+
+      it 'cannot visit seller_prices' do
+        expect(ability).not_to be_able_to([:visit], :seller_prices)
+      end
+    end
+
+    context "when the user has the seller role but the seller is in pending state" do
+      let(:user) { create(:seller_user, seller: create(:pending_seller)) }
+
+      it 'cannot visit seller_prices' do
+        expect(ability).not_to be_able_to([:visit], :seller_prices)
+      end
+    end
+
+    context 'when the user has the seller role and the seller is accepted' do
+      let(:user) { create(:seller_user, seller: create(:seller)) }
+
+      it 'cannot visit seller_prices' do
+        expect(ability).to be_able_to([:visit], :seller_prices)
+      end
     end
   end
 end

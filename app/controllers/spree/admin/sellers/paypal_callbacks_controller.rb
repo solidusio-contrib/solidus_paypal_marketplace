@@ -4,7 +4,11 @@ module Spree
   module Admin
     module Sellers
       class PaypalCallbacksController < Spree::Admin::BaseController
-        def create
+        skip_before_action :authorize_admin
+
+        def show
+          authorize! :visit, :paypal_callbacks
+
           @seller = Spree::Seller.find_by!(merchant_id: params[:merchantId])
           if current_spree_user.seller == @seller
             if @seller.pending?

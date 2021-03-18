@@ -3,12 +3,10 @@
 Spree.config do |config|
   config.roles.assign_permissions :seller, [
     'Spree::PermissionSets::Seller',
-    'Spree::PermissionSets::PaypalCallbacks',
-    'Spree::PermissionSets::SellerDashboard'
+    'Spree::PermissionSets::Offer'
   ]
   config.roles.assign_permissions :admin, [
-    'Spree::PermissionSets::PaypalCallbacks',
-    'Spree::PermissionSets::SellerDashboard'
+    'Spree::PermissionSets::Admin'
   ]
 end
 

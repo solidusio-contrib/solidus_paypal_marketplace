@@ -3,12 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller do
-  let(:controller) { @controller = described_class.new }
-  let(:described_class) { Spree::OrdersController }
+  let(:controller) { @controller = Spree::OrdersController.new }
   let!(:store) { create(:store) }
   let(:user) { create(:user) }
 
-  context "Order model mock" do
+  context 'with Order model mock' do
     let(:order) do
       Spree::Order.create!
     end
@@ -18,8 +17,8 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
       allow(controller).to receive_messages(try_spree_current_user: user)
     end
 
-    context "#populate" do
-      it "should create a new order when none specified" do
+    describe '#populate' do
+      it 'creates a new order when none specified' do
         post :populate, params: { variant_id: variant.id }
         expect(response).to be_redirect
         expect(cookies.signed[:guest_token]).not_to be_blank
@@ -31,8 +30,9 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
         expect(assigned_order).to be_persisted
       end
 
-      context "with Variant" do
-        it "should handle population" do
+      # rubocop:disable RSpec/NestedGroups
+      context 'with Variant' do
+        it 'handles population' do
           expect do
             post :populate, params: { variant_id: variant.id, quantity: 5 }
           end.to change { user.orders.count }.by(1)
@@ -44,15 +44,17 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           expect(line_item.quantity).to eq(5)
         end
 
-        it "shows an error when population fails" do
+        it 'shows an error when population fails' do
           request.env["HTTP_REFERER"] = spree.root_path
+          # rubocop:disable RSpec/AnyInstance
           allow_any_instance_of(Spree::LineItem).to(
             receive(:valid?).and_return(false)
           )
           allow_any_instance_of(Spree::LineItem).to(
-            receive_message_chain(:errors, :full_messages).
+            receive_message_chain(:errors, :full_messages). # rubocop:disable RSpec/MessageChain
               and_return(["Order population failed"])
           )
+          # rubocop:enable RSpec/AnyInstance
 
           post :populate, params: { variant_id: variant.id, quantity: 5 }
 
@@ -60,7 +62,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           expect(flash[:error]).to eq("Order population failed")
         end
 
-        it "shows an error when quantity is invalid" do
+        it 'shows an error when quantity is invalid' do
           request.env["HTTP_REFERER"] = spree.root_path
 
           post(
@@ -74,8 +76,8 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           )
         end
 
-        context "when quantity is empty string" do
-          it "should populate order with 1 of given variant" do
+        context 'when quantity is empty string' do
+          it 'populates order with 1 of given variant' do
             expect do
               post :populate, params: { variant_id: variant.id, quantity: '' }
             end.to change { Spree::Order.count }.by(1)
@@ -88,8 +90,8 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           end
         end
 
-        context "when quantity is nil" do
-          it "should populate order with 1 of given variant" do
+        context 'when quantity is nil' do
+          it 'populates order with 1 of given variant' do
             expect do
               post :populate, params: { variant_id: variant.id, quantity: nil }
             end.to change { Spree::Order.count }.by(1)
@@ -102,10 +104,11 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           end
         end
       end
+      # rubocop:enable RSpec/NestedGroups
     end
   end
 
-  context "line items quantity is 0" do
+  context 'when line items quantity is 0' do
     let(:order) { Spree::Order.create(store: store) }
     let(:variant) { create(:variant) }
     let!(:line_item) { order.contents.add(variant, 1) }
@@ -115,7 +118,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
       allow(controller).to receive_messages(current_order: order)
     end
 
-    it "removes line items on update" do
+    it 'removes line items on update' do
       expect(order.line_items.count).to eq 1
       put :update, params: { order: { line_items_attributes: { "0" => { id: line_item.id, quantity: 0 } } } }
       expect(order.reload.line_items.count).to eq 0

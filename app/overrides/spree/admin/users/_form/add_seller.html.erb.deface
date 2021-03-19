@@ -1,0 +1,16 @@
+<!-- insert_before "erb[silent]:contains('if Spree::Config[:can_restrict_stock_management]')" -->
+
+<% if can? :show, Spree::Seller %>
+  <div data-hook="admin_user_form_seller" class="field">
+    <ul>
+      <% if can?(:manage, Spree::Seller) %>
+        <%= f.label :seller_id, Spree::Seller.model_name.human %>
+        <span id="seller">
+          <%= f.collection_select :seller_id, Spree::Seller.all, :id, :name, { include_blank: true }, {class: 'custom-select fullwidth js-country_id'} %>
+        </span>
+      <% else %>
+        <%= @user.seller&.name %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

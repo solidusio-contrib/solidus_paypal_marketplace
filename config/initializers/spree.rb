@@ -32,3 +32,5 @@ Spree::Backend::Config.configure do |config|
     url: :admin_sellers_prices_path
   )
 end
+
+Spree::PermittedAttributes.user_attributes.push :seller_id

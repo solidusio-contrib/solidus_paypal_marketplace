@@ -15,7 +15,7 @@ describe 'Sellers Offers', type: :feature do
 
     describe 'seller\s offers page' do
       it 'can create a new offer' do
-        visit spree.admin_prices_path
+        visit spree.admin_sellers_prices_path
         expect(page).to have_link('New Offer')
       end
     end
@@ -23,7 +23,7 @@ describe 'Sellers Offers', type: :feature do
     describe 'creating a new offer' do
       it 'can save it' do
         variant = create(:variant)
-        visit spree.new_admin_price_path
+        visit spree.new_admin_sellers_price_path
         fill_in 'Price', with: 100
         select variant.descriptive_name
         click_button('Create')
@@ -35,7 +35,7 @@ describe 'Sellers Offers', type: :feature do
       it 'can save it' do
         variant = create(:variant)
         price = create(:price, amount: 10, seller_id: seller.id, variant_id: variant.id)
-        visit spree.edit_admin_price_path(price)
+        visit spree.edit_admin_sellers_price_path(price)
         fill_in 'Price', with: 100
         click_button('Update')
         expect(page).to have_content('Offer has been successfully updated!')

@@ -35,7 +35,7 @@ describe Spree::Admin::Sellers::PricesController, type: :controller do
         currency: 'USD',
         seller_stock_availability: '0'
       } }
-      expect(response).to redirect_to(spree.admin_prices_path)
+      expect(response).to redirect_to(spree.admin_sellers_prices_path)
     end
   end
 
@@ -53,7 +53,7 @@ describe Spree::Admin::Sellers::PricesController, type: :controller do
         variant_id: variant.id.to_s,
         seller_stock_availability: '20'
       } }
-      expect(response).to redirect_to(spree.admin_prices_path)
+      expect(response).to redirect_to(spree.admin_sellers_prices_path)
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 seller = Spree::Seller.find_or_create_by(name: 'Seller')
-product = Spree::Variant.first
+product = Spree::Product.first
 variants = [product.master, *product.variants.first(2)]
 
 variants.each do |variant|

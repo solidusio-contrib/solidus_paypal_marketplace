@@ -7,3 +7,7 @@ AllCops:
 Rails/Output:
   Exclude:
     - db/**/*
+
+RSpec/MultipleExpectations:
+  # Default is 1
+  Max: 5

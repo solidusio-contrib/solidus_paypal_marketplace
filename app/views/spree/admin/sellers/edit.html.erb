@@ -1,3 +1,18 @@
+<% content_for :page_actions do %>
+  <% if @seller.pending? && can?(:start_onboarding, Spree::Seller) %>
+    <li id="start_onboarding_link">
+      <%=
+        link_to(
+          @seller.action_url.present? ? t('spree.seller.refresh_sign_up_link') : t('spree.seller.start_onboarding'),
+          start_onboarding_process_admin_seller_path(@seller),
+          id: 'admin_seller_start_onboarding',
+          class: 'btn btn-primary'
+        )
+      %>
+    </li>
+  <% end %>
+<% end %>
+
 <% admin_breadcrumb(link_to plural_resource_name(Spree::Seller), spree.admin_sellers_path) %>
 <% admin_breadcrumb(@seller.name) %>
 

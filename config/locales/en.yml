@@ -9,6 +9,10 @@ en:
           attributes:
             base:
               cannot_destroy_sellers_stock_location: Cannot destroy a stock location if it belongs to a seller
+        spree/line_item:
+          attributes:
+            seller:
+              cannot_add_line_item_from_different_seller: The cart already contains a product from a different seller
     models:
       spree/price:
         one: Price

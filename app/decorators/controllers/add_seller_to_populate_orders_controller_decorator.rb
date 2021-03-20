@@ -5,7 +5,8 @@ module AddSellerToPopulateOrdersControllerDecorator
     @order = current_order(create_order_if_necessary: true)
     authorize! :update, @order, cookies.signed[:guest_token]
 
-    variant  = Spree::Variant.find(params[:variant_id])
+    params[:variant_id], params[:seller_id] = params[:variant_and_seller_ids].split
+    variant = Spree::Variant.find(params[:variant_id])
     quantity = params[:quantity].present? ? params[:quantity].to_i : 1
 
     # 2,147,483,647 is crazy. See issue https://github.com/spree/spree/issues/2695.
@@ -13,7 +14,7 @@ module AddSellerToPopulateOrdersControllerDecorator
       @order.errors.add(:base, t('spree.please_enter_reasonable_quantity'))
     else
       begin
-        @line_item = @order.contents.add(variant, quantity)
+        @line_item = @order.contents.add(variant, quantity, options: { seller_id: params[:seller_id] })
       rescue ActiveRecord::RecordInvalid => e
         @order.errors.add(:base, e.record.errors.full_messages.join(", "))
       end

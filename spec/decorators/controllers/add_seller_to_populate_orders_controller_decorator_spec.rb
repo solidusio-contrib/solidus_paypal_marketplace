@@ -11,7 +11,8 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
     let(:order) do
       Spree::Order.create!
     end
-    let(:variant) { create(:variant) }
+    let(:seller) { create(:seller) }
+    let(:variant) { create(:price, seller: seller).variant }
 
     before do
       allow(controller).to receive_messages(try_spree_current_user: user)
@@ -19,7 +20,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
 
     describe '#populate' do
       it 'creates a new order when none specified' do
-        post :populate, params: { variant_id: variant.id }
+        post :populate, params: { variant_and_seller_ids: [variant.id, seller.id].join(' ') }
         expect(response).to be_redirect
         expect(cookies.signed[:guest_token]).not_to be_blank
 
@@ -31,17 +32,20 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
       end
 
       # rubocop:disable RSpec/NestedGroups
-      context 'with Variant' do
+      context 'with Variant and Seller' do
         it 'handles population' do
           expect do
-            post :populate, params: { variant_id: variant.id, quantity: 5 }
+            post :populate, params: { variant_and_seller_ids: [variant.id, seller.id].join(' '), quantity: 5 }
           end.to change { user.orders.count }.by(1)
           order = user.orders.last
           expect(response).to redirect_to spree.cart_path
           expect(order.line_items.size).to eq(1)
           line_item = order.line_items.first
-          expect(line_item.variant_id).to eq(variant.id)
-          expect(line_item.quantity).to eq(5)
+          expect(line_item).to have_attributes(
+            variant_id: variant.id,
+            seller_id: seller.id,
+            quantity: 5
+          )
         end
 
         it 'shows an error when population fails' do
@@ -56,7 +60,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           )
           # rubocop:enable RSpec/AnyInstance
 
-          post :populate, params: { variant_id: variant.id, quantity: 5 }
+          post :populate, params: { variant_and_seller_ids: [variant.id, seller.id].join(' '), quantity: 5 }
 
           expect(response).to redirect_to(spree.root_path)
           expect(flash[:error]).to eq("Order population failed")
@@ -67,7 +71,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
 
           post(
             :populate,
-            params: { variant_id: variant.id, quantity: -1 }
+            params: { variant_and_seller_ids: [variant.id, seller.id].join(' '), quantity: -1 }
           )
 
           expect(response).to redirect_to(spree.root_path)
@@ -79,7 +83,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
         context 'when quantity is empty string' do
           it 'populates order with 1 of given variant' do
             expect do
-              post :populate, params: { variant_id: variant.id, quantity: '' }
+              post :populate, params: { variant_and_seller_ids: [variant.id, seller.id].join(' '), quantity: '' }
             end.to change { Spree::Order.count }.by(1)
             order = Spree::Order.last
             expect(response).to redirect_to spree.cart_path
@@ -93,7 +97,7 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
         context 'when quantity is nil' do
           it 'populates order with 1 of given variant' do
             expect do
-              post :populate, params: { variant_id: variant.id, quantity: nil }
+              post :populate, params: { variant_and_seller_ids: [variant.id, seller.id].join(' '), quantity: nil }
             end.to change { Spree::Order.count }.by(1)
             order = Spree::Order.last
             expect(response).to redirect_to spree.cart_path
@@ -110,8 +114,9 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
 
   context 'when line items quantity is 0' do
     let(:order) { Spree::Order.create(store: store) }
-    let(:variant) { create(:variant) }
-    let!(:line_item) { order.contents.add(variant, 1) }
+    let(:seller) { create(:seller) }
+    let(:variant) { create(:price, seller: seller).variant }
+    let!(:line_item) { order.contents.add(variant, 1, options: { seller_id: seller.id }) }
 
     before do
       allow(controller).to receive :authorize!

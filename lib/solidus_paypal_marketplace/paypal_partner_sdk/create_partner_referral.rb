@@ -16,7 +16,8 @@ module SolidusPaypalMarketplace
                 "third_party_details": {
                   "features": [
                     "PAYMENT",
-                    "REFUND"
+                    "REFUND",
+                    "PARTNER_FEE"
                   ]
                 }
               }

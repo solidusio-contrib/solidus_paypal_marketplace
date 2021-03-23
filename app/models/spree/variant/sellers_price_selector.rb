@@ -3,8 +3,15 @@
 module Spree
   class Variant
     class SellersPriceSelector < Spree::Variant::PriceSelector
+      def lowest_seller_price_for(price_options)
+        prices = Spree::Seller.kept.map do |seller|
+          price_for_seller(seller, price_options)
+        end
+        prices.compact.min
+      end
+
       def price_for(price_options)
-        price = variant.currently_valid_prices.detect do |variant_price|
+        price = variant.prices.with_seller.currently_valid.detect do |variant_price|
           price_matches_desired_options?(variant_price, price_options.desired_attributes)
         end
         price&.money

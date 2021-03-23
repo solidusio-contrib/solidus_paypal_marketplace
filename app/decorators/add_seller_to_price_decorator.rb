@@ -9,6 +9,8 @@ module AddSellerToPriceDecorator
                             if: -> { @seller_stock_availability }
 
     base.after_save :save_seller_stock_availability, if: -> { @seller_stock_availability }
+
+    base.scope :with_seller, -> { where(seller_id: Spree::Seller.kept.ids) }
   end
 
   def seller_stock_item

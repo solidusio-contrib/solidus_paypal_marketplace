@@ -13,7 +13,7 @@
                        locals: { variant: variant, is_first_variant: v_i == 0 } %>
           <% end %>
         </ul>
-      <% else %>
+      <% elsif @product.price_for(current_pricing_options).present? %>
         <h6 class="product-section-title"><%= t('spree.sellers') %></h6>
         <ul>
           <%= render partial: 'seller_prices_radios',
@@ -23,7 +23,7 @@
     </div>
 
     <% if @product.price_for(current_pricing_options) and !@product.price.nil? %>
-      <div data-hook="product_price" class="columns five <%= !@product.has_variants? ? 'alpha' : 'omega' %>">
+      <div data-hook="product_price" class="columns five omega">
 
         <div id="product-price">
           <h6 class="product-section-title"><%= t('spree.price') %></h6>
@@ -33,13 +33,6 @@
             </span>
             <span itemprop="priceCurrency" content="<%= current_pricing_options.currency %>"></span>
           </div>
-
-          <% if @product.master.can_supply? %>
-            <link itemprop="availability" href="http://schema.org/InStock" />
-          <% elsif @product.variants.empty? %>
-            <br />
-            <span class="out-of-stock"><%= t('spree.out_of_stock') %></span>
-          <% end %>
         </div>
 
         <div class="add-to-cart">

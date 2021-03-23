@@ -2,6 +2,7 @@
   <% price = variant.price_for_seller(seller, current_pricing_options) %>
   <% next if price.blank? %>
   <% is_first_seller = s_i == 0 %>
+
   <li>
     <% is_selected = is_first_seller && (local_assigns[:is_master] || local_assigns[:is_first_variant]) %>
     <%= radio_button_tag "variant_and_seller_ids",

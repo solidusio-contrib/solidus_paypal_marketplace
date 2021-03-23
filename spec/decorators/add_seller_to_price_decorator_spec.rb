@@ -17,6 +17,24 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
       .not_to validate_presence_of(:seller)
   end
 
+  it do
+    expect(described_class).to respond_to(:with_seller)
+  end
+
+  describe '.with_seller' do
+    let(:prices_with_seller) { described_class.with_seller }
+
+    it 'includes prices with seller' do
+      price = create(:price, seller: create(:seller))
+      expect(prices_with_seller).to include(price)
+    end
+
+    it 'does not include prices without seller' do
+      price = create(:price)
+      expect(prices_with_seller).not_to include(price)
+    end
+  end
+
   context 'when seller_stock_availability is assigned' do
     it do
       expect(described_class.new(seller_stock_availability: 0))

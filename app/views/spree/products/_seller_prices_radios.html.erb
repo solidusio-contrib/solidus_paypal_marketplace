@@ -1,0 +1,30 @@
+<% Spree::Seller.all.each.with_index do |seller, s_i| %>
+  <% price = variant.price_for_seller(seller, current_pricing_options) %>
+  <% next if price.blank? %>
+  <% is_first_seller = s_i == 0 %>
+  <li>
+    <% is_selected = is_first_seller && (local_assigns[:is_master] || local_assigns[:is_first_variant]) %>
+    <%= radio_button_tag "variant_and_seller_ids",
+                         [variant.id, seller.id],
+                         is_selected,
+                         'data-price' => price  %>
+    <%= label_tag "variant_id_#{ variant.id }_seller_id_#{ seller.id }" do %>
+      <% unless local_assigns[:is_master] %>
+        <span class="variant-description">
+          <%= variant_options variant %>
+        </span>
+        |
+      <% end %>
+      <span class="seller-description">
+        <%= seller.name %>
+      </span>
+      <span class="price">
+        <%= price.to_html %>
+      </span>
+
+      <% unless seller.can_supply?(variant) %>
+        <span class="out-of-stock"><%= t('spree.out_of_stock') %></span>
+      <% end %>
+    <% end %>
+  </li>
+<% end %>

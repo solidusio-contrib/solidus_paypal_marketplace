@@ -38,6 +38,8 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
     expect(flash[:success]).to eq I18n.t('spree.admin.paypal_callbacks.account_connected')
   end
 
+  it { is_expected.to redirect_to(:admin_sellers_dashboard) }
+
   context 'when seller is not in pending state' do
     let(:seller) { create(:seller, merchant_id: merchant_id) }
 
@@ -50,6 +52,8 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
 
       expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.seller_already_processed')
     end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
   end
 
   context 'when seller related with the merchant_id is different than the seller user' do
@@ -65,6 +69,8 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
 
       expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.sign_up_link_not_related')
     end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
   end
 
   context "when the user didn't give all the required permissions" do
@@ -86,5 +92,7 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
 
       expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.granted_permissions_insufficient')
     end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
   end
 end

@@ -3,12 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe Spree::Seller, type: :model do
-  it { is_expected.to be_kind_of Spree::SoftDeletable }
+  subject(:seller) { create(:seller) }
+
+  it { is_expected.to be_kind_of(Spree::SoftDeletable) }
   it { is_expected.to define_enum_for(:status).with_values(pending: 0, accepted: 1, rejected: 2) }
   it { is_expected.to have_many(:users).dependent(:destroy) }
   it { is_expected.to have_many(:prices).dependent(:destroy) }
   it { is_expected.to have_one(:stock_location).dependent(:destroy) }
   it { is_expected.to have_many(:stock_items).through(:stock_location) }
+  it { is_expected.to respond_to(:can_supply?).with(1..2).arguments }
 
   it do
     expect(described_class.new).to define_enum_for(:risk_status).with_values(
@@ -21,8 +24,6 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#create' do
-    subject(:seller) { create(:base_seller) }
-
     it 'assign merchant_id' do
       expect(seller.merchant_id).to be_present
     end
@@ -33,8 +34,6 @@ RSpec.describe Spree::Seller, type: :model do
   end
 
   describe '#percentage' do
-    subject(:seller) { create(:base_seller) }
-
     it {
       expect(seller).to validate_presence_of(:percentage)
     }
@@ -87,6 +86,35 @@ RSpec.describe Spree::Seller, type: :model do
           tracking_id: seller.merchant_id,
           return_url: return_url
         )
+      end
+    end
+  end
+
+  describe '#can_supply?' do
+    let(:variant) { create(:variant) }
+    let(:stock_item) { Spree::StockItem.find_or_create_by(variant: variant, stock_location: seller.stock_location) }
+
+    context 'when the stock item is blank' do
+      before do
+        stock_item.destroy
+      end
+
+      it 'responds false' do
+        expect(seller.can_supply?(variant)).to be false
+      end
+    end
+
+    context 'when the stock item is present' do
+      before do
+        stock_item.set_count_on_hand(5)
+      end
+
+      it 'responds false if desired quantity exceeds seller\'s stock item count on hand' do
+        expect(seller.can_supply?(variant, 10)).to be false
+      end
+
+      it 'responds true if desired quantity does not exceed seller\'s stock item count on hand' do
+        expect(seller.can_supply?(variant, 5)).to be true
       end
     end
   end

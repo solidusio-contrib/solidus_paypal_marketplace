@@ -41,6 +41,10 @@ module Spree
     validates :percentage, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
                            if: -> { percentage.present? }
 
+    def can_supply?(variant, quantity = 1)
+      Spree::Stock::Quantifier.new(variant, stock_location).can_supply?(quantity)
+    end
+
     def start_onboarding_process(return_url: nil)
       refresh_action_url(return_url: return_url).tap { |action_url| update!(action_url: action_url) }
     end

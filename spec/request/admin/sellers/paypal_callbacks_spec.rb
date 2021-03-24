@@ -11,11 +11,13 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
   let(:params) do
     {
       merchantIdInPayPal: merchant_id_in_paypal,
-      merchantId: seller.merchant_id
+      merchantId: seller.merchant_id,
+      permissionsGranted: permission_granted
     }
   end
   let(:merchant_id_in_paypal) { 'PayPal#1' }
   let(:merchant_id) { 'MerchantId' }
+  let(:permission_granted) { true }
   let(:seller) { create(:pending_seller, merchant_id: merchant_id) }
   let(:user) { create(:seller_user, seller: seller) }
 
@@ -36,6 +38,8 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
     expect(flash[:success]).to eq I18n.t('spree.admin.paypal_callbacks.account_connected')
   end
 
+  it { is_expected.to redirect_to(:admin_sellers_dashboard) }
+
   context 'when seller is not in pending state' do
     let(:seller) { create(:seller, merchant_id: merchant_id) }
 
@@ -48,6 +52,8 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
 
       expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.seller_already_processed')
     end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
   end
 
   context 'when seller related with the merchant_id is different than the seller user' do
@@ -63,5 +69,30 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
 
       expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.sign_up_link_not_related')
     end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
+  end
+
+  context "when the user didn't give all the required permissions" do
+    let(:permission_granted) { false }
+
+    before do
+      allow(seller).to receive(:start_onboarding_process).and_return('https://start.new.onboarding.process')
+      allow(Spree::Seller).to receive(:find_by!).and_return(seller)
+    end
+
+    it 'restart the onboarding process on the seller' do
+      do_request
+
+      expect(Spree::Seller).to have_received(:find_by!).with(merchant_id: seller.merchant_id)
+    end
+
+    it 'shows the error message to the user' do
+      do_request
+
+      expect(flash[:error]).to eq I18n.t('spree.admin.paypal_callbacks.granted_permissions_insufficient')
+    end
+
+    it { is_expected.to redirect_to(:admin_sellers_dashboard) }
   end
 end

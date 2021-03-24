@@ -36,6 +36,7 @@ en:
         account_connected: PayPal Account connected
         seller_already_processed: Seller has been already accepted or rejected
         sign_up_link_not_related: This authorization link is not related to this seller
+        granted_permissions_insufficient: Given permission are not sufficient to proceed
     seller:
       start_onboarding: Start Onboarding
       refresh_sign_up_link: Refresh Sign-Up Link

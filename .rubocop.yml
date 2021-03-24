@@ -11,3 +11,7 @@ Rails/Output:
 RSpec/MultipleExpectations:
   # Default is 1
   Max: 5
+
+RSpec/MultipleMemoizedHelpers:
+  # Default is 5
+  Max: 10

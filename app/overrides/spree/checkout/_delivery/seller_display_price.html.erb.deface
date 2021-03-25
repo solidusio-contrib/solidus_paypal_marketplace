@@ -1,0 +1,2 @@
+<!-- replace '.item-price' -->
+<td class="item-price"><%= item.variant.price_for_seller(item.line_item.seller, current_pricing_options).to_html %></td>

@@ -11,6 +11,10 @@ RSpec.describe AddSellerToLineItemDecorator, type: :model do
       .class_name('Spree::Seller')
   end
 
+  it do
+    expect(described_class.new.pricing_options).to be_kind_of(Spree::Variant::SellersPricingOptions)
+  end
+
   describe '#validate_seller_price_presence' do
     subject(:valid?) { line_item.valid? }
 

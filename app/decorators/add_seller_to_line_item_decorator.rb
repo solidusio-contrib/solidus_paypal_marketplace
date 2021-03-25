@@ -6,10 +6,13 @@ module AddSellerToLineItemDecorator
     base.validate :validate_seller_price_presence, if: -> { variant.present? }
   end
 
+  def pricing_options
+    Spree::Variant::SellersPricingOptions.from_line_item(self)
+  end
+
   private
 
   def validate_seller_price_presence
-    pricing_options = Spree::Variant::PricingOptions.from_line_item(self)
     errors.add(:seller, :no_prices) if variant.price_for_seller(seller, pricing_options).nil?
   end
 

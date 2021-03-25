@@ -3,6 +3,10 @@
 module Spree
   class Variant
     class SellersPriceSelector < Spree::Variant::PriceSelector
+      def self.pricing_options_class
+        Spree::Variant::SellersPricingOptions
+      end
+
       def lowest_seller_price_for(price_options)
         prices = Spree::Seller.kept.map do |seller|
           price_for_seller(seller, price_options)

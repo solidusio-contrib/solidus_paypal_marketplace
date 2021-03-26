@@ -26,7 +26,7 @@ end
 FactoryBot.modify do
   factory :line_item, class: 'Spree::LineItem' do
     seller do
-      variant.prices.first&.seller || build(:seller)
+      variant.prices.first&.seller || create(:seller)
     end
   end
 end

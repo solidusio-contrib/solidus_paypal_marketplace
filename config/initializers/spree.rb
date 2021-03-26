@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 Spree.config do |config|
+  config.roles.assign_permissions :admin, [
+    'Spree::PermissionSets::Admin'
+  ]
   config.roles.assign_permissions :seller, [
     'Spree::PermissionSets::Seller',
     'Spree::PermissionSets::Offer'
   ]
-  config.roles.assign_permissions :admin, [
-    'Spree::PermissionSets::Admin'
-  ]
+
+  config.variant_price_selector_class = Spree::Variant::SellersPriceSelector
 end
 
 Spree::Backend::Config.configure do |config|

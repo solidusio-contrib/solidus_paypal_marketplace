@@ -5,45 +5,43 @@ module SolidusPaypalMarketplace
   class LineItemStockQuantities
     attr_reader :quantities
 
-    include Enumerable
-
-    # @param quantities [Hash<Spree::Variant=>Numeric>]
+    # @param quantities [Hash<Spree::LineItem=>Numeric>]
     def initialize(quantities = {})
-      raise ArgumentError unless quantities.keys.all?{ |value| value.is_a?(Spree::Variant) }
-      raise ArgumentError unless quantities.values.all?{ |value| value.is_a?(Numeric) }
+      raise ArgumentError unless quantities.keys.all? { |v| v.is_a?(Spree::LineItem) }
+      raise ArgumentError unless quantities.values.all? { |v| v.is_a?(Numeric) }
 
       @quantities = quantities
     end
 
-    # @yield [variant, quantity]
+    # @yield [line_item, quantity]
     def each(&block)
       @quantities.each(&block)
     end
 
-    # @param variant [Spree::Variant]
-    # @return [Integer] the quantity of variant
-    def [](variant)
-      @quantities[variant]
+    # @param line_item [Spree::LineItem]
+    # @return [Integer] the quantity of line_item
+    def [](line_item)
+      @quantities[line_item]
     end
 
-    # @return [Array<Spree::Variant>] the variants being tracked
-    def variants
+    # @return [Array<Spree::LineItem>] the line_items being tracked
+    def line_items
       @quantities.keys.uniq
     end
 
     # Adds two StockQuantities together
     # @return [Spree::StockQuantities]
     def +(other)
-      combine_with(other) do |_variant, first, second|
-        (first || 0) + (second || 0)
+      combine_with(other) do |_line_item, a, b|
+        (a || 0) + (b || 0)
       end
     end
 
     # Subtracts another StockQuantities from this one
     # @return [Spree::StockQuantities]
     def -(other)
-      combine_with(other) do |_variant, first, second|
-        (first || 0) - (second || 0)
+      combine_with(other) do |_line_item, a, b|
+        (a || 0) - (b || 0)
       end
     end
 
@@ -51,17 +49,21 @@ module SolidusPaypalMarketplace
     # stock which exists in both StockQuantities.
     # @return [Spree::StockQuantities]
     def &(other)
-      combine_with(other) do |_variant, first, second|
-        next unless first && second
+      combine_with(other) do |_line_item, a, b|
+        next unless a && b
 
-        [first, second].min
+        [a, b].min
       end
     end
 
-    # A StockQuantities is empty if all variants have zero quantity
+    # A StockQuantities is empty if all line_items have zero quantity
     # @return [true,false]
     def empty?
       @quantities.values.all?(&:zero?)
+    end
+
+    def any?
+      !empty?
     end
 
     def ==(other)
@@ -73,11 +75,11 @@ module SolidusPaypalMarketplace
 
     def combine_with(other)
       self.class.new(
-        (variants | other.variants).map do |variant|
-          self_v = self[variant]
-          other_v = other[variant]
-          value = yield variant, self_v, other_v
-          [variant, value]
+        (line_items | other.line_items).map do |line_item|
+          a = self[line_item]
+          b = other[line_item]
+          value = yield line_item, a, b
+          [line_item, value]
         end.to_h.compact
       )
     end

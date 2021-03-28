@@ -10,6 +10,7 @@ Spree.config do |config|
   ]
 
   config.variant_price_selector_class = Spree::Variant::SellersPriceSelector
+  config.stock.coordinator_class = 'SolidusPaypalMarketplace::Stock::MarketplaceCoordinator'
 end
 
 Spree::Backend::Config.configure do |config|

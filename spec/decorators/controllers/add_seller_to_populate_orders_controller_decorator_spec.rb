@@ -31,7 +31,6 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
         expect(assigned_order).to be_persisted
       end
 
-      # rubocop:disable RSpec/NestedGroups
       context 'with Variant and Seller' do
         it 'handles population' do
           expect do
@@ -108,7 +107,6 @@ RSpec.describe AddSellerToPopulateOrdersControllerDecorator, type: :controller d
           end
         end
       end
-      # rubocop:enable RSpec/NestedGroups
     end
   end
 

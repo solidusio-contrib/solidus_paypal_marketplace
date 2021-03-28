@@ -10,6 +10,10 @@ module AddSellerToLineItemDecorator
     Spree::Variant::SellersPricingOptions.from_line_item(self)
   end
 
+  def sufficient_stock?
+    Spree::Stock::Quantifier.new(variant, seller.stock_location).can_supply? quantity
+  end
+
   private
 
   def validate_seller_price_presence

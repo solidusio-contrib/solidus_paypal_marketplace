@@ -55,4 +55,43 @@ RSpec.describe AddSellerToLineItemDecorator, type: :model do
       end
     end
   end
+
+  describe '#sufficient_stock?' do
+    subject { line_item.sufficient_stock? }
+
+    let(:line_item) { build_stubbed(:line_item, quantity: 10) }
+
+    before do
+      create(:stock_location, propagate_all_variants: true, backorderable_default: false)
+
+      line_item
+
+      Spree::StockItem.update_all(count_on_hand: 10) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    it { is_expected.to be_falsey }
+
+    context 'when the seller is related to the right stock location' do
+      let(:seller) { create(:seller) }
+      let!(:stock_location1) do
+        create(
+          :stock_location,
+          propagate_all_variants: true,
+          backorderable_default: false,
+          seller: seller
+        )
+      end
+      let(:line_item) { build_stubbed(:line_item, quantity: 10, seller: stock_location1.seller) }
+
+      it { is_expected.to be_truthy }
+
+      context 'when there are no sufficient stock in the stock location related to the selected seller' do
+        before do
+          Spree::StockItem.find_by(stock_location: stock_location1).set_count_on_hand(9)
+        end
+
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
 end

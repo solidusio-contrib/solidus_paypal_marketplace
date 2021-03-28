@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model do
-  let(:variant1) { mock_model(Spree::Variant) }
-  let(:variant2) { mock_model(Spree::Variant) }
-
-  subject do
+  subject(:described_instance) do
     described_class.new(quantities)
   end
+
+  let(:variant1) { mock_model(Spree::Variant) }
+  let(:variant2) { mock_model(Spree::Variant) }
 
   describe "#each" do
     def expect_each
@@ -45,7 +45,7 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       let(:quantities) { { variant1 => 2 } }
 
       it "returns variant" do
-        expect(subject.variants).to eq [variant1]
+        expect(described_instance.variants).to eq [variant1]
       end
     end
 
@@ -53,36 +53,41 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       let(:quantities) { { variant1 => 2, variant2 => 3 } }
 
       it "returns both variants" do
-        expect(subject.variants).to eq [variant1, variant2]
+        expect(described_instance.variants).to eq [variant1, variant2]
       end
     end
   end
 
   describe "#empty?" do
-    context "no variants" do
+    context "with no variants" do
       let(:quantities) { {} }
+
       it { is_expected.to be_empty }
     end
 
-    context "only quantity 0" do
+    context "with only quantity 0" do
       let(:quantities) { { variant1 => 0 } }
+
       it { is_expected.to be_empty }
     end
 
-    context "positive quantity" do
+    context "with positive quantity" do
       let(:quantities) { { variant1 => 1 } }
+
       it { is_expected.not_to be_empty }
     end
 
-    context "one variant positive one zero" do
+    context "with one variant positive one zero" do
       let(:quantities) { { variant1 => 1, variant2 => 0 } }
+
       it { is_expected.not_to be_empty }
     end
 
-    context "negative quantity" do
+    context "with negative quantity" do
       # empty? doesn't make a whole lot of sense in this case, but returning
       # false is probably more accurate.
       let(:quantities) { { variant1 => -1 } }
+
       it { is_expected.not_to be_empty }
     end
   end
@@ -95,36 +100,42 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
     context "when both empty" do
       let(:quantity1) { {} }
       let(:quantity2) { {} }
+
       it { is_expected.to be true }
     end
 
     context "when both equal" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant1 => 1 } }
+
       it { is_expected.to be true }
     end
 
     context "with different order" do
       let(:quantity1) { { variant1 => 1, variant2 => 2 } }
       let(:quantity2) { { variant2 => 2, variant1 => 1 } }
+
       it { is_expected.to be true }
     end
 
     context "with different variant" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant2 => 1 } }
+
       it { is_expected.to be false }
     end
 
     context "with different quantities" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant1 => 2 } }
+
       it { is_expected.to be false }
     end
 
-    context "nil != 0" do
+    context "when nil != 0" do
       let(:quantity1) { { variant1 => 0 } }
       let(:quantity2) { {} }
+
       it { is_expected.to be false }
     end
   end
@@ -134,28 +145,28 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       described_class.new(quantity1) + described_class.new(quantity2)
     end
 
-    context "same variant" do
+    context "with same variant" do
       let(:quantity1) { { variant1 => 20 } }
       let(:quantity2) { { variant1 => 22 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 42 }) }
     end
 
-    context "different variants" do
+    context "with different variants" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant2 => 2 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 1, variant2 => 2 }) }
     end
 
-    context "0 quantities" do
+    context "with 0 quantities" do
       let(:quantity1) { { variant1 => 0 } }
       let(:quantity2) { { variant2 => 1 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 0, variant2 => 1 }) }
     end
 
-    context "empty quantity" do
+    context "with empty quantity" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { {} }
 
@@ -168,35 +179,35 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       described_class.new(quantity1) - described_class.new(quantity2)
     end
 
-    context "same variant" do
+    context "with same variant" do
       let(:quantity1) { { variant1 => 22 } }
       let(:quantity2) { { variant1 => 20 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 2 }) }
     end
 
-    context "different variants" do
+    context "with different variants" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant2 => 2 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 1, variant2 => -2 }) }
     end
 
-    context "0 quantity" do
+    context "with 0 quantity" do
       let(:quantity1) { { variant1 => 0 } }
       let(:quantity2) { { variant1 => 1 } }
 
       it { is_expected.to eq described_class.new({ variant1 => -1 }) }
     end
 
-    context "empty quantity RHS" do
+    context "with empty quantity RHS" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { {} }
 
       it { is_expected.to eq described_class.new({ variant1 => 1 }) }
     end
 
-    context "empty quantity LHS" do
+    context "with empty quantity LHS" do
       let(:quantity1) { {} }
       let(:quantity2) { { variant1 => 1 } }
 
@@ -210,21 +221,21 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       described_class.new(quantity1) & described_class.new(quantity2)
     end
 
-    context "same variant" do
+    context "with same variant" do
       let(:quantity1) { { variant1 => 20 } }
       let(:quantity2) { { variant1 => 22 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 20 }) }
     end
 
-    context "multiple variants" do
+    context "with multiple variants" do
       let(:quantity1) { { variant1 => 10, variant2 => 20 } }
       let(:quantity2) { { variant1 => 12, variant2 => 14 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 10, variant2 => 14 }) }
     end
 
-    context "different variants" do
+    context "with different variants" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { { variant2 => 2 } }
 
@@ -232,14 +243,14 @@ RSpec.describe SolidusPaypalMarketplace::LineItemStockQuantities, type: :model d
       it { is_expected.to eq described_class.new({}) }
     end
 
-    context "0 quantities" do
+    context "with 0 quantities" do
       let(:quantity1) { { variant1 => 0 } }
       let(:quantity2) { { variant1 => 1 } }
 
       it { is_expected.to eq described_class.new({ variant1 => 0 }) }
     end
 
-    context "empty quantity" do
+    context "with empty quantity" do
       let(:quantity1) { { variant1 => 1 } }
       let(:quantity2) { {} }
 

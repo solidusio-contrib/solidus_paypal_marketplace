@@ -1,3 +1,21 @@
+<% admin_breadcrumb(link_to plural_resource_name(Spree::Shipment), spree.admin_sellers_shipments_path) %>
+<% admin_breadcrumb(@shipment.number) %>
+
+<% content_for :page_actions do %>
+  <% if @shipment.pending? %>
+    <li>
+      <%= link_to t('spree.accept'), spree.accept_admin_sellers_shipment_url, class: "button" %>
+    </li>
+    <li>
+      <%= link_to t('spree.reject'), spree.reject_admin_sellers_shipment_url, class: "button" %>
+    </li>
+  <% elsif @shipment.ready? %>
+    <li>
+      <%= link_to t('spree.ship').capitalize, spree.ship_admin_sellers_shipment_url, class: "button" %>
+    </li>
+  <% end %>
+<% end %>
+
 <%= render partial: 'spree/shared/error_messages', locals: { target: @shipment } %>
 
 <fieldset id="shipment_summary" data-hook>

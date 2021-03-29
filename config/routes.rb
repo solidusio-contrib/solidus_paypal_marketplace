@@ -4,7 +4,14 @@ Spree::Core::Engine.routes.draw do
   namespace :admin do
     namespace :sellers do
       resources :prices, path: :offers
-      resources :shipments, only: [:index, :edit, :update]
+      resources :shipments, only: [:index, :edit, :update] do
+        member do
+          get :accept
+          get :reject
+          get :ship
+        end
+        resources :line_items, only: [:edit, :update]
+      end
       get :paypal_callbacks, to: 'paypal_callbacks#show'
       get :dashboard, to: 'dashboard#show'
     end

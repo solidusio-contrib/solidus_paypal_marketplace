@@ -41,7 +41,8 @@ describe Spree::Admin::Sellers::PricesController, type: :controller do
 
   describe '#edit' do
     it 'responds' do
-      get :new
+      price = create(:price, seller: seller, variant: variant)
+      get :edit, params: { id: price.id }
       expect(response).to have_http_status(:ok)
     end
   end

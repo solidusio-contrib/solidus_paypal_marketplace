@@ -119,7 +119,7 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
       end
 
       it 'persists stock item when saved' do
-        expect{ price.update(seller_stock_availability: 20) }
+        expect { price.update(seller_stock_availability: 20) }
           .to change { price.seller_stock_item.persisted? }
           .from(false)
           .to(true)

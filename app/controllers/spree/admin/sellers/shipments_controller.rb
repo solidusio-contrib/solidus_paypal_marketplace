@@ -11,6 +11,12 @@ module Spree
           @collection = @search.result.page(params[:page])
           respond_with(@collection)
         end
+
+        private
+
+        def find_resource
+          Spree::Shipment.find_by(number: params[:id])
+        end
       end
     end
   end

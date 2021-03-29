@@ -1,0 +1,37 @@
+<fieldset id="shipment_summary" data-hook>
+  <legend><%= "#{Spree::Shipment.model_name.human} #{@shipment.number} - #{@shipment.state}" %></legend>
+
+  <div id="shipment" data-hook>
+    <table class="index" id="listing_line_items" data-hook>
+      <thead>
+        <tr data-hook="admin_sellers_shipment_line_items_index_headers">
+          <th><%= Spree::LineItem.human_attribute_name(:name) %></th>
+          <th><%= Spree::Shipment.human_attribute_name(:sku) %></th>
+          <th><%= Spree::Order.human_attribute_name(:quantity) %></th>
+          <th><%= Spree::Shipment.human_attribute_name(:total) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shipment.line_items.each do |line_item| %>
+          <tr data-hook="admin_sellers_shipment_line_items_index_rows">
+            <td><%= line_item.name %></td>
+            <td><%= line_item.sku %></td>
+            <td><%= line_item.quantity %></td>
+            <td><%= line_item.display_total.to_html %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</fieldset>
+
+<div class="row">
+  <div class="col-sm-4">
+    <%= content_tag :h4, t('spree.billing_address') %>
+    <%= render "spree/admin/shared/address", address: @shipment.order.bill_address %>
+  </div>
+  <div class="col-sm-4">
+    <%= content_tag :h4, t('spree.shipping_address') %>
+    <%= render "spree/admin/shared/address", address: @shipment.order.ship_address %>
+  </div>
+</div>

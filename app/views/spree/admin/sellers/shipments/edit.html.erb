@@ -1,3 +1,5 @@
+<%= render partial: 'spree/shared/error_messages', locals: { target: @shipment } %>
+
 <fieldset id="shipment_summary" data-hook>
   <legend><%= "#{Spree::Shipment.model_name.human} #{@shipment.number} - #{@shipment.state}" %></legend>
 
@@ -35,3 +37,21 @@
     <%= render "spree/admin/shared/address", address: @shipment.order.ship_address %>
   </div>
 </div>
+
+<br>
+
+<%= form_for @shipment, url: spree.admin_sellers_shipment_url do |f| %>
+  <fieldset data-hook="edit_shipment">
+    <div data-hook="admin_shipment_form_fields">
+      <div data-hook="admin_shipment_form_shipment" class='col-sm-12'>
+        <%= f.field_container :tracking do %>
+          <%= f.label :tracking, "#{@shipment.shipping_method.name} (#{@shipment.display_total }) #{Spree::Shipment.human_attribute_name(:tracking)}" %>
+          <%= f.text_field :tracking, disabled: !(@shipment.ready? || @shipment.shipped?) %>
+          <%= f.error_message_on :tracking %>
+
+          <%= f.submit %>
+        <%end%>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

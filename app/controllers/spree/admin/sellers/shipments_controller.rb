@@ -17,6 +17,10 @@ module Spree
         def find_resource
           Spree::Shipment.find_by(number: params[:id])
         end
+
+        def location_after_save
+          spree.edit_admin_sellers_shipment_url(@shipment)
+        end
       end
     end
   end

@@ -1,0 +1,37 @@
+<% admin_breadcrumb(plural_resource_name(Spree::Shipment)) %>
+
+<% if @collection.any? %>
+  <table class="index" id="listing_shipments" data-hook>
+    <thead>
+      <tr data-hook="admin_sellers_shipments_index_headers">
+        <th><%= Spree::Shipment.human_attribute_name(:created_at) %></th>
+        <th><%= Spree::Shipment.human_attribute_name(:number) %></th>
+        <th><%= Spree::Order.human_attribute_name(:email) %></th>
+        <th><%= Spree::Order.human_attribute_name(:total) %></th>
+        <th><%= Spree::Shipment.human_attribute_name(:state) %></th>
+        <th data-hook="admin_sellers_shipments_index_header_actions" class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @collection.each do |shipment| %>
+        <tr data-hook="admin_sellers_shipments_index_rows">
+          <td><%= l shipment.created_at.to_date %></td>
+          <td><%= shipment.number %></td>
+          <td><%= shipment.order.email %></td>
+          <td><%= shipment.order.total %></td>
+          <td><%= shipment.state %></td>
+          <td class="actions" data-hook="admin_sellers_shipments_index_row_actions">
+            <%= link_to_edit shipment, no_text: true, class: 'edit' if can?(:edit, shipment) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="no-objects-found">
+    <%= render 'spree/admin/shared/no_objects_found',
+                resource: Spree::Shipment %>
+  </div>
+<% end %>
+
+<%= paginate @collection, theme: "solidus_admin" %>

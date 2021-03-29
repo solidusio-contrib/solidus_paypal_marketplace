@@ -35,9 +35,10 @@ en:
     sellers: Sellers
     admin:
       tab:
+        dashboard: Dashboard
         offers: Offers
         sellers: Sellers
-        dashboard: Dashboard
+        shipments: Shipments
       paypal_callbacks:
         account_connected: PayPal Account connected
         seller_already_processed: Seller has been already accepted or rejected

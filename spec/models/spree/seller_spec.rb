@@ -29,7 +29,19 @@ RSpec.describe Spree::Seller, type: :model do
     end
 
     it 'creates default stock location' do
-      expect(seller.stock_location).to be_persisted
+      expect { seller }.to change(Spree::StockLocation, :count).from(0)
+    end
+
+    context 'when the stock_location is provided' do
+      subject(:seller) { create(:seller, stock_location: stock_location) }
+
+      let(:stock_location) { create(:stock_location) }
+
+      before { stock_location }
+
+      it 'creates default stock location' do
+        expect { seller }.not_to change(Spree::StockLocation, :count).from(1)
+      end
     end
   end
 

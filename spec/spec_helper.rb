@@ -6,6 +6,8 @@ ENV['RAILS_ENV'] = 'test'
 # Run Coverage report
 require 'solidus_dev_support/rspec/coverage'
 require "shoulda/matchers"
+require 'rails-controller-testing'
+require 'rspec/active_model/mocks'
 
 # Create the dummy app if it's still missing.
 dummy_env = "#{__dir__}/dummy/config/environment.rb"

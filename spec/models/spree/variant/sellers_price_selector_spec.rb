@@ -42,6 +42,12 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
     end
   end
 
+  describe '.pricing_options_class' do
+    it do
+      expect(described_class.pricing_options_class).to be(Spree::Variant::SellersPricingOptions)
+    end
+  end
+
   describe '#price_for' do
     subject(:price_for) { seller_price_selector.price_for(pricing_options) }
 

@@ -52,7 +52,7 @@ module Spree
     private
 
     def create_default_stock_location!
-      create_stock_location!(name: "#{name} - default", propagate_all_variants: false)
+      create_stock_location!(name: "#{name} - default", propagate_all_variants: false) if stock_location.nil?
     end
 
     def set_merchant_id

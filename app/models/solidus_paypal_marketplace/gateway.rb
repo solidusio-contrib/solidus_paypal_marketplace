@@ -32,6 +32,14 @@ module SolidusPaypalMarketplace
       response
     end
 
+    def create_order(order, auto_capture)
+      intent = auto_capture ? "CAPTURE" : "AUTHORIZE"
+      request = OrdersCreateRequest.new
+      paypal_order = SolidusPaypalMarketplace::CreatePaypalOrderPayload.new(order)
+      request.request_body paypal_order.to_json(intent)
+      @client.execute(request)
+    end
+
     private
 
     def generate_capture_payload(money, currency)

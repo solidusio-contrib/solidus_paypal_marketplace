@@ -21,6 +21,8 @@ en:
       spree/seller:
         one: Seller
         other: Sellers
+      solidus_paypal_marketplace/payment_source: PayPal Marketplace Payment Source
+      solidus_paypal_marketplace/payment_method: PayPal Marketplace Platform
     attributes:
       spree/price:
         seller: Seller

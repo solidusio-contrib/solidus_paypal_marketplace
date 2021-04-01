@@ -34,6 +34,9 @@ SolidusPaypalMarketplace.configure do |config|
 end
 ```
 
+Then go to the admin section and add your SolidusPaypalMarketplace Payment method.
+Be sure to select the static preference configured above
+
 ## Development
 
 Step to test the seller onboarding process using localtunner.

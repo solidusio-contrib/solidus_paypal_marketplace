@@ -54,6 +54,29 @@ RSpec.describe SolidusPaypalMarketplace::PaymentMethod, type: :model do
       expect_request(:AuthorizationsCaptureRequest).to receive(:new).with(authorization_id).and_call_original
       paypal_payment_method.capture(1000, {}, originator: payment)
     end
+
+    context 'with stubbed request' do
+      let(:request) { instance_double(PayPalCheckoutSdk::Payments::AuthorizationsCaptureRequest, request_body: {}) }
+
+      it 'adds the payment_information with the fee amount to the payload' do
+        authorization_id = SecureRandom.hex(8)
+        source = paypal_payment_method.payment_source_class.create(authorization_id: authorization_id)
+        payment.source = source
+        allow_request(:AuthorizationsCaptureRequest).to receive(:new).with(authorization_id).and_return(request)
+        paypal_payment_method.capture(1000, {}, originator: payment)
+
+        expect(request).to have_received(:request_body).with(hash_including(
+          payment_instruction: hash_including(
+            platform_fees: array_including(hash_including(
+              amount: {
+                currency_code: order.currency,
+                value: (order.total * (seller.percentage / 100.0)).round(2)
+              }
+            ))
+          )
+        ))
+      end
+    end
   end
 
   describe "#void" do

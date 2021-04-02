@@ -1,0 +1,75 @@
+<% admin_breadcrumb(link_to plural_resource_name(Spree::Shipment), spree.admin_sellers_shipments_path) %>
+<% admin_breadcrumb(@shipment.number) %>
+
+<% content_for :page_actions do %>
+  <% if @shipment.pending? %>
+    <li>
+      <%= link_to t('spree.accept'), spree.accept_admin_sellers_shipment_url, class: "button" %>
+    </li>
+    <li>
+      <%= link_to t('spree.reject'), spree.reject_admin_sellers_shipment_url, class: "button" %>
+    </li>
+  <% elsif @shipment.ready? %>
+    <li>
+      <%= link_to t('spree.ship').capitalize, spree.ship_admin_sellers_shipment_url, class: "button" %>
+    </li>
+  <% end %>
+<% end %>
+
+<%= render partial: 'spree/shared/error_messages', locals: { target: @shipment } %>
+
+<fieldset id="shipment_summary" data-hook>
+  <legend><%= "#{Spree::Shipment.model_name.human} #{@shipment.number} - #{@shipment.state}" %></legend>
+
+  <div id="shipment" data-hook>
+    <table class="index" id="listing_line_items" data-hook>
+      <thead>
+        <tr data-hook="admin_sellers_shipment_line_items_index_headers">
+          <th><%= Spree::LineItem.human_attribute_name(:name) %></th>
+          <th><%= Spree::Shipment.human_attribute_name(:sku) %></th>
+          <th><%= Spree::Order.human_attribute_name(:quantity) %></th>
+          <th><%= Spree::Shipment.human_attribute_name(:total) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shipment.line_items.each do |line_item| %>
+          <tr data-hook="admin_sellers_shipment_line_items_index_rows">
+            <td><%= line_item.name %></td>
+            <td><%= line_item.sku %></td>
+            <td><%= line_item.quantity %></td>
+            <td><%= line_item.display_total.to_html %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</fieldset>
+
+<div class="row">
+  <div class="col-sm-4">
+    <%= content_tag :h4, t('spree.billing_address') %>
+    <%= render "spree/admin/shared/address", address: @shipment.order.bill_address %>
+  </div>
+  <div class="col-sm-4">
+    <%= content_tag :h4, t('spree.shipping_address') %>
+    <%= render "spree/admin/shared/address", address: @shipment.order.ship_address %>
+  </div>
+</div>
+
+<br>
+
+<%= form_for @shipment, url: spree.admin_sellers_shipment_url do |f| %>
+  <fieldset data-hook="edit_shipment">
+    <div data-hook="admin_shipment_form_fields">
+      <div data-hook="admin_shipment_form_shipment" class='col-sm-12'>
+        <%= f.field_container :tracking do %>
+          <%= f.label :tracking, "#{@shipment.shipping_method.name} (#{@shipment.display_total }) #{Spree::Shipment.human_attribute_name(:tracking)}" %>
+          <%= f.text_field :tracking, disabled: !(@shipment.ready? || @shipment.shipped?) %>
+          <%= f.error_message_on :tracking %>
+
+          <%= f.submit %>
+        <%end%>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

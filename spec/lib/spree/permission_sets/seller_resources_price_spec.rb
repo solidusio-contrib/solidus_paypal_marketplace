@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'cancan/matchers'
 
-RSpec.describe Spree::PermissionSets::Offer do
+RSpec.describe Spree::PermissionSets::SellerResources do
   subject(:ability) { Spree::Ability.new(user) }
 
   let(:price) { create(:price) }
@@ -26,6 +26,12 @@ RSpec.describe Spree::PermissionSets::Offer do
     it 'can manage his price' do
       price.update!(seller_id: seller.id)
       expect(ability).to be_able_to([:create, :update, :destroy], price)
+    end
+
+    context 'without seller_id' do
+      it 'cannot manage base price' do
+        expect(ability).not_to be_able_to([:create, :update, :destroy], price)
+      end
     end
   end
 end

@@ -25,8 +25,11 @@ end
 
 FactoryBot.modify do
   factory :line_item, class: 'Spree::LineItem' do
+    transient do
+      seller_price { variant.prices.with_seller.first || create(:price, seller: create(:seller), variant: variant) }
+    end
     seller do
-      variant.prices.first&.seller || create(:seller)
+      seller_price.seller
     end
   end
 end

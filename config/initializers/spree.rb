@@ -5,8 +5,8 @@ Spree.config do |config|
     'Spree::PermissionSets::Admin'
   ]
   config.roles.assign_permissions :seller, [
-    'Spree::PermissionSets::Seller',
-    'Spree::PermissionSets::Offer'
+    'Spree::PermissionSets::SellerNavigation',
+    'Spree::PermissionSets::SellerResources'
   ]
 
   config.variant_price_selector_class = Spree::Variant::SellersPriceSelector
@@ -22,9 +22,17 @@ Spree::Backend::Config.configure do |config|
   )
   config.menu_items << config.class::MenuItem.new(
     [:dashboard],
-    'list',
+    'columns  ',
     condition: -> { can?(:visit, :seller_dashboard) },
     url: :admin_sellers_dashboard_path
+  )
+  config.menu_items << config.class::MenuItem.new(
+    [:shipments],
+    'shopping-cart',
+    condition: -> {
+      can?(:visit, :seller_shipments)
+    },
+    url: :admin_sellers_shipments_path
   )
   config.menu_items << config.class::MenuItem.new(
     [:offers],

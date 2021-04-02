@@ -25,6 +25,15 @@ en:
       spree/price:
         seller: Seller
         seller_stock_availability: Stock availability
+  solidus_paypal_marketplace:
+    sellers:
+      shipment_management:
+        accept_successfully: Payments accepted
+        accept_failed: Payments could not be accepted
+        reject_successfully: Payments rejected
+        reject_failed: Payments could not be rejected
+        ship_successfully: Shipment confirmed
+        ship_failed: Shipment could not be confirmed
   spree:
     edit_offer: Edit Offer
     edit_seller: Edit Seller
@@ -35,9 +44,10 @@ en:
     sellers: Sellers
     admin:
       tab:
+        dashboard: Dashboard
         offers: Offers
         sellers: Sellers
-        dashboard: Dashboard
+        shipments: Shipments
       paypal_callbacks:
         account_connected: PayPal Account connected
         seller_already_processed: Seller has been already accepted or rejected

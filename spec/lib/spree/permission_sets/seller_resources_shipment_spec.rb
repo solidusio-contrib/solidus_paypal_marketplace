@@ -8,7 +8,6 @@ RSpec.describe Spree::PermissionSets::SellerResources do
 
   let(:shipment) { create(:shipment) }
   let(:stock_location) { shipment.stock_location }
-  let(:user) { nil }
 
   context 'when is a seller' do
     let(:seller) { create(:seller) }
@@ -34,7 +33,7 @@ RSpec.describe Spree::PermissionSets::SellerResources do
         shipment.order.update!(completed_at: nil)
       end
 
-      it 'cannot manage its shipment' do
+      it 'cannot manage his shipment' do
         stock_location.update!(seller_id: seller.id)
         expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
       end
@@ -42,6 +41,15 @@ RSpec.describe Spree::PermissionSets::SellerResources do
 
     context 'without seller_id' do
       it 'cannot manage base shipment' do
+        user.update!(seller_id: nil)
+        expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
+      end
+    end
+
+    context 'when is rejected' do
+      it 'cannot manage his shipment' do
+        seller.update!(status: :rejected)
+        stock_location.update!(seller_id: seller.id)
         expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
       end
     end

@@ -7,10 +7,10 @@ RSpec.describe Spree::PermissionSets::SellerResources do
   subject(:ability) { Spree::Ability.new(user) }
 
   let(:price) { create(:price) }
-  let(:user) { nil }
 
   context 'when is a seller' do
     let(:seller) { create(:seller) }
+    let(:seller_price) { create(:price, seller: seller) }
     let(:user){ create(:seller_user, seller: seller ) }
 
     it 'cannot manage base price' do
@@ -24,13 +24,20 @@ RSpec.describe Spree::PermissionSets::SellerResources do
     end
 
     it 'can manage his price' do
-      price.update!(seller_id: seller.id)
-      expect(ability).to be_able_to([:create, :update, :destroy], price)
+      expect(ability).to be_able_to([:create, :update, :destroy], seller_price)
     end
 
     context 'without seller_id' do
       it 'cannot manage base price' do
+        user.update!(seller_id: nil)
         expect(ability).not_to be_able_to([:create, :update, :destroy], price)
+      end
+    end
+
+    context 'when is rejected' do
+      it 'cannot manage his price' do
+        seller.update!(status: :rejected)
+        expect(ability).not_to be_able_to([:create, :update, :destroy], seller_price)
       end
     end
   end

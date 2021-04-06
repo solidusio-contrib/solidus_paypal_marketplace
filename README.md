@@ -34,8 +34,19 @@ SolidusPaypalMarketplace.configure do |config|
 end
 ```
 
-Then go to the admin section and add your SolidusPaypalMarketplace Payment method.
-Be sure to select the static preference configured above
+Then go to the "Settings/Payments" section and click the "New Payment Method" button. Select `Paypal Marlketplace Platform` as payment type. After creation, set the credentials by selecting `paypal_marketplace_credentials` as "Preference Source".
+
+Sellers can be created in the "Sellers" section, a individual `percentage` value must be set in order to calulate the platform fee for each purchase.
+Click on the "Start Onboarding" button on the newly created seller to generate the `action_url` needed to perform his onboarding. This can be refreshed at any time if needed.
+
+Seller will be guided in the onboarding process on first login.
+To do that, be sure to create at least a user for each seller. The user will need to have the "seller" role and a seller selected from the dropdown menu.
+
+After user creation, seller will be notified of the possibility to login on the platform.
+The only action possible at this moment will be clicking a link to connect his PayPal Account. This will open a PayPal popup where insert PayPal credentials can be inserted or a new account can be created.
+When this is done, seller's status will be updated from `pending` either to `accepted` or `rejected`.
+According to this will or not be able to use the platfform.
+
 
 ## Development
 

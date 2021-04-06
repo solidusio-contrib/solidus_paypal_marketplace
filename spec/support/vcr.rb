@@ -21,3 +21,9 @@ VCR.configure do |config|
   record_mode = ENV.fetch('VCR_RECORD_MODE', :once).to_sym
   config.default_cassette_options = { record: record_mode }
 end
+
+RSpec.configure do |config|
+  config.around(:example, :vcr_off) do |e|
+    VCR.turned_off(&e)
+  end
+end

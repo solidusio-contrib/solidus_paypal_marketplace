@@ -14,6 +14,18 @@ FactoryBot.define do
     end
   end
 
+  factory :paypal_payment_method, class: 'SolidusPaypalMarketplace::PaymentMethod' do
+    type { "SolidusPaypalMarketplace::PaymentMethod" }
+    name { "PayPal Marketplace Payment Method" }
+    preferences {
+      {
+        client_id: SecureRandom.hex(8),
+        client_secret: SecureRandom.hex(10),
+        partner_code: SecureRandom.hex(6),
+      }
+    }
+  end
+
   factory :seller_user, parent: :user do
     transient do
       seller_role { Spree::Role.find_or_create_by!(name: 'seller') }

@@ -20,12 +20,20 @@ describe 'Sellers Offers', type: :feature do
       end
     end
 
-    describe 'creating a new offer' do
+    describe 'creating a new offer', js: true do
+      before do
+        allow(Spree.user_class).to(
+          receive(:find_by).with(hash_including(:spree_api_key))
+                           .and_return(user)
+        )
+      end
+
       it 'can save it' do
         variant = create(:variant)
         visit spree.new_admin_sellers_price_path
+        search = variant.descriptive_name.first(5)
+        targetted_select2_search search, from: "#s2id_price_variant_id"
         fill_in 'Price', with: 100
-        select variant.descriptive_name
         click_button('Create')
         expect(page).to have_content('Offer has been successfully created!')
       end

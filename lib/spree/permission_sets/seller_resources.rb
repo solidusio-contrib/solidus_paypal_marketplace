@@ -5,7 +5,7 @@ module Spree
     class SellerResources < PermissionSets::Base
       def activate!
         # NB: leaving this guard since seller presence is not validated yet for users with `seller` role
-        return unless user.seller_id
+        return unless user.seller_id && user.seller.accepted?
 
         can :manage, Spree::Price, seller_id: user.seller_id
         can :manage, Spree::Shipment, stock_location: { seller_id: user.seller_id }

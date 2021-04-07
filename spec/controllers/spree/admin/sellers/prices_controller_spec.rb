@@ -17,6 +17,11 @@ describe Spree::Admin::Sellers::PricesController, type: :controller do
       get :index
       expect(response).to have_http_status(:ok)
     end
+
+    it 'renders csv' do
+      get :index, format: :csv
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   describe '#new' do

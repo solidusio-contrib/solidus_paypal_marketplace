@@ -13,7 +13,6 @@
         <th><%= Spree::Variant.model_name.human %></th>
         <th></th>
         <th><%= Spree::Price.human_attribute_name(:sku) %></th>
-        <th><%= Spree::Price.human_attribute_name(:country) %></th>
         <th><%= Spree::Price.human_attribute_name(:amount) %></th>
         <th><%= Spree::Price.human_attribute_name(:seller_stock_availability)%></th>
       </tr>
@@ -26,7 +25,6 @@
               <%= render 'spree/admin/shared/image', image: price.product.gallery.images.first, size: :mini %>
           </td>
           <td><%= price.variant.sku %></td>
-          <td><%= price.display_country %></td>
           <td><%= price.display_price.to_html %></td>
           <td><%= price.seller_stock_availability %></td>
           <td class="actions" data-hook="admin_offers_index_row_actions">

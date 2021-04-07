@@ -4,6 +4,15 @@
   <li>
     <%= link_to "#{t('spree.new_offer')}", new_object_url, class: 'btn btn-primary' %>
   </li>
+  <li>
+    <%= link_to 'Download csv', spree.admin_sellers_prices_path(format: :csv), class: 'btn btn-info', target: :blank%>
+  </li>
+  <li>
+    <%= form_with url: spree.admin_sellers_prices_import_path  do |f_import| %>
+      <%= f_import.file_field :prices %>
+      <%= f_import.submit 'Upload csv' %>
+    <% end %>
+  </li>
 <% end %>
 
 <% if @collection.any? %>

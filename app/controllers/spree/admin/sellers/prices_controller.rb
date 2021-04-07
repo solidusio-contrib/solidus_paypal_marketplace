@@ -4,10 +4,12 @@ module Spree
   module Admin
     module Sellers
       class PricesController < Spree::Admin::Sellers::ResourceController
+        include Spree::Core::ControllerHelpers::Pricing
+
         def index
           session[:return_to] = request.url
           @search = @collection.ransack(params[:q])
-          @collection = @search.result.page(params[:page])
+          @collection = @search.result.currently_valid.page(params[:page])
           respond_with(@collection)
         end
 

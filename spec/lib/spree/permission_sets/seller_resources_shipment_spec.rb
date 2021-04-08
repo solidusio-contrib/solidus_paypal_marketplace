@@ -39,13 +39,6 @@ RSpec.describe Spree::PermissionSets::SellerResources do
       end
     end
 
-    context 'without seller_id' do
-      it 'cannot manage base shipment' do
-        user.update!(seller_id: nil)
-        expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
-      end
-    end
-
     context 'when is rejected' do
       it 'cannot manage his shipment' do
         seller.update!(status: :rejected)

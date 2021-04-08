@@ -27,13 +27,6 @@ RSpec.describe Spree::PermissionSets::SellerResources do
       expect(ability).to be_able_to([:create, :update, :destroy], seller_price)
     end
 
-    context 'without seller_id' do
-      it 'cannot manage base price' do
-        user.update!(seller_id: nil)
-        expect(ability).not_to be_able_to([:create, :update, :destroy], price)
-      end
-    end
-
     context 'when is rejected' do
       it 'cannot manage his price' do
         seller.update!(status: :rejected)

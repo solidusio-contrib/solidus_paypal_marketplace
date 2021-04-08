@@ -124,6 +124,33 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
           .from(false)
           .to(true)
       end
+
+      it 'create stock movement when stock availability is updated' do
+        current_availability = price.seller_stock_availability
+        expect { price.update(seller_stock_availability: current_availability + 10) }
+          .to change { Spree::StockMovement.count }.by(1)
+        movement = Spree::StockMovement.last
+        expect(movement.quantity).to eq(10)
+        expect(movement.stock_item).to eq(price.seller_stock_item)
+      end
+
+      it 'does not create stock movement when stock avaibility is not updated' do
+        current_availability = price.seller_stock_availability
+        current_amount = price.amount
+        expect { price.update(amount: current_amount + 10, seller_stock_availability: current_availability) }
+          .not_to(change { Spree::StockMovement.count })
+      end
+
+      it 'does not create stock movement when stock avaibility is created at 0' do
+        price.seller_stock_item.destroy!
+        expect { price.update(seller_stock_availability: 0) }
+          .not_to(change { Spree::StockMovement.count })
+      end
+
+      it 'raises an exception if new count is less than 0' do
+        expect { price.update(seller_stock_availability: -1) }
+          .to raise_exception(Spree::StockLocation::InvalidMovementError)
+      end
     end
   end
 end

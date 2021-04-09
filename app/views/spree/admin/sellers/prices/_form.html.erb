@@ -3,12 +3,7 @@
   <div data-hook="admin_offer_form_variant" class='col-sm-12'>
     <%= f.field_container :variant do %>
       <%= f.label :variant, class: 'required' %>
-      <%= f.select :variant_id,
-                    Spree::Variant.all.map { |v| [v.descriptive_name, v.id] },
-                    {},
-                    class: "custom-select fullwidth",
-                    disabled: !f.object.new_record?,
-                    required: true %>
+      <%= f.hidden_field :variant_id, class: "fullwidth variant_autocomplete", disabled: !f.object.new_record?, required: true %>
       <%= f.error_message_on :variant %>
     <% end %>
   </div>

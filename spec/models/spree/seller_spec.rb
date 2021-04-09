@@ -28,6 +28,14 @@ RSpec.describe Spree::Seller, type: :model do
       expect(seller.merchant_id).to be_present
     end
 
+    context 'when merchant id is present' do
+      let(:seller) { described_class.new(merchant_id: 'merchant-id') }
+
+      it 'does not override it' do
+        expect { seller.save }.not_to(change(seller, :merchant_id))
+      end
+    end
+
     it 'creates default stock location' do
       expect { seller }.to change(Spree::StockLocation, :count).from(0)
     end

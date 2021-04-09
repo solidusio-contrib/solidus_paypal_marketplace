@@ -29,7 +29,11 @@ module Spree
                              inverse_of: :seller
     has_many :stock_items, through: :stock_location
 
+    accepts_nested_attributes_for :users, reject_if: :all_blank
+
     before_validation :set_merchant_id, on: :create
+    before_validation :assign_seller_role_to_users, if: -> { users.present? },
+                                                    on: :create
 
     after_create_commit :create_default_stock_location!
 
@@ -50,6 +54,13 @@ module Spree
     end
 
     private
+
+    def assign_seller_role_to_users
+      role = Spree::Role.find_by!(name: 'seller')
+      users.each do |user|
+        user.spree_roles << role
+      end
+    end
 
     def create_default_stock_location!
       create_stock_location!(name: "#{name} - default", propagate_all_variants: false) if stock_location.nil?

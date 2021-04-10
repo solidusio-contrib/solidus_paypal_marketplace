@@ -43,6 +43,22 @@ RSpec.describe Spree::Seller, type: :model do
         expect { seller }.not_to change(Spree::StockLocation, :count).from(1)
       end
     end
+
+    context 'when users are present' do
+      let(:seller) { described_class.new }
+      let!(:role) { create(:role, name: 'seller') }
+
+      before do
+        seller.users.build
+        seller.save
+      end
+
+      it 'assign seller role to users before validation' do
+        seller.users.each do |user|
+          expect(user.spree_roles.uniq).to eq [role]
+        end
+      end
+    end
   end
 
   describe '#percentage' do

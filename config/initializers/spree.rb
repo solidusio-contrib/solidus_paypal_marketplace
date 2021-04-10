@@ -44,5 +44,5 @@ Spree::Backend::Config.configure do |config|
   )
 end
 
-Spree::PermittedAttributes.user_attributes.push :seller_id
 Spree::PermittedAttributes.line_item_attributes.push options: [:seller_id]
+Spree::PermittedAttributes.user_attributes.push :seller_id

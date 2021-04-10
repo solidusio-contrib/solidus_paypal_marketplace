@@ -1,0 +1,32 @@
+<div data-hook="admin_seller_form_users_fields">
+  <% user = @seller.users.first || @seller.users.new %>
+  <% user.valid? %>
+
+  <%= f.fields_for :users, user do |user_fields|%>
+
+    <div data-hook="admin_seller_form_users_email">
+      <%= f.field_container 'users.email' do %>
+        <%= user_fields.label :email %>
+        <%= user_fields.text_field :email, class: 'fullwidth title' %>
+        <%= f.error_message_on 'users.email' %>
+      <% end %>
+    </div>
+
+    <div data-hook="admin_seller_form_users_password">
+      <%= f.field_container 'users.password' do %>
+        <%= user_fields.label :password %>
+        <%= user_fields.password_field :password, class: 'fullwidth title' %>
+        <%= f.error_message_on 'users.password' %>
+      <% end %>
+    </div>
+
+    <div data-hook="admin_seller_form_users_password">
+      <%= f.field_container 'users.password_confirmation' do %>
+        <%= user_fields.label :password_confirmation %>
+        <%= user_fields.password_field :password_confirmation, class: 'fullwidth title' %>
+        <%= f.error_message_on 'users.password_confirmation' %>
+      <% end %>
+    </div>
+
+  <% end %>
+</div>

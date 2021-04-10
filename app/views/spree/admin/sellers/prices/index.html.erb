@@ -9,7 +9,7 @@
   </li>
   <li>
     <%= form_with url: spree.admin_sellers_prices_import_path  do |f_import| %>
-      <%= f_import.file_field :prices %>
+      <%= f_import.file_field :prices, class: 'btn' %>
       <%= f_import.submit 'Upload csv' %>
     <% end %>
   </li>

@@ -14,7 +14,18 @@ module Spree
             prices_scope: model_class.accessible_by(current_ability)
           )
           import = importer.import
-          redirect_to spree.admin_sellers_prices_path, notice: import.errors.join(', ')
+
+          info = I18n.t('solidus_paypal_marketplace.offer_importer.result')
+
+          if import.errors.any?
+            flash[:notice] = info + I18n.t(
+              'solidus_paypal_marketplace.offer_importer.result_with_error', errors: import.errors.join(', ')
+            )
+          else
+            flash[:success] = info
+          end
+
+          redirect_to spree.admin_sellers_prices_path
         end
 
         private

@@ -5,6 +5,6 @@ Spree.ready(function () {
   'use strict';
 
   if ($('#price_variant_id').length > 0) {
-    $('#price_variant_id').variantAutocomplete();
+    $('#price_variant_id').variantAutocomplete({ for_seller: true });
   }
 });

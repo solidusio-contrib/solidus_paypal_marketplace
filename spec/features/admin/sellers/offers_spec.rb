@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'spree/api/testing_support/helpers'
 
 describe 'Sellers Offers', type: :feature do
+  include Spree::Api::TestingSupport::Helpers
   include Warden::Test::Helpers
 
   context 'when logged as seller user' do
@@ -22,10 +24,7 @@ describe 'Sellers Offers', type: :feature do
 
     describe 'creating a new offer', js: true do
       before do
-        allow(Spree.user_class).to(
-          receive(:find_by).with(hash_including(:spree_api_key))
-                           .and_return(user)
-        )
+        stub_authentication!
       end
 
       it 'can save it' do

@@ -8,7 +8,11 @@ Spree.ready(function($) {
     var selectedRadio = $(
       '#product-variants-sellers input[type="radio"][checked="checked"]'
     );
-    const variantId = selectedRadio[0].value.split(" ")[0]
+    if (!selectedRadio.length) {
+      selectedRadio = radios;
+      $(selectedRadio[0]).prop('checked', true);
+    }
+    const variantId = selectedRadio[0].value.split(" ")[0];
     Spree.showVariantImages(variantId);
     Spree.updateVariantPrice(selectedRadio);
   }

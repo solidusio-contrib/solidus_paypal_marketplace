@@ -8,9 +8,9 @@
       <% if @product.variants_and_option_values_for(current_pricing_options).any? %>
         <h6 class="product-section-title"><%= "#{t('spree.variants')} #{t('spree.sellers')}" %></h6>
         <ul>
-          <% @product.variants_and_option_values_for(current_pricing_options).each.with_index do |variant, v_i| %>
+          <% @product.variants_and_option_values_for(current_pricing_options).each do |variant| %>
             <%= render partial: 'seller_prices_radios',
-                       locals: { variant: variant, is_first_variant: v_i == 0 } %>
+                       locals: { variant: variant } %>
           <% end %>
         </ul>
       <% elsif @product.price_for(current_pricing_options).present? %>

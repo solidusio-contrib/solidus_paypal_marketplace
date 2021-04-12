@@ -9,6 +9,8 @@ Spree.config do |config|
     'Spree::PermissionSets::SellerResources'
   ]
 
+  config.roles_for_auto_api_key << 'seller'
+
   config.variant_price_selector_class = Spree::Variant::SellersPriceSelector
   config.stock.coordinator_class = 'SolidusPaypalMarketplace::Stock::MarketplaceCoordinator'
 end

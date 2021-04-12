@@ -46,12 +46,11 @@ def create_seller_user
     puts "\nWARNING: There is already a user with the email: #{email}, so no account changes were made.\n\n"
   else
     seller_user = Spree.user_class.new(attributes)
+    role = Spree::Role.find_or_create_by(name: 'seller')
+    seller_user.spree_roles << role
+    seller_user.seller = Spree::Seller.first
+    seller_user.generate_spree_api_key unless seller_user.spree_api_key
     if seller_user.save
-      role = Spree::Role.find_or_create_by(name: 'seller')
-      seller_user.spree_roles << role
-      seller_user.seller = Spree::Seller.first
-      seller_user.save
-      seller_user.generate_spree_api_key!
       puts 'Done!'
     else
       puts "There were some problems with persisting a new seller user:"

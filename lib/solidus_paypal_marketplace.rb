@@ -6,6 +6,7 @@ require 'solidus_paypal_marketplace/configuration'
 require 'solidus_paypal_marketplace/version'
 require 'solidus_paypal_marketplace/client'
 require 'solidus_paypal_marketplace/engine'
+require 'solidus_paypal_marketplace/importer/price'
 require 'solidus_paypal_commerce_platform'
 
 module SolidusPaypalMarketplace

@@ -115,7 +115,7 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
 
       it 'can be set' do
         price.update(seller_stock_availability: 20)
-        expect(seller_stock_availability).to equal 20
+        expect(seller_stock_availability).to equal 20.0
       end
 
       it 'persists stock item when saved' do

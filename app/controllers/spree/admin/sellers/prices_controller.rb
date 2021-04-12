@@ -1,16 +1,27 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Spree
   module Admin
     module Sellers
       class PricesController < Spree::Admin::Sellers::ResourceController
         include Spree::Core::ControllerHelpers::Pricing
+        respond_to :html, :csv
 
         def index
           session[:return_to] = request.url
-          @search = @collection.ransack(params[:q])
-          @collection = @search.result.currently_valid.page(params[:page])
-          respond_with(@collection)
+          @collection = @collection.currently_valid
+                                   .where(currency: current_pricing_options.currency)
+          respond_to do |format|
+            format.html do
+              @search = @collection.ransack(params[:q])
+              @collection = @search.result.page(params[:page])
+            end
+            format.csv do
+              @collection = @collection.group_by(&:variant_id).map { |_k, v| v.first }
+            end
+          end
         end
 
         private

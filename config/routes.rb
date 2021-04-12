@@ -4,6 +4,7 @@ Spree::Core::Engine.routes.draw do
   namespace :admin do
     namespace :sellers do
       resources :prices, path: :offers
+      resource :prices_import, only: [:create]
       resources :shipments, only: [:index, :edit, :update] do
         member do
           get :accept

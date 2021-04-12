@@ -13,16 +13,6 @@ module AddSellerToPriceDecorator
     base.scope :with_seller, -> { where(seller_id: Spree::Seller.kept.ids) }
   end
 
-  def save_seller_stock_availability
-    if @seller_stock_availability < 0
-      raise Spree::StockLocation::InvalidMovementError, I18n.t('spree.api.stock_not_below_zero')
-    end
-
-    seller_stock_item.save if seller_stock_item.new_record?
-    quantity = @seller_stock_availability - seller_stock_availability
-    seller_stock_item.stock_movements.create!(quantity: quantity) if quantity != 0
-  end
-
   def seller_stock_item
     return nil if seller.blank?
 
@@ -30,6 +20,16 @@ module AddSellerToPriceDecorator
   end
 
   def seller_stock_availability
+    @seller_stock_availability ||= persisted_seller_stock_availability
+  end
+
+  def seller_stock_availability=(value)
+    @seller_stock_availability = value.to_f
+  end
+
+  private
+
+  def persisted_seller_stock_availability
     return nil if seller.blank?
 
     return 0 if seller_stock_item.blank?
@@ -37,8 +37,14 @@ module AddSellerToPriceDecorator
     seller_stock_item.count_on_hand
   end
 
-  def seller_stock_availability=(value)
-    @seller_stock_availability = value.to_f
+  def save_seller_stock_availability
+    if @seller_stock_availability < 0
+      raise Spree::StockLocation::InvalidMovementError, I18n.t('spree.api.stock_not_below_zero')
+    end
+
+    seller_stock_item.save if seller_stock_item.new_record?
+    quantity = @seller_stock_availability - persisted_seller_stock_availability
+    seller_stock_item.stock_movements.create!(quantity: quantity) if quantity != 0
   end
 
   Spree::Price.prepend self

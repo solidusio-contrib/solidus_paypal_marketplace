@@ -36,6 +36,9 @@ en:
         reject_failed: Payments could not be rejected
         ship_successfully: Shipment confirmed
         ship_failed: Shipment could not be confirmed
+    offer_importer:
+      result: Offer imported successfully.
+      result_with_error: 'With errors: %{errors}'
   spree:
     edit_offer: Edit Offer
     edit_seller: Edit Seller

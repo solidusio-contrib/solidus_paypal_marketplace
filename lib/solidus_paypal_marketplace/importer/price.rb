@@ -7,8 +7,9 @@ module SolidusPaypalMarketplace
     class Price
       attr_reader :errors, :prices
 
-      def initialize(currency:, file:, prices_scope:)
+      def initialize(currency:, file:, originator:, prices_scope:)
         @currency = currency
+        @originator = originator
         @prices_scope = prices_scope
         io = File.read(file)
         @csv_rows = CSV.parse(io, headers: true)
@@ -21,6 +22,7 @@ module SolidusPaypalMarketplace
       def import
         @prices.each do |price|
           @errors.concat(price.errors.full_messages) unless price.save
+          price.save_seller_stock_availability(originator: @originator)
         end
         self
       end

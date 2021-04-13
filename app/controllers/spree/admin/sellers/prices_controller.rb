@@ -9,6 +9,9 @@ module Spree
         include Spree::Core::ControllerHelpers::Pricing
         respond_to :html, :csv
 
+        after_action :save_seller_stock_availability, if: -> { permitted_resource_params[:seller_stock_availability] },
+                                                      only: [:create, :update]
+
         def index
           session[:return_to] = request.url
           @collection = @collection.currently_valid
@@ -34,6 +37,10 @@ module Spree
           super.tap do |price|
             price.seller_id = spree_current_user.seller_id
           end
+        end
+
+        def save_seller_stock_availability
+          @object.save_seller_stock_availability(originator: spree_current_user.seller)
         end
       end
     end

@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::Importer::Price do
-  subject(:price_importer) { described_class.new(currency: currency, file: file, prices_scope: prices_scope) }
+  subject(:price_importer) do
+    described_class.new(currency: currency, file: file, originator: seller, prices_scope: prices_scope)
+  end
 
   let(:currency) { 'USD' }
   let(:file) do
@@ -68,6 +70,14 @@ RSpec.describe SolidusPaypalMarketplace::Importer::Price do
         expect(stock_item.stock_location.seller).to eq(seller)
         expect(stock_item.variant).to eq(variant)
       end
+
+      it 'creates seller\'s stock movement' do
+        expect{ price_importer.import }.to change{ Spree::StockMovement.count }.by(1)
+        stock_movement = Spree::StockMovement.last
+        expect(stock_movement.quantity).to eq(100)
+        expect(stock_movement.originator).to eq(seller)
+        expect(stock_movement.stock_item.stock_location).to eq(seller.stock_location)
+      end
     end
 
     context 'when the price exists' do
@@ -90,6 +100,14 @@ RSpec.describe SolidusPaypalMarketplace::Importer::Price do
       it 'updates seller\'s stock item availability' do
         stock_item = create(:stock_item, stock_location: seller.stock_location, variant: variant)
         expect{ price_importer.import }.to change{ stock_item.reload.count_on_hand }.from(10).to(100)
+      end
+
+      it 'creates seller\'s stock movement' do
+        expect{ price_importer.import }.to change{ Spree::StockMovement.count }.by(1)
+        stock_movement = Spree::StockMovement.last
+        expect(stock_movement.quantity).to eq(100)
+        expect(stock_movement.originator).to eq(seller)
+        expect(stock_movement.stock_item.stock_location).to eq(seller.stock_location)
       end
     end
 

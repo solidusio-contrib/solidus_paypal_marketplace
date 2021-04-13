@@ -8,9 +8,17 @@ module AddSellerToPriceDecorator
     base.validates :seller, presence: true,
                             if: -> { @seller_stock_availability }
 
-    base.after_save :save_seller_stock_availability, if: -> { @seller_stock_availability }
-
     base.scope :with_seller, -> { where(seller_id: Spree::Seller.kept.ids) }
+  end
+
+  def save_seller_stock_availability(originator: nil)
+    if @seller_stock_availability < 0
+      raise Spree::StockLocation::InvalidMovementError, I18n.t('spree.api.stock_not_below_zero')
+    end
+
+    seller_stock_item.save if seller_stock_item.new_record?
+    quantity = @seller_stock_availability - persisted_seller_stock_availability
+    seller_stock_item.stock_movements.create!(quantity: quantity, originator: originator) if quantity != 0
   end
 
   def seller_stock_item
@@ -35,16 +43,6 @@ module AddSellerToPriceDecorator
     return 0 if seller_stock_item.blank?
 
     seller_stock_item.count_on_hand
-  end
-
-  def save_seller_stock_availability
-    if @seller_stock_availability < 0
-      raise Spree::StockLocation::InvalidMovementError, I18n.t('spree.api.stock_not_below_zero')
-    end
-
-    seller_stock_item.save if seller_stock_item.new_record?
-    quantity = @seller_stock_availability - persisted_seller_stock_availability
-    seller_stock_item.stock_movements.create!(quantity: quantity) if quantity != 0
   end
 
   Spree::Price.prepend self

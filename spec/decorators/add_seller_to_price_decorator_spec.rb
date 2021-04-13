@@ -118,38 +118,47 @@ RSpec.describe AddSellerToPriceDecorator, type: :model do
         expect(seller_stock_availability).to equal 20.0
       end
 
-      it 'persists stock item when saved' do
-        expect { price.update(seller_stock_availability: 20) }
-          .to change { price.seller_stock_item.persisted? }
-          .from(false)
-          .to(true)
-      end
+      describe '#save_seller_stock_availability' do
+        subject(:do_stock_update) { price.save_seller_stock_availability }
 
-      it 'create stock movement when stock availability is updated' do
-        current_availability = price.seller_stock_availability
-        expect { price.update(seller_stock_availability: current_availability + 10) }
-          .to change { Spree::StockMovement.count }.by(1)
-        movement = Spree::StockMovement.last
-        expect(movement.quantity).to eq(10)
-        expect(movement.stock_item).to eq(price.seller_stock_item)
-      end
+        it 'persists stock item when saved' do
+          price.update(seller_stock_availability: 20)
+          expect { do_stock_update }
+            .to change { price.seller_stock_item.persisted? }
+            .from(false)
+            .to(true)
+        end
 
-      it 'does not create stock movement when stock avaibility is not updated' do
-        current_availability = price.seller_stock_availability
-        current_amount = price.amount
-        expect { price.update(amount: current_amount + 10, seller_stock_availability: current_availability) }
-          .not_to(change { Spree::StockMovement.count })
-      end
+        it 'create stock movement when stock availability is updated' do
+          current_availability = price.seller_stock_availability
+          price.update(seller_stock_availability: current_availability + 10)
+          expect { do_stock_update }
+            .to change { Spree::StockMovement.count }.by(1)
+          movement = Spree::StockMovement.last
+          expect(movement.quantity).to eq(10)
+          expect(movement.stock_item).to eq(price.seller_stock_item)
+        end
 
-      it 'does not create stock movement when stock avaibility is created at 0' do
-        price.seller_stock_item.destroy!
-        expect { price.update(seller_stock_availability: 0) }
-          .not_to(change { Spree::StockMovement.count })
-      end
+        it 'does not create stock movement when stock avaibility is not updated' do
+          current_availability = price.seller_stock_availability
+          current_amount = price.amount
+          price.update(amount: current_amount + 10, seller_stock_availability: current_availability)
+          expect { do_stock_update }
+            .not_to(change { Spree::StockMovement.count })
+        end
 
-      it 'raises an exception if new count is less than 0' do
-        expect { price.update(seller_stock_availability: -1) }
-          .to raise_exception(Spree::StockLocation::InvalidMovementError)
+        it 'does not create stock movement when stock avaibility is created at 0' do
+          price.seller_stock_item.destroy!
+          price.update(seller_stock_availability: 0)
+          expect { do_stock_update }
+            .not_to(change { Spree::StockMovement.count })
+        end
+
+        it 'raises an exception if new count is less than 0' do
+          price.update(seller_stock_availability: -1)
+          expect { do_stock_update }
+            .to raise_exception(Spree::StockLocation::InvalidMovementError)
+        end
       end
     end
   end

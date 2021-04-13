@@ -2,7 +2,7 @@
 
 SolidusPaypalMarketplace.configure do |config|
   # TODO: Remember to change this with the actual preferences you have implemented!
-  # config.paypal_client_id = 'Paypal Client ID (eg: sb-user@business.example.com)'
-  # config.paypal_client_secret = 'Paypal Secret'
-  # config.partner_code = 'Paypal Partner Code'
+  # config.paypal_client_id = ENV.fetch('PAYPAL_CLIENT_ID')
+  # config.paypal_client_secret = ENV.fetch('PAYPAL_CLIENT_SECRET')
+  # config.partner_code = ENV.fetch('PAYPAL_PARTNER_CODE')
 end

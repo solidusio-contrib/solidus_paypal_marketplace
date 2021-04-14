@@ -50,7 +50,7 @@ According to this will or not be able to use the platfform.
 
 ## Development
 
-Step to test the seller onboarding process using localtunner.
+Step to test the seller onboarding process using localtunnel.
 
 1) npm install -g localtunnel
 2) lt --port 3000
@@ -97,6 +97,23 @@ $ bin/rails server
 => Rails 6.0.2.1 application starting in development
 * Listening on tcp://127.0.0.1:3000
 Use Ctrl-C to stop
+```
+
+### Preserving the seeds
+Seeds loader will search for a `DEFAULT_MERCHANT_ID` and `DEFAULT_MERCHANT_ID_IN_PAYPAL` env variables to load in the default seller,
+or even for an array of sellers data inside a `SELLER_SEEDS` env variable (this should be JSON encoded).
+This can help preserving sellers across sandbox resets.
+```
+# Default data
+
+DEFAULT_MERCHANT_ID=00000000-0000-0000-0000-000000000000
+DEFAULT_MERCHANT_ID_IN_PAYPAL=XXXXXXXXXXXXX
+
+# Custom data
+# NB: Seller JSON data is easy obtainable with a query like
+# `Spree::Seller.select(:name, :percentage, :merchant_id, :merchant_id_in_paypal).to_json`
+
+SELLER_SEEDS="[{\"name\":\"Seller A\",\"percentage\":10.0,\"merchant_id\":\"11111111-1111-1111-1111-111111111111\",\"merchant_id_in_paypal\":\"AAAAAAAAAAAAA\"},{\"name\":\"Seller B\",\"percentage\":20.0,\"merchant_id\":null,\"merchant_id_in_paypal\":null\}]"
 ```
 
 ### Updating the changelog

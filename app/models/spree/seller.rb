@@ -31,7 +31,8 @@ module Spree
 
     accepts_nested_attributes_for :users, reject_if: :all_blank
 
-    before_validation :set_merchant_id, on: :create
+    before_validation :set_merchant_id, if: -> { merchant_id.blank? },
+                                        on: :create
     before_validation :assign_seller_role_to_users, if: -> { users.present? },
                                                     on: :create
 

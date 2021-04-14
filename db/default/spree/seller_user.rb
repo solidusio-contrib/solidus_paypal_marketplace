@@ -42,7 +42,7 @@ def create_seller_user
     login: email
   }
 
-  if Spree::User.find_by(email: email)
+  if Spree.user_class.find_by(email: email)
     puts "\nWARNING: There is already a user with the email: #{email}, so no account changes were made.\n\n"
   else
     seller_user = Spree.user_class.new(attributes)

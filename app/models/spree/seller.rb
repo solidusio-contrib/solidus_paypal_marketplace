@@ -21,7 +21,7 @@ module Spree
     has_many :prices, class_name: 'Spree::Price',
                       dependent: :destroy
 
-    has_many :users, class_name: 'Spree::User',
+    has_many :users, class_name: Spree.instance_variable_get(:@user_class), # rubocop:disable Rails/ReflectionClassName
                      dependent: :destroy
 
     has_one :stock_location, class_name: 'Spree::StockLocation',

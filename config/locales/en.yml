@@ -29,6 +29,7 @@ en:
         seller_stock_availability: Stock availability
   solidus_paypal_marketplace:
     sellers:
+      contact_platform_owner: Contact the platform owner
       shipment_management:
         accept_successfully: Payments accepted
         accept_failed: Payments could not be accepted
@@ -47,6 +48,7 @@ en:
     offer: Offer
     offers: Offers
     sellers: Sellers
+    revoked: Revoked
     admin:
       tab:
         dashboard: Dashboard

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AddSellerToUserDecorator, type: :model do
-  let(:described_class) { Spree::User }
+  let(:described_class) { Spree.user_class }
 
   it do
     expect(described_class.new)

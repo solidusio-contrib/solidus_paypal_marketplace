@@ -54,6 +54,10 @@ module Spree
       refresh_action_url(return_url: return_url).tap { |action_url| update!(action_url: action_url) }
     end
 
+    def total_on_hand(variant)
+      Spree::Stock::Quantifier.new(variant, stock_location).total_on_hand
+    end
+
     private
 
     def assign_seller_role_to_users

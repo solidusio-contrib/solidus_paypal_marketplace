@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module AddSellerScopeToApiVariantsControllerDecorator
+  private
+
   def scope
     return super unless params[:for_seller]
 

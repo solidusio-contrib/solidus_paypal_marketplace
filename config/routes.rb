@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Spree::Core::Engine.routes.draw do
+  post :paypal_webhooks, to: 'paypal_webhooks#create'
   namespace :admin do
     namespace :sellers do
       resources :prices, path: :offers

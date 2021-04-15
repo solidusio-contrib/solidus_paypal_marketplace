@@ -9,7 +9,7 @@ module SolidusPaypalMarketplace
         end
 
         def call(*)
-          rails NotImplemented, 'Missing #call method on class'
+          raise NotImplementedError, 'Missing #call method on class'
         end
       end
     end

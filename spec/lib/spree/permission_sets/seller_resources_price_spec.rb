@@ -33,5 +33,12 @@ RSpec.describe Spree::PermissionSets::SellerResources do
         expect(ability).not_to be_able_to([:create, :update, :destroy], seller_price)
       end
     end
+
+    context 'when is revoked' do
+      it 'cannot manage his price' do
+        seller.update!(status: :revoked)
+        expect(ability).not_to be_able_to([:create, :update, :destroy], seller_price)
+      end
+    end
   end
 end

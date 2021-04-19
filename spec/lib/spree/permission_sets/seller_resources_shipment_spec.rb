@@ -46,5 +46,13 @@ RSpec.describe Spree::PermissionSets::SellerResources do
         expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
       end
     end
+
+    context 'when is revoked' do
+      it 'cannot manage his shipment' do
+        seller.update!(status: :revoked)
+        stock_location.update!(seller_id: seller.id)
+        expect(ability).not_to be_able_to([:create, :update, :destroy], shipment)
+      end
+    end
   end
 end

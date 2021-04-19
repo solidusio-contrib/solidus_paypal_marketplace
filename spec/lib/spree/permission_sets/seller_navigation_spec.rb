@@ -83,6 +83,22 @@ RSpec.describe Spree::PermissionSets::SellerNavigation do
           expect(ability).to be_able_to([:visit], page)
         end
       end
+
+      context "when the user has the seller role but the seller is in rejected state" do
+        let(:user) { create(:seller_user, seller: create(:seller, status: :rejected)) }
+
+        it "cannot visit #{page}" do
+          expect(ability).not_to be_able_to([:visit], page)
+        end
+      end
+
+      context "when the user has the seller role but the seller is in revoked state" do
+        let(:user) { create(:seller_user, seller: create(:seller, status: :revoked)) }
+
+        it "cannot visit #{page}" do
+          expect(ability).not_to be_able_to([:visit], page)
+        end
+      end
     end
   end
 end

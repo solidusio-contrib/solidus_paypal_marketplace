@@ -3,17 +3,17 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::Base do
-  subject(:do_call) { described_class.call(params) }
+  subject(:handler) { described_class.new({}) }
 
   it do
-    expect(described_class).to respond_to(:call).with_unlimited_arguments
+    expect(described_class).to respond_to(:call).with(1).arguments
   end
 
   it do
-    expect(described_class.new).to respond_to(:call).with_unlimited_arguments
+    expect(handler).to respond_to(:call).with(0).arguments
   end
 
   it do
-    expect { described_class.new.call }.to raise_exception(NotImplementedError)
+    expect { handler.call }.to raise_exception(NotImplementedError)
   end
 end

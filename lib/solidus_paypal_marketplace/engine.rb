@@ -11,6 +11,16 @@ module SolidusPaypalMarketplace
 
     engine_name 'solidus_paypal_marketplace'
 
+    initializer "solidus_paypal_marketplace.add_paypal_environment",
+      after: "solidus_paypal_marketplace.solidus_paypal_marketplace" do
+      environment_class = Rails.env.production? ? PayPal::LiveEnvironment : PayPal::SandboxEnvironment
+
+      SolidusPaypalMarketplace.config.paypal_environment = environment_class.new(
+        SolidusPaypalMarketplace.configuration.paypal_client_id,
+        SolidusPaypalMarketplace.configuration.paypal_client_secret
+      )
+    end
+
     initializer "solidus_paypal_marketplace.add_static_preference", after: "spree.register.payment_methods" do |app|
       Spree::Config.static_model_preferences.add(
         SolidusPaypalMarketplace::PaymentMethod,

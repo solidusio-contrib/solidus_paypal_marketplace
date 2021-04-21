@@ -13,6 +13,6 @@ module SolidusPaypalMarketplace
   module_function
 
   def client
-    @client ||= SolidusPaypalMarketplace::HTTPClient.new.client
+    @client ||= SolidusPaypalMarketplace::HTTPClient.new
   end
 end

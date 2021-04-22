@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - "<Authorization Code>"
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.5
+      Api-Integration-Type:
+      - PAYPALSDK
+      Paypal-Partner-Attribution-Id:
+      - FLAVORsb-i847sl5964514_MP
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
+        1.1.1d  10 Sep 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '77'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 21 Apr 2021 12:20:53 GMT
+      Paypal-Debug-Id:
+      - 7c08e17023e9c
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"error":"invalid_client","error_description":"Client Authentication
+        failed"}'
+  recorded_at: Wed, 21 Apr 2021 12:20:54 GMT
+recorded_with: VCR 6.0.0

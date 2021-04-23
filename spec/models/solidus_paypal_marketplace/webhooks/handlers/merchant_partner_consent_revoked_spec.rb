@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::MerchantPartnerConsentRevoked do
   subject(:handler) { described_class.new(params) }
 
-  let(:params) { { resource: { merchant_id: seller.merchant_id } } }
+  let(:params) { { resource: { merchant_id: seller.merchant_id_in_paypal } } }
   let(:seller) { create(:seller) }
 
   it do
@@ -28,7 +28,8 @@ RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::MerchantPartnerCons
     let(:errors) { OpenStruct.new(full_messages: ["generic error"]) }
 
     before do
-      allow(Spree::Seller).to receive(:find_by).with(merchant_id: seller.merchant_id).and_return(seller)
+      allow(Spree::Seller).to receive(:find_by).with(merchant_id_in_paypal: seller.merchant_id_in_paypal)
+                                               .and_return(seller)
       allow(seller).to receive(:update).and_return(false)
       allow(seller).to receive(:errors).and_return(errors)
     end

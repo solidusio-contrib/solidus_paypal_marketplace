@@ -57,9 +57,12 @@ RSpec.describe SolidusPaypalMarketplace::PaypalPartnerSdk do
         expect(generate_paypal_sign_up_link).to be_nil
 
         expect(rails_logger).to have_received(:error).with('status_code')
-        expect(rails_logger).to have_received(:error).with('paypal-debug-id')
-        expect(rails_logger).to have_received(:error).with('invalid_client')
-        expect(rails_logger).to have_received(:error).with('Client Authentication failed')
+        expect(rails_logger).to have_received(:error).with({ "paypal-debug-id" => "paypal-debug-id" })
+        expect(rails_logger).to have_received(:error).with(
+          OpenStruct.new(
+            error: "invalid_client", error_description: "Client Authentication failed"
+          )
+        )
       end
     end
   end

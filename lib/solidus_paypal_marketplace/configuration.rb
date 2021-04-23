@@ -2,7 +2,14 @@
 
 module SolidusPaypalMarketplace
   class Configuration
-    attr_accessor :paypal_client_id, :paypal_client_secret, :paypal_environment, :partner_code, :paypal_webhook_id
+    attr_accessor(
+      :paypal_client_id,
+      :paypal_client_secret,
+      :paypal_environment,
+      :partner_code,
+      :paypal_partner_id,
+      :paypal_webhook_id
+    )
   end
 
   class << self

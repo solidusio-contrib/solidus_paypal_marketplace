@@ -1,0 +1,97 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - "<Authorization Code>"
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.5
+      Api-Integration-Type:
+      - PAYPALSDK
+      Paypal-Partner-Attribution-Id:
+      - "<Paypal Partner Attribution Id>"
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
+        1.1.1d  10 Sep 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '1721'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 27 Apr 2021 13:52:19 GMT
+      Paypal-Debug-Id:
+      - 7b0f2adf12b2e
+      X-Paypal-Token-Service:
+      - IAAS
+    body:
+      encoding: UTF-8
+      string: '{"scope":"FILTERED"}'
+  recorded_at: Tue, 27 Apr 2021 13:52:19 GMT
+- request:
+    method: get
+    uri: https://api.sandbox.paypal.com/v1/customer/partners/filtered-id/merchant-integrations/filtered-id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - "<Authorization Code>"
+      Accept-Encoding:
+      - gzip
+      Sdk-Name:
+      - Checkout SDK
+      Sdk-Version:
+      - 1.0.3
+      Sdk-Tech-Stack:
+      - Ruby2.6.5
+      Api-Integration-Type:
+      - PAYPALSDK
+      Paypal-Partner-Attribution-Id:
+      - "<Paypal Partner Attribution Id>"
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
+        1.1.1d  10 Sep 2019)
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate
+      Content-Length:
+      - '763'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 27 Apr 2021 13:52:21 GMT
+      Paypal-Debug-Id:
+      - cf33c19f25fae
+    body:
+      encoding: UTF-8
+      string: '{"payments_receivable":true}'
+  recorded_at: Tue, 27 Apr 2021 13:52:21 GMT
+recorded_with: VCR 6.0.0

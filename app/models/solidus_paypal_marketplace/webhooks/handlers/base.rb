@@ -17,12 +17,6 @@ module SolidusPaypalMarketplace
         def call
           raise NotImplementedError, 'Missing #call method on class'
         end
-
-        private
-
-        def seller
-          Spree::Seller.find_by(merchant_id: params[:resource][:merchant_id])
-        end
       end
     end
   end

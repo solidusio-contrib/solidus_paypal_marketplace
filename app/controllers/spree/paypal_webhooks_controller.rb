@@ -5,11 +5,11 @@ module Spree
     skip_before_action :verify_authenticity_token
 
     def create
-      result = SolidusPaypalMarketplace::Webhooks::Sorter.call(params.permit!)
-      if result
-        render json: { result: result }, status: :ok
+      action = SolidusPaypalMarketplace::Webhooks::Sorter.call(params.permit!)
+      if action[:result] == true
+        render json: action, status: :ok
       else
-        render json: { result: result }, status: :bad_request
+        render json: action, status: :bad_request
       end
     end
   end

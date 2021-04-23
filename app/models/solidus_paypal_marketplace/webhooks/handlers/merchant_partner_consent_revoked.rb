@@ -5,7 +5,17 @@ module SolidusPaypalMarketplace
     module Handlers
       class MerchantPartnerConsentRevoked < Base
         def call
-          seller.update!(status: :revoked)
+          if seller.update(status: :revoked)
+            { result: true }
+          else
+            { result: false, errors: seller.errors.full_messages }
+          end
+        end
+
+        private
+
+        def seller
+          Spree::Seller.find_by(merchant_id: params[:resource][:merchant_id])
         end
       end
     end

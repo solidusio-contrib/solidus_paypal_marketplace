@@ -28,7 +28,7 @@ Some webhooks are needed to be enabled for the extension to work properly.
 Log in in your PayPal business account and edit your app.
 At the bottom of the form press the `Add Webhook` button.
 In the `Webhook URL field` insert the domain of your application, followed by `/paypal_webhooks` (eg: `https://myapp.com/paypal_webhooks`).
-Select `Merchant partner-consent revoked` from the checkboxes list and save.
+Select `Merchant onboarding completed` and `Merchant partner-consent revoked` from the checkboxes list and save.
 
 This will create a `Webhook Id` to be used in the configuration below, along with the app `Client ID`, `Secret` and `Partner Code`.
 
@@ -43,9 +43,18 @@ SolidusPaypalMarketplace.configure do |config|
   config.paypal_client_id = ENV.fetch('PAYPAL_CLIENT_ID')
   config.paypal_client_secret = ENV.fetch('PAYPAL_CLIENT_SECRET')
   config.partner_code = ENV.fetch('PAYPAL_PARTNER_CODE')
-  config.webhook_id = ENV.fetch('PAYPAL_WEBHOOK_ID')
+  config.paypal_partner_id = ENV.fetch('PAYPAL_PARTNER_ID')
+  config.paypal_webhook_id = ENV.fetch('PAYPAL_WEBHOOK_ID')
 end
 ```
+
+`Paypal Partner Id` and `Paypal Client Secret` can be found in the details of your approved partner app.
+
+`Paypal Partner Code` will be given to you on marketplace approval from Paypal.
+
+`Paypal Partner Id` is the `Account ID` found in the details of your Paypal approved partner account.
+
+`Paypal Webhook Id` will be found on the bottom of your approved partner app details.
 
 Then go to the "Settings/Payments" section and click the "New Payment Method" button. Select `Paypal Marlketplace Platform` as payment type. After creation, set the credentials by selecting `paypal_marketplace_credentials` as "Preference Source".
 

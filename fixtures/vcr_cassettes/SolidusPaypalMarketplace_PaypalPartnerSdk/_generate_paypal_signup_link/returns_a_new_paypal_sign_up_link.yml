@@ -22,7 +22,7 @@ http_interactions:
       Api-Integration-Type:
       - PAYPALSDK
       Paypal-Partner-Attribution-Id:
-      - FLAVORsb-i847sl5964514_MP
+      - "<Paypal Partner Attribution Id>"
       User-Agent:
       - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
         1.1.1d  10 Sep 2019)
@@ -40,28 +40,15 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 22 Apr 2021 08:36:40 GMT
+      - Tue, 27 Apr 2021 13:33:00 GMT
       Paypal-Debug-Id:
-      - adf6d24960cda
+      - f4fdee882dfe2
       X-Paypal-Token-Service:
       - IAAS
     body:
       encoding: UTF-8
-      string: '{"scope":"https://uri.paypal.com/services/customer/partner-referrals/readwrite
-        https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/vault/payment-tokens/read
-        https://uri.paypal.com/services/disputes/read-buyer https://uri.paypal.com/services/payments/realtimepayment
-        https://uri.paypal.com/services/customer/onboarding/user https://api.paypal.com/v1/vault/credit-card
-        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/payments/referenced-payouts-items/readwrite
-        https://uri.paypal.com/services/reporting/search/read https://uri.paypal.com/services/customer/partner
-        https://uri.paypal.com/services/vault/payment-tokens/readwrite https://uri.paypal.com/services/customer/merchant-integrations/read
-        https://uri.paypal.com/services/applications/webhooks https://uri.paypal.com/services/disputes/update-seller
-        https://uri.paypal.com/services/payments/payment/authcapture openid https://uri.paypal.com/services/disputes/read-seller
-        https://uri.paypal.com/services/payments/refund https://uri.paypal.com/services/risk/raas/transaction-context
-        https://uri.paypal.com/services/partners/merchant-accounts/readwrite https://uri.paypal.com/services/identity/grantdelegation
-        https://uri.paypal.com/services/customer/onboarding/account https://uri.paypal.com/payments/payouts
-        https://uri.paypal.com/services/customer/onboarding/sessions https://api.paypal.com/v1/vault/credit-card/.*
-        https://uri.paypal.com/services/subscriptions","access_token":"A21AAK-g-uylmKlGwei8sC-5bhjFhjrsNQtgb7VjOl4dwcOAQ1FW-Gs2wZdTaxW8HRsmzf4ECEtudvVaF2Yqtyuv6_P_kl90w","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":31858,"nonce":"2021-04-22T08:27:39ZoS1DXLcf06hjwXVXly8XAH7MlbkYPlZywVkvW4_7csU"}'
-  recorded_at: Thu, 22 Apr 2021 08:36:41 GMT
+      string: '{"scope":"FILTERED"}'
+  recorded_at: Tue, 27 Apr 2021 13:33:01 GMT
 - request:
     method: post
     uri: https://api.sandbox.paypal.com/v2/customer/partner-referrals
@@ -84,7 +71,7 @@ http_interactions:
       Api-Integration-Type:
       - PAYPALSDK
       Paypal-Partner-Attribution-Id:
-      - FLAVORsb-i847sl5964514_MP
+      - "<Paypal Partner Attribution Id>"
       User-Agent:
       - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
         1.1.1d  10 Sep 2019)
@@ -102,20 +89,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Thu, 22 Apr 2021 08:36:42 GMT
+      - Tue, 27 Apr 2021 13:45:14 GMT
       Etag:
-      - W/"27d-77IJi7czfuRvAL6QhvmgGCPOjZQ"
+      - W/"27d-fEAOtISp+7mvwOusuYgSwJlJKl8"
       Paypal-Debug-Id:
-      - 8ea9d62de0bbd
+      - 4ee2dd37ad10e
       Set-Cookie:
-      - ts=vreXpYrS%3D1713751378%26vteXpYrS%3D1619082401%26vt%3Df8b96179178ac1cd3c485956ffffdbb5%26vr%3Df8b96179178ac1cd3c485956ffffdbb4;
-        Domain=.paypal.com; Path=/; Expires=Mon, 22 Apr 2024 02:02:59 GMT; HttpOnly;
+      - ts=vreXpYrS%3D1714201891%26vteXpYrS%3D1619532914%26vt%3D1393a85d179ac1cd3bab6a83ffff958f%26vr%3D1393a85d179ac1cd3bab6a83ffff958e;
+        Domain=.paypal.com; Path=/; Expires=Sat, 27 Apr 2024 07:11:31 GMT; HttpOnly;
         Secure
     body:
       encoding: UTF-8
-      string: '{"links":[{"href":"https://api.sandbox.paypal.com/v2/customer/partner-referrals/YjAyOTcxMTEtZDY5Zi00ZGEzLThiMWYtNGZmYTU1MjI1NDMwelI4OHpvTUhmQnB1WlBUbUp4REJReHNjcW95c1NIdVZPek9ZSkxocjVZbz12Mg==","rel":"self","method":"GET","description":"Read
-        Referral Data shared by the Caller."},{"href":"https://www.sandbox.paypal.com/us/merchantsignup/partner/onboardingentry?token=YjAyOTcxMTEtZDY5Zi00ZGEzLThiMWYtNGZmYTU1MjI1NDMwelI4OHpvTUhmQnB1WlBUbUp4REJReHNjcW95c1NIdVZPek9ZSkxocjVZbz12Mg==","rel":"action_url","method":"GET","description":"Target
+      string: '{"links":[{"href":"https://api.sandbox.paypal.com/v2/customer/partner-referrals/OGJiYzA5MWYtZjFhOC00MWNjLThhMTktZDMwMmNkYTJhNWQ3YTNNRzBUS1V5cTZpbzhFQTgxakNiM1VCbjgxZThnV0lmWFZoVDVoUkdRZz12Mg==","rel":"self","method":"GET","description":"Read
+        Referral Data shared by the Caller."},{"href":"https://www.sandbox.paypal.com/us/merchantsignup/partner/onboardingentry?token=OGJiYzA5MWYtZjFhOC00MWNjLThhMTktZDMwMmNkYTJhNWQ3YTNNRzBUS1V5cTZpbzhFQTgxakNiM1VCbjgxZThnV0lmWFZoVDVoUkdRZz12Mg==","rel":"action_url","method":"GET","description":"Target
         WEB REDIRECT URL for the next action. Customer should be redirected to this
         URL in the browser."}]}'
-  recorded_at: Thu, 22 Apr 2021 08:36:42 GMT
+  recorded_at: Tue, 27 Apr 2021 13:45:14 GMT
 recorded_with: VCR 6.0.0

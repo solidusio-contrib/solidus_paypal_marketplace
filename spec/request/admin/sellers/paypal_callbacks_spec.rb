@@ -29,13 +29,9 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
     expect { do_request }.to change { seller.reload.merchant_id_in_paypal }.from(nil).to(merchant_id_in_paypal)
   end
 
-  it 'changes the seller status to accepted' do
-    expect { do_request }.to change { seller.reload.status }.from('pending').to('accepted')
-  end
-
   it 'shows the success message to the user' do
     do_request
-    expect(flash[:success]).to eq I18n.t('spree.admin.paypal_callbacks.account_connected')
+    expect(flash[:success]).to eq I18n.t('spree.admin.paypal_callbacks.waiting_webhook_confirmation')
   end
 
   it { is_expected.to redirect_to(:admin_sellers_dashboard) }

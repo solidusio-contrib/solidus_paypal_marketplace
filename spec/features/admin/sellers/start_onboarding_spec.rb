@@ -14,7 +14,7 @@ describe 'Sellers Offers', type: :feature do
       login_as user
     end
 
-    describe 'start the seller onboarding', :vcr do
+    describe 'start the seller onboarding', vcr: { tag: :paypal_api } do
       it 'update the action_url on the seller' do
         visit spree.edit_admin_seller_path(seller)
         expect(page).to have_link(I18n.t('spree.seller.start_onboarding'))

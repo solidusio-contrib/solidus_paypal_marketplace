@@ -18,14 +18,14 @@ http_interactions:
       Sdk-Version:
       - 1.0.3
       Sdk-Tech-Stack:
-      - Ruby2.7.1
+      - Ruby2.6.5
       Api-Integration-Type:
       - PAYPALSDK
       Paypal-Partner-Attribution-Id:
-      - Nebulab_PCP_2
+      - "<Paypal Partner Attribution Id>"
       User-Agent:
-      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.7.1p83-x86_64-darwin19;OpenSSL
-        1.1.1g  21 Apr 2020)
+      - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
+        1.1.1d  10 Sep 2019)
       Accept:
       - "*/*"
   response:
@@ -36,38 +36,25 @@ http_interactions:
       Cache-Control:
       - max-age=0, no-cache, no-store, must-revalidate
       Content-Length:
-      - '1737'
+      - '1721'
       Content-Type:
       - application/json
       Date:
-      - Mon, 15 Mar 2021 21:21:15 GMT
+      - Tue, 27 Apr 2021 13:45:01 GMT
       Paypal-Debug-Id:
-      - 14eb3590106ab
+      - 83b63ee633a8
       X-Paypal-Token-Service:
       - IAAS
     body:
       encoding: UTF-8
-      string: '{"scope":"https://uri.paypal.com/services/customer/partner-referrals/readwrite
-        https://uri.paypal.com/services/invoicing https://uri.paypal.com/services/vault/payment-tokens/read
-        https://uri.paypal.com/services/disputes/read-buyer https://uri.paypal.com/services/payments/realtimepayment
-        https://uri.paypal.com/services/customer/onboarding/user https://api.paypal.com/v1/vault/credit-card
-        https://api.paypal.com/v1/payments/.* https://uri.paypal.com/services/payments/referenced-payouts-items/readwrite
-        https://uri.paypal.com/services/reporting/search/read https://uri.paypal.com/services/customer/partner
-        https://uri.paypal.com/services/vault/payment-tokens/readwrite https://uri.paypal.com/services/customer/merchant-integrations/read
-        https://uri.paypal.com/services/applications/webhooks https://uri.paypal.com/services/disputes/update-seller
-        https://uri.paypal.com/services/payments/payment/authcapture openid Braintree:Vault
-        https://uri.paypal.com/services/disputes/read-seller https://uri.paypal.com/services/payments/refund
-        https://uri.paypal.com/services/risk/raas/transaction-context https://uri.paypal.com/services/partners/merchant-accounts/readwrite
-        https://uri.paypal.com/services/identity/grantdelegation https://uri.paypal.com/services/customer/onboarding/account
-        https://uri.paypal.com/payments/payouts https://uri.paypal.com/services/customer/onboarding/sessions
-        https://api.paypal.com/v1/vault/credit-card/.* https://uri.paypal.com/services/subscriptions","access_token":"A21AAJ4Fbo-kzLt0K2f90g51EQzMYrMbWH38zNj5qg8WkAzb3-8PJ_6QyUpHPCyAF7-t9XQXMLQO1c2t-1S9P6kn2nQ1OAzRA","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32190,"nonce":"2021-03-15T21:17:45ZbmN_7Y8p0t1Z7qUO4yu9-sNwJKMcdnr-spUPg-IUvJo"}'
-  recorded_at: Mon, 15 Mar 2021 21:21:15 GMT
+      string: '{"scope":"FILTERED"}'
+  recorded_at: Tue, 27 Apr 2021 13:45:02 GMT
 - request:
     method: post
     uri: https://api.sandbox.paypal.com/v2/customer/partner-referrals
     body:
       encoding: UTF-8
-      string: '{"operations":[{"operation":"API_INTEGRATION","api_integration_preference":{"rest_api_integration":{"integration_method":"PAYPAL","integration_type":"THIRD_PARTY","third_party_details":{"features":["PAYMENT","REFUND","PARTNER_FEE"]}}}}],"products":["EXPRESS_CHECKOUT"],"legal_consents":[{"type":"SHARE_DATA_CONSENT","granted":true}],"tracking_id":"1cb98e04-dcec-430a-afda-594a4dfda97e","partner_config_override":{"return_url":"http://www.example.com/admin/sellers/paypal_callbacks"}}'
+      string: '{"operations":[{"operation":"API_INTEGRATION","api_integration_preference":{"rest_api_integration":{"integration_method":"PAYPAL","integration_type":"THIRD_PARTY","third_party_details":{"features":["PAYMENT","REFUND","PARTNER_FEE"]}}}}],"products":["EXPRESS_CHECKOUT"],"legal_consents":[{"type":"SHARE_DATA_CONSENT","granted":true}],"tracking_id":"de024825-a35c-4d4f-bdd4-bd892107b038","partner_config_override":{"return_url":"http://www.example.com/admin/sellers/dashboard"}}'
     headers:
       Content-Type:
       - application/json
@@ -84,7 +71,7 @@ http_interactions:
       Api-Integration-Type:
       - PAYPALSDK
       Paypal-Partner-Attribution-Id:
-      - paypal-partner-code
+      - "<Paypal Partner Attribution Id>"
       User-Agent:
       - PayPalSDK/rest-sdk-ruby 1.0.3 (paypal-checkout-sdk 1.0.3; ruby 2.6.5p114-x86_64-linux;OpenSSL
         1.1.1d  10 Sep 2019)
@@ -102,20 +89,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Thu, 22 Apr 2021 08:37:07 GMT
+      - Tue, 27 Apr 2021 13:45:03 GMT
       Etag:
-      - W/"27d-FuULYqsa9cp66gnoDxw8iIdKUDg"
+      - W/"27d-4A2hxqRiaDwCqB84netswEgCIRM"
       Paypal-Debug-Id:
-      - 644ad703cc373
+      - 81ce813bf0fb5
       Set-Cookie:
-      - ts=vreXpYrS%3D1713751404%26vteXpYrS%3D1619082427%26vt%3Df8b9c372178ac1cbecb90e6dffffe07f%26vr%3Df8b9c372178ac1cbecb90e6dffffe07e;
-        Domain=.paypal.com; Path=/; Expires=Mon, 22 Apr 2024 02:03:24 GMT; HttpOnly;
+      - ts=vreXpYrS%3D1714201880%26vteXpYrS%3D1619532903%26vt%3D13937c78179ac1c41e2b4327ffffca77%26vr%3D13937c78179ac1c41e2b4327ffffca76;
+        Domain=.paypal.com; Path=/; Expires=Sat, 27 Apr 2024 07:11:20 GMT; HttpOnly;
         Secure
     body:
       encoding: UTF-8
-      string: '{"links":[{"href":"https://api.sandbox.paypal.com/v2/customer/partner-referrals/ODQyNGE5MDAtNGQxMy00MjgyLThjZWUtYjVkNWU0MDc1NWZmZ1N1Ull3MWpEUlI3TDdmL25kVHgrMk5FbDdHa0lGR042RExLdXlNeitZbz12Mg==","rel":"self","method":"GET","description":"Read
-        Referral Data shared by the Caller."},{"href":"https://www.sandbox.paypal.com/us/merchantsignup/partner/onboardingentry?token=ODQyNGE5MDAtNGQxMy00MjgyLThjZWUtYjVkNWU0MDc1NWZmZ1N1Ull3MWpEUlI3TDdmL25kVHgrMk5FbDdHa0lGR042RExLdXlNeitZbz12Mg==","rel":"action_url","method":"GET","description":"Target
+      string: '{"links":[{"href":"https://api.sandbox.paypal.com/v2/customer/partner-referrals/YWJjOWM3MzQtZWQzNC00N2JjLTg1ODYtZDdlNzQ2MGJmZTQ1SG5wa1VnYzhta2Nhc1gzVmdZNFQvYUxKejJJbGJRVkdyWWg1VE1nYnMybz12Mg==","rel":"self","method":"GET","description":"Read
+        Referral Data shared by the Caller."},{"href":"https://www.sandbox.paypal.com/us/merchantsignup/partner/onboardingentry?token=YWJjOWM3MzQtZWQzNC00N2JjLTg1ODYtZDdlNzQ2MGJmZTQ1SG5wa1VnYzhta2Nhc1gzVmdZNFQvYUxKejJJbGJRVkdyWWg1VE1nYnMybz12Mg==","rel":"action_url","method":"GET","description":"Target
         WEB REDIRECT URL for the next action. Customer should be redirected to this
         URL in the browser."}]}'
-  recorded_at: Thu, 22 Apr 2021 08:37:07 GMT
+  recorded_at: Tue, 27 Apr 2021 13:45:03 GMT
 recorded_with: VCR 6.0.0

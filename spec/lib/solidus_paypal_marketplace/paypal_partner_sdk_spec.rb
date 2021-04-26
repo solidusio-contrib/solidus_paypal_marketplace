@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::PaypalPartnerSdk do
-  describe '#generate_paypal_signup_link', :vcr do
+  describe '#generate_paypal_signup_link', vcr: { tag: :paypal_api } do
     subject(:generate_paypal_sign_up_link) { described_class.generate_paypal_sign_up_link }
 
     it 'returns a new paypal sign up link' do

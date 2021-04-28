@@ -2,6 +2,7 @@
 
 require 'solidus_paypal_marketplace/paypal_partner_sdk/create_partner_referral'
 require 'solidus_paypal_marketplace/paypal_partner_sdk/show_seller_status'
+require 'solidus_paypal_marketplace/paypal_partner_sdk/webhook_verify'
 
 module SolidusPaypalMarketplace
   module PaypalPartnerSdk
@@ -21,6 +22,18 @@ module SolidusPaypalMarketplace
       return unless response
 
       response.result
+    end
+
+    def webhook_verify(headers, params)
+      request = ::SolidusPaypalMarketplace::PaypalPartnerSdk::WebhookVerify.new(
+        headers: headers,
+        params: params
+      )
+      response = SolidusPaypalMarketplace::PaypalPartnerSdk.execute(request)
+      return false unless response&.status_code == '200'
+
+      data = JSON.parse(response.body)
+      data['verification_status'] == "SUCCESS"
     end
 
     def execute(request)

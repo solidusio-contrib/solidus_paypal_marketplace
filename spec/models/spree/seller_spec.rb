@@ -6,12 +6,22 @@ RSpec.describe Spree::Seller, type: :model do
   subject(:seller) { create(:seller) }
 
   it { is_expected.to be_kind_of(Spree::SoftDeletable) }
-  it { is_expected.to define_enum_for(:status).with_values(pending: 0, accepted: 1, rejected: 2, revoked: 3) }
   it { is_expected.to have_many(:users).dependent(:destroy) }
   it { is_expected.to have_many(:prices).dependent(:destroy) }
   it { is_expected.to have_one(:stock_location).dependent(:destroy) }
   it { is_expected.to have_many(:stock_items).through(:stock_location) }
   it { is_expected.to respond_to(:can_supply?).with(1..2).arguments }
+
+  it do
+    expect(described_class.new).to define_enum_for(:status).with_values(
+      pending: 0,
+      accepted: 1,
+      rejected: 2,
+      revoked: 3,
+      require_paypal_verification: 4,
+      waiting_paypal_confirmation: 5
+    )
+  end
 
   it do
     expect(described_class.new).to define_enum_for(:risk_status).with_values(

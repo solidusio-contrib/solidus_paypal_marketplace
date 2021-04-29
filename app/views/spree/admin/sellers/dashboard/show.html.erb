@@ -1,27 +1,32 @@
-<% if @seller.pending? %>
-  <% content_for :page_actions do %>
+<% content_for :page_actions do %>
+  <% if @seller.pending? && @seller.action_url.present? %>
     <li>
-      <% if @seller.action_url.present? %>
-        <%= render 'paypal_onboarding_link' %>
-      <% else %>
-        <span class="text-danger">
-          <%= t('solidus_paypal_marketplace.sellers.contact_platform_owner') %>
-        </span>
-      <% end %>
+      <%= render 'paypal_onboarding_link' %>
+    </li>
+  <% elsif @seller.pending? || @seller.require_paypal_verification? %>
+    <li>
+      <span class="text-danger">
+        <%= t('solidus_paypal_marketplace.sellers.contact_platform_owner') %>
+      </span>
     </li>
   <% end %>
 <% end %>
 <div class="align-center"">
   <h2>
     <%= @seller.name %>
-  <h2>
-  <% badge_class = case @seller.status %>
-  <% when 'pending'; 'warning' %>
-  <% when 'accepted'; 'success' %>
-  <% else; 'danger' %>
-  <% end %>
-  <span class="badge badge-<%= "#{badge_class}" %>">
-    <%= "#{t("spree.#{@seller.status}")}" %>
-  </span>
+    <% badge_class = case @seller.status %>
+    <% when 'pending'; 'warning' %>
+    <% when 'accepted'; 'success' %>
+    <% else; 'danger' %>
+    <% end %>
+    <span class="badge badge-<%= "#{badge_class}" %>">
+      <%= "#{t("spree.seller.statuses.#{@seller.status}")}" %>
+    </span>
+  </h2>
+  <% if @seller.waiting_paypal_confirmation? %>
+    <small>
+      Not what you expected? Try <%= link_to 'reloading', request.url %> the page!
+    </small>
+  <%end%>
 </div>
 

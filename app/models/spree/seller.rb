@@ -8,7 +8,9 @@ module Spree
       pending: 0,
       accepted: 1,
       rejected: 2,
-      revoked: 3
+      revoked: 3,
+      require_paypal_verification: 4,
+      waiting_paypal_confirmation: 5
     }
 
     enum risk_status: {

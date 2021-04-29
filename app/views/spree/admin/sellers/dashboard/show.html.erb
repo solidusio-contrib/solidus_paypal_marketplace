@@ -20,11 +20,13 @@
     <% else; 'danger' %>
     <% end %>
     <span class="badge badge-<%= "#{badge_class}" %>">
-      <%= "#{t("spree.#{@seller.status}")}" %>
+      <%= "#{t("spree.seller.statuses.#{@seller.status}")}" %>
     </span>
   </h2>
-  <small>
-    Not what you expected? Try <%= link_to 'reloading', request.url %> the page!
-  </small>
+  <% if @seller.waiting_paypal_confirmation? %>
+    <small>
+      Not what you expected? Try <%= link_to 'reloading', request.url %> the page!
+    </small>
+  <%end%>
 </div>
 

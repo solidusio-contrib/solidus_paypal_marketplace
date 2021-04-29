@@ -14,7 +14,10 @@ module Spree
           if current_spree_user.seller == @seller
             if params[:permissionsGranted] == 'true'
               if @seller.pending?
-                @seller.update(merchant_id_in_paypal: params[:merchantIdInPayPal])
+                @seller.update(
+                  merchant_id_in_paypal: params[:merchantIdInPayPal],
+                  status: :waiting_paypal_confirmation
+                )
 
                 flash[:success] = I18n.t('spree.admin.paypal_callbacks.waiting_webhook_confirmation')
               else

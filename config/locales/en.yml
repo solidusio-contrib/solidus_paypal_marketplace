@@ -48,8 +48,6 @@ en:
     offer: Offer
     offers: Offers
     sellers: Sellers
-    revoked: Revoked
-    require_paypal_verification: Require Paypal Verification
     admin:
       tab:
         dashboard: Dashboard
@@ -68,3 +66,10 @@ en:
       start_onboarding_failed: Impossible to update the action_url. Please check the log
       paypal_account_not_connected: PayPal Account not connected.
       link_paypal_account: Link your PayPal Account
+      statuses:
+        pending: Pending
+        accepted: Accepted
+        rejected: Rejected
+        revoked: Revoked
+        require_paypal_verification: Require Paypal Verification
+        waiting_paypal_confirmation: Waiting Paypal Confirmation

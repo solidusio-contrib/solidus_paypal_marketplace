@@ -14,6 +14,9 @@ gem 'rails', '>0.a'
 # Provides basic authentication functionality for testing parts of your engine
 gem 'solidus_auth_devise'
 
+# Provides basic PayPal integration
+gem 'solidus_paypal_commerce_platform'
+
 case ENV['DB']
 when 'mysql'
   gem 'mysql2'

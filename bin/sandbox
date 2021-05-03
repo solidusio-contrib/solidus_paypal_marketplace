@@ -54,6 +54,7 @@ gem 'solidus_auth_devise', '>= 2.1.0'
 gem 'rails-i18n'
 gem 'solidus_i18n'
 
+gem 'solidus_paypal_commerce_platform'
 gem '$extension_name', path: '..'
 
 group :test, :development do

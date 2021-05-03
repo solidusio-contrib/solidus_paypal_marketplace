@@ -3,9 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::MerchantPartnerConsentRevoked do
-  subject(:handler) { described_class.new(params) }
+  subject(:handler) { described_class.new(context) }
 
-  let(:params) { { "merchant_id" => seller.merchant_id_in_paypal } }
+  let(:context) { OpenStruct.new(params: params) }
+  let(:params) { { resource: { "merchant_id" => seller.merchant_id_in_paypal } } }
   let(:seller) { create(:seller, merchant_id_in_paypal: 'merchant-id') }
 
   it do

@@ -3,10 +3,22 @@
     <li>
       <%= render 'paypal_onboarding_link' %>
     </li>
-  <% elsif @seller.pending? || @seller.require_paypal_verification? %>
+  <% elsif @seller.pending? %>
     <li>
       <span class="text-danger">
         <%= t('solidus_paypal_marketplace.sellers.contact_platform_owner') %>
+      </span>
+    </li>
+  <% elsif @seller.require_paypal_verification? %>
+    <li>
+      <span class="text-danger">
+        <%= t('solidus_paypal_marketplace.sellers.contact_paypal') %>
+      </span>
+    </li>
+  <% elsif local_assigns[:unconfirmed_primary_email] %>
+    <li>
+      <span class="text-danger">
+        <%= t('solidus_paypal_marketplace.sellers.confirm_paypal_primary_email') %>
       </span>
     </li>
   <% end %>
@@ -15,7 +27,7 @@
   <h2>
     <%= @seller.name %>
     <% badge_class = case @seller.status %>
-    <% when 'pending'; 'warning' %>
+    <% when 'pending', 'waiting_paypal_confirmation'; 'warning' %>
     <% when 'accepted'; 'success' %>
     <% else; 'danger' %>
     <% end %>
@@ -23,9 +35,11 @@
       <%= "#{t("spree.seller.statuses.#{@seller.status}")}" %>
     </span>
   </h2>
-  <% if @seller.waiting_paypal_confirmation? %>
+  <% if @seller.waiting_paypal_confirmation? || @seller.require_paypal_verification? %>
     <small>
-      Not what you expected? Try <%= link_to 'reloading', request.url %> the page!
+      Not what you expected? Try
+      <%= link_to 'refrehing', admin_sellers_dashboard_path(refresh_seller_status: true) %>
+      your PayPal integration!
     </small>
   <%end%>
 </div>

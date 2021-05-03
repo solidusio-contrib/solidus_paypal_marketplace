@@ -15,7 +15,7 @@ module SolidusPaypalMarketplace
         private
 
         def seller
-          Spree::Seller.find_by!(merchant_id_in_paypal: params["merchant_id"])
+          Spree::Seller.find_by!(merchant_id_in_paypal: resource["merchant_id"])
         end
       end
     end

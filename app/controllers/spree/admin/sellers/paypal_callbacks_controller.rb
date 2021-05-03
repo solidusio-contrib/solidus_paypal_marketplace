@@ -10,6 +10,7 @@ module Spree
           authorize! :visit, :paypal_callbacks
 
           @seller = Spree::Seller.find_by!(merchant_id: params[:merchantId])
+          redirect_params = {}
 
           if current_spree_user.seller == @seller
             if params[:permissionsGranted] == 'true'
@@ -18,7 +19,7 @@ module Spree
                   merchant_id_in_paypal: params[:merchantIdInPayPal],
                   status: :waiting_paypal_confirmation
                 )
-
+                redirect_params = { refresh_seller_status: true }
                 flash[:success] = I18n.t('spree.admin.paypal_callbacks.waiting_webhook_confirmation')
               else
                 flash[:error] = I18n.t('spree.admin.paypal_callbacks.seller_already_processed')
@@ -31,7 +32,7 @@ module Spree
             flash[:error] = I18n.t('spree.admin.paypal_callbacks.sign_up_link_not_related')
           end
 
-          redirect_to admin_sellers_dashboard_path
+          redirect_to admin_sellers_dashboard_path(redirect_params)
         end
       end
     end

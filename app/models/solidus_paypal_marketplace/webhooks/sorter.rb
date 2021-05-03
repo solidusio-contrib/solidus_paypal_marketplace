@@ -3,26 +3,29 @@
 module SolidusPaypalMarketplace
   module Webhooks
     class Sorter
-      def self.call(params)
-        new(params).call
+      def self.call(context)
+        new(context).call
       end
 
-      def initialize(params)
-        @event = params[:event_type]
-        @resource = params[:resource]
+      def initialize(context)
+        @context = context
       end
 
       def call
-        handler.call(@resource)
+        handler.call(@context)
       end
 
       private
 
       def handler
-        class_name = @event.split(/[.-]/)
-                           .map(&:capitalize)
-                           .join
+        class_name = event_type.split(/[.-]/)
+                               .map(&:capitalize)
+                               .join
         SolidusPaypalMarketplace::Webhooks::Handlers.const_get(class_name)
+      end
+
+      def event_type
+        @context.params[:event_type]
       end
     end
   end

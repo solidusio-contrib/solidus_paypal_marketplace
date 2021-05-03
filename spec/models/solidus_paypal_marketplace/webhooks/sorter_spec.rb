@@ -3,10 +3,11 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::Webhooks::Sorter do
-  subject(:do_call) { described_class.call(params) }
+  subject(:do_call) { described_class.call(context) }
 
-  let(:params) { { event_type: event_type, resource: {} } }
+  let(:context) { OpenStruct.new(params: params) }
   let(:event_type) { 'EVENT.TYPE' }
+  let(:params) { { event_type: event_type, resource: {} } }
 
   it do
     expect(described_class).to respond_to(:new).with(1).arguments

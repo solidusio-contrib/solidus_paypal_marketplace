@@ -29,6 +29,8 @@ en:
         seller_stock_availability: Stock availability
   solidus_paypal_marketplace:
     sellers:
+      confirm_paypal_primary_email: Confirm your Paypal primary email
+      contact_paypal: Contact PayPal
       contact_platform_owner: Contact the platform owner
       shipment_management:
         accept_successfully: Payments accepted

@@ -5,8 +5,11 @@ module SolidusPaypalMarketplace
     module Handlers
       class MerchantOnboardingCompleted < Base
         def call
-          status = seller_status["payments_receivable"] ? :accepted : :require_paypal_verification
-          if seller.update(status: status)
+          refreshed_seller = SolidusPaypalMarketplace::Sellers::StatusRefresh.call(
+            seller,
+            return_url: @context.admin_sellers_paypal_callbacks_url
+          ).seller
+          if refreshed_seller.save
             { result: true }
           else
             { result: false, errors: seller.errors.full_messages }
@@ -22,7 +25,7 @@ module SolidusPaypalMarketplace
         end
 
         def merchant_id
-          params["merchant_id"]
+          resource["merchant_id"]
         end
 
         def seller

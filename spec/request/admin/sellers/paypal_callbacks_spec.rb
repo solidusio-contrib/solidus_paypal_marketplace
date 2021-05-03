@@ -38,7 +38,7 @@ RSpec.describe '/admin/sellers/paypal_callbacks', type: :request do
     expect(flash[:success]).to eq I18n.t('spree.admin.paypal_callbacks.waiting_webhook_confirmation')
   end
 
-  it { is_expected.to redirect_to(:admin_sellers_dashboard) }
+  it { is_expected.to redirect_to('http://www.example.com/admin/sellers/dashboard?refresh_seller_status=true') }
 
   context 'when seller is not in pending state' do
     let(:seller) { create(:seller, merchant_id: merchant_id) }

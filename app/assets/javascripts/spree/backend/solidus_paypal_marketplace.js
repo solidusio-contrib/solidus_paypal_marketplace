@@ -3,8 +3,17 @@
 
 Spree.ready(function () {
   'use strict';
-
-  if ($('#price_variant_id').length > 0) {
-    $('#price_variant_id').variantAutocomplete({ for_seller: true });
+  let $variantSelect = $('#price_variant_id')
+  if ($variantSelect.length > 0) {
+    let $amount = $('#price_amount');
+    let $sellerStockAvailability = $('#price_seller_stock_availability');
+    $variantSelect.variantAutocomplete({ for_seller: true });
+    $variantSelect.on("change", function (event) {
+      console.log(event.added.price)
+      if (event.added.price != null) {
+        $amount.val(event.added.price);
+        $sellerStockAvailability.val(event.added.current_seller_on_hand)
+      }
+    });
   }
 });

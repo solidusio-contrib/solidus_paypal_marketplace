@@ -5,15 +5,21 @@ require 'spec_helper'
 RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
   subject(:seller_price_selector) { described_class.new(variant) }
 
-  let!(:price) {
+  let!(:price) do
     Spree::Price.find_or_create_by!(amount: 15,
                                     country: country,
                                     currency: pricing_options.currency,
                                     seller: seller,
                                     variant: variant)
-  }
+  end
+
+  let(:pricing_options) do
+    described_class.pricing_options_class.new(currency: 'USD',
+                                              country_iso: country.iso,
+                                              seller_id: seller.id)
+  end
+
   let(:country) { create(:country) }
-  let(:pricing_options) { described_class.pricing_options_class.new(currency: 'USD', country_iso: country.iso) }
   let(:seller) { create(:seller) }
   let(:variant) { create(:variant) }
 
@@ -71,6 +77,15 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
     it 'does not return platform owner prices' do
       price.update!(seller: nil)
       expect(price_for).to be_nil
+    end
+
+    context 'when pricing options\' seller_id is blank' do
+      let(:pricing_options) { described_class.pricing_options_class.new(currency: 'USD', country_iso: country.iso) }
+
+      it 'returns platform owner price' do
+        price.update!(seller: nil)
+        expect(price_for).to eq(price.money)
+      end
     end
   end
 

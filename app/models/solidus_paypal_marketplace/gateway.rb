@@ -27,7 +27,10 @@ module SolidusPaypalMarketplace
 
       response = @client.execute_with_response(request)
       if response.success?
-        source.update(capture_id: response.params["result"].id)
+        source.update(
+          capture_id: response.params["result"].id,
+          response_status: response.params["result"].status.downcase
+        )
       end
       response
     end

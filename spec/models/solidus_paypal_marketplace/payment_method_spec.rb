@@ -40,7 +40,7 @@ RSpec.describe SolidusPaypalMarketplace::PaymentMethod, type: :model do
   end
 
   describe "#capture" do
-    let(:result) { Struct(id: SecureRandom.hex(4)) }
+    let(:result) { Struct(id: SecureRandom.hex(4), status: 'COMPLETED') }
     let(:seller) { create(:seller) }
     let(:price) { create(:price, seller: seller) }
     let(:line_item_attributes) { { variant: price.variant, seller: price.seller } }
@@ -53,6 +53,15 @@ RSpec.describe SolidusPaypalMarketplace::PaymentMethod, type: :model do
       payment.source = source
       expect_request(:AuthorizationsCaptureRequest).to receive(:new).with(authorization_id).and_call_original
       paypal_payment_method.capture(1000, {}, originator: payment)
+    end
+
+    it "sets source status based on the response" do
+      authorization_id = SecureRandom.hex(8)
+      source = paypal_payment_method.payment_source_class.create(authorization_id: authorization_id)
+      payment.source = source
+      expect { paypal_payment_method.capture(1000, {}, originator: payment) }.to(
+        change { source.response_status }.from(nil).to('completed')
+      )
     end
 
     context 'with stubbed request' do

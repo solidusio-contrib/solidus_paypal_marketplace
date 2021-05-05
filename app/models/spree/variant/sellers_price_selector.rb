@@ -11,14 +11,17 @@ module Spree
         prices = Spree::Seller.kept.map do |seller|
           price_for_seller(seller, price_options)
         end
-        prices.compact.min
+        prices.compact.min_by(&:money)
       end
 
       def price_for(price_options)
-        price = variant.prices.with_seller.currently_valid.detect do |variant_price|
+        variant.prices.with_seller.currently_valid.detect do |variant_price|
           price_matches_desired_options?(variant_price, price_options.desired_attributes)
         end
-        price&.money
+      end
+
+      def price_for_options(price_options)
+        price_for(price_options)
       end
 
       def price_for_seller(seller, price_options)

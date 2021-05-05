@@ -3,7 +3,7 @@
 module ReturnLowestSellerPriceInProductPriceForDecorator
   def price_for(price_options)
     prices = prices_for_variants(price_options).compact
-    return prices.min if prices.present?
+    return prices.min_by(&:money) if prices.present?
 
     price_for_master(price_options)
   end
@@ -16,6 +16,10 @@ module ReturnLowestSellerPriceInProductPriceForDecorator
     variants.map do |variant|
       variant.lowest_seller_price_for(price_options)
     end
+  end
+
+  def price_for_options(pricing_options)
+    price_for(pricing_options)
   end
 
   Spree::Product.prepend self

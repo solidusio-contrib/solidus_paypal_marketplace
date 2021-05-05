@@ -6,7 +6,7 @@
     <%= radio_button_tag "variant_and_seller_ids",
                          [variant.id, seller.id],
                          false,
-                         'data-price' => price  %>
+                         'data-price' => price&.money  %>
     <%= label_tag "variant_id_#{ variant.id }_seller_id_#{ seller.id }" do %>
       <% unless local_assigns[:is_master] %>
         <span class="variant-description">
@@ -18,7 +18,7 @@
         <%= seller.name %>
       </span>
       <span class="price">
-        <%= price.to_html %>
+        <%= price&.money.to_html %>
       </span>
 
       <% unless seller.can_supply?(variant) %>

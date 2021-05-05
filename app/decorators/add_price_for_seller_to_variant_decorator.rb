@@ -25,5 +25,9 @@ module AddPriceForSellerToVariantDecorator
     end
   end
 
+  def price_for_options(pricing_options)
+    price_for(pricing_options)
+  end
+
   Spree::Variant.prepend self
 end

@@ -93,7 +93,7 @@ RSpec.describe SolidusPaypalMarketplace::Importer::Price do
         create(:price, amount: 44.0, seller: seller, variant: variant, currency: currency)
         pricing_options = Spree::Variant::SellersPricingOptions.new
         expect{ price_importer.import }.to change {
-          variant.price_for_seller(seller, pricing_options)
+          variant.price_for_seller(seller, pricing_options).money
         }.from(Spree::Money.new(44.0)).to(Spree::Money.new(1.0))
       end
 

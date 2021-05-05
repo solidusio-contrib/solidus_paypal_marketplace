@@ -62,7 +62,7 @@ RSpec.describe ReturnLowestSellerPriceInProductPriceForDecorator, type: :model d
         sellers = [create(:seller, name: 'One'), create(:seller, name: 'Two')]
         create(:price, variant: variant, amount: 30.00, seller: sellers.second)
         create(:price, variant: other_variant, amount: 50.00, seller: sellers.first)
-        expect(price_for).to eq Spree::Money.new(30.00, currency: 'USD')
+        expect(price_for.money).to eq Spree::Money.new(30.00, currency: 'USD')
       end
     end
   end

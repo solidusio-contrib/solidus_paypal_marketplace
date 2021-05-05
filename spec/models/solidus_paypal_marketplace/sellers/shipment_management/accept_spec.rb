@@ -43,11 +43,6 @@ RSpec.describe SolidusPaypalMarketplace::Sellers::ShipmentManagement::Accept do
         allow(shipment).to receive(:can_ready?).and_return(false)
         expect(do_accept).to be false
       end
-
-      it 'rollbacks captures' do
-        allow(shipment).to receive(:ready!).and_raise(ActiveRecord::Rollback)
-        expect { do_accept }.not_to(change { payments.reload.pluck(:state).uniq })
-      end
     end
   end
 end

@@ -7,7 +7,11 @@ RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::PaymentCaptureCompl
 
   let(:context) { OpenStruct.new(params: params) }
   let(:params) { { resource: { "id" => payment.id } } }
-  let(:payment) { create(:payment, payment_method: payment_method, source: payment_source) }
+  let(:payment) do
+    create(:payment, order: create(:order_ready_to_ship),
+                     payment_method: payment_method,
+                     source: payment_source)
+  end
   let(:payment_method) { create(:paypal_payment_method) }
   let(:payment_source) do
     SolidusPaypalCommercePlatform::PaymentSource.create!(
@@ -15,6 +19,11 @@ RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::PaymentCaptureCompl
       paypal_order_id: 'paypal-order-id',
       response_status: 'pending'
     )
+  end
+  let(:shipment) { payment.order.shipments.first }
+
+  before do
+    shipment.pend!
   end
 
   describe '#call' do
@@ -32,6 +41,14 @@ RSpec.describe SolidusPaypalMarketplace::Webhooks::Handlers::PaymentCaptureCompl
 
     it do
       expect { handler.call }.to change { payment_source.reload.response_status }.from('pending').to('completed')
+    end
+
+    it do
+      expect { handler.call }.to change { payment.reload.state }.from('checkout').to('completed')
+    end
+
+    it do
+      expect { handler.call }.to change { shipment.reload.state }.from('pending').to('ready')
     end
 
     context 'when the update fails' do

@@ -7,17 +7,8 @@ module SolidusPaypalMarketplace
         def call(shipment)
           return false unless shipment.order.payments.all?(&:can_complete?)
 
-          result = true
-          ActiveRecord::Base.transaction do
-            shipment.order.payments.each(&:capture!)
-            if shipment.can_ready?
-              shipment.ready!
-            else
-              result = false
-              raise ActiveRecord::Rollback
-            end
-          end
-          result
+          shipment.order.payments.each(&:capture!)
+          SolidusPaypalMarketplace::Sellers::ShipmentManagement::Ready.call(shipment)
         end
       end
     end

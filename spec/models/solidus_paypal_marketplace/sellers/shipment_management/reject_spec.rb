@@ -31,6 +31,13 @@ RSpec.describe SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject do
       expect { do_reject }.to change(shipment, :state).from('pending').to('canceled')
     end
 
+    context 'when payment cannot transition' do
+      it 'returns false' do
+        allow(payments.first).to receive(:can_void?).and_return(false)
+        expect(do_reject).to be false
+      end
+    end
+
     context 'when shipment cannot transition' do
       it 'returns false' do
         shipment.cancel!

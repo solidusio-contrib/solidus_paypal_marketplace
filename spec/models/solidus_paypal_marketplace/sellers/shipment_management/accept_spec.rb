@@ -31,6 +31,13 @@ RSpec.describe SolidusPaypalMarketplace::Sellers::ShipmentManagement::Accept do
       expect { do_accept }.to change(shipment, :state).from('pending').to('ready')
     end
 
+    context 'when payment cannot transition' do
+      it 'returns false' do
+        allow(payments.first).to receive(:can_complete?).and_return(false)
+        expect(do_accept).to be false
+      end
+    end
+
     context 'when shipment cannot transition' do
       it 'returns false' do
         allow(shipment).to receive(:can_ready?).and_return(false)

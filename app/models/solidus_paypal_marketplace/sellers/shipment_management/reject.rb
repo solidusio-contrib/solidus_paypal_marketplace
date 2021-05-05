@@ -5,7 +5,7 @@ module SolidusPaypalMarketplace
     module ShipmentManagement
       class Reject < Base
         def call(shipment)
-          return false unless shipment.order.payments.map(&:can_void?) && shipment.can_cancel?
+          return false unless shipment.order.payments.all?(&:can_void?) && shipment.can_cancel?
 
           ActiveRecord::Base.transaction do
             shipment.order.payments.each(&:void_transaction!)

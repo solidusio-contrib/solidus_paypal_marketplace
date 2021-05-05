@@ -5,7 +5,7 @@ module SolidusPaypalMarketplace
     module ShipmentManagement
       class Accept < Base
         def call(shipment)
-          return false unless shipment.order.payments.map(&:can_complete?)
+          return false unless shipment.order.payments.all?(&:can_complete?)
 
           result = true
           ActiveRecord::Base.transaction do

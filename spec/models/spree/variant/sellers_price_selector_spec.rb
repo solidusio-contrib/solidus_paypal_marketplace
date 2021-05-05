@@ -31,7 +31,7 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
     it 'returns lowest seller price' do
       other_seller = create(:seller, name: 'Two')
       create(:price, variant: variant, amount: price.amount + 5.00, seller: other_seller)
-      expect(lowest_seller_price_for).to eq Spree::Money.new(price.amount, currency: 'USD')
+      expect(lowest_seller_price_for.money).to eq Spree::Money.new(price.amount, currency: 'USD')
     end
 
     context 'when there are no sellers prices' do
@@ -52,11 +52,11 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
     subject(:price_for) { seller_price_selector.price_for(pricing_options) }
 
     it do
-      expect(price_for).to be_kind_of(Spree::Money)
+      expect(price_for).to be_kind_of(Spree::Price)
     end
 
     it 'selects price for variant and pricing options' do
-      expect(price_for).to eq(price.money)
+      expect(price_for).to eq(price)
     end
 
     it 'returns last price created by seller' do
@@ -65,7 +65,7 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
                                        currency: pricing_options.currency,
                                        seller: seller,
                                        variant: variant)
-      expect(price_for).to eq(new_price.money)
+      expect(price_for).to eq(new_price)
     end
 
     it 'does not return platform owner prices' do
@@ -78,11 +78,11 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
     subject(:price_for_seller) { seller_price_selector.price_for_seller(seller, pricing_options) }
 
     it do
-      expect(price_for_seller).to be_kind_of(Spree::Money)
+      expect(price_for_seller).to be_kind_of(Spree::Price)
     end
 
     it 'selects seller price for variant and pricing options' do
-      expect(price_for_seller).to eq(price.money)
+      expect(price_for_seller).to eq(price)
     end
   end
 end

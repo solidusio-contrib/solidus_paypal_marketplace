@@ -1,3 +1,3 @@
 <!-- replace "erb[loud]:contains('display_price(item.variant)')" -->
 
-<%= item.variant.price_for_seller(item.line_item.seller, current_pricing_options).to_html %>
+<%= item.variant.price_for_seller(item.line_item.seller, current_pricing_options)&.money.to_html %>

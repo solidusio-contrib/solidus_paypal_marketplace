@@ -5,10 +5,13 @@ module SolidusPaypalMarketplace
     module Handlers
       class PaymentCaptureCompleted < Base
         def call
-          payment_source = payment.payment_source
           if payment_source.update(response_status: :completed)
-            payment.complete! unless payment.completed?
-            update_shipment_state
+            payment_source.payments.each do |payment|
+              if payment.completed? != true
+                payment.started_processing!
+                payment.complete!
+              end
+            end
             { result: true }
           else
             { result: false, errors: payment_source.errors.full_messages }
@@ -17,14 +20,8 @@ module SolidusPaypalMarketplace
 
         private
 
-        def payment
-          Spree::Payment.find(resource["id"])
-        end
-
-        def update_shipment_state
-          payment.order.shipments.each do |shipment|
-            SolidusPaypalMarketplace::Sellers::ShipmentManagement::Ready.call(shipment)
-          end
+        def payment_source
+          SolidusPaypalCommercePlatform::PaymentSource.find_by!(capture_id: resource["id"])
         end
       end
     end

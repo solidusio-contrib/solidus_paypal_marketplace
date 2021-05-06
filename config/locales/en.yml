@@ -39,6 +39,7 @@ en:
         reject_failed: Payments could not be rejected
         ship_successfully: Shipment confirmed
         ship_failed: Shipment could not be confirmed
+        waiting_paypal_capture_webhook: Waiting Paypal Transaction Confirmation
     offer_importer:
       result: Offer imported successfully.
       result_with_error: 'With errors: %{errors}'

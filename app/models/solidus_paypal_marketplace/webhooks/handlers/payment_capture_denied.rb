@@ -5,9 +5,13 @@ module SolidusPaypalMarketplace
     module Handlers
       class PaymentCaptureDenied < Base
         def call
-          payment_source = payment.payment_source
           if payment_source.update(response_status: :declined)
-            payment.failure! unless payment.failed?
+            payment_source.payments.each do |payment|
+              if payment.failed? != true
+                payment.started_processing!
+                payment.failure!
+              end
+            end
             { result: true }
           else
             { result: false, errors: payment_source.errors.full_messages }
@@ -16,8 +20,8 @@ module SolidusPaypalMarketplace
 
         private
 
-        def payment
-          Spree::Payment.find(resource["id"])
+        def payment_source
+          SolidusPaypalCommercePlatform::PaymentSource.find_by!(capture_id: resource["id"])
         end
       end
     end

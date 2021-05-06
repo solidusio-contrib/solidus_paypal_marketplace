@@ -9,6 +9,10 @@
     <li>
       <%= link_to t('spree.reject'), spree.reject_admin_sellers_shipment_url, class: "button" %>
     </li>
+  <% elsif @shipment.order.payments.any?(&:paypal_pending?) %>
+     <li class="text-danger">
+      <%= t('solidus_paypal_marketplace.sellers.shipment_management.waiting_paypal_capture_webhook') %>
+    </li>
   <% elsif @shipment.ready? %>
     <li>
       <%= link_to t('spree.ship').capitalize, spree.ship_admin_sellers_shipment_url, class: "button" %>

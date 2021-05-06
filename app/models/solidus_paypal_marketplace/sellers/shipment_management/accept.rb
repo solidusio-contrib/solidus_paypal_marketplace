@@ -8,7 +8,7 @@ module SolidusPaypalMarketplace
           return false unless shipment.order.payments.all?(&:can_complete?)
 
           shipment.order.payments.each(&:capture!)
-          SolidusPaypalMarketplace::Sellers::ShipmentManagement::Ready.call(shipment)
+          true
         end
       end
     end

@@ -35,6 +35,8 @@ en:
       shipment_management:
         accept_successfully: Payments accepted
         accept_failed: Payments could not be accepted
+        cancel_successfully: Shipment canceled
+        cancel_failed: Shipment could not be canceld
         reject_successfully: Payments rejected
         reject_failed: Payments could not be rejected
         ship_successfully: Shipment confirmed

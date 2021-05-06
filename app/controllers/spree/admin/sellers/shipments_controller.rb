@@ -4,6 +4,9 @@ module Spree
   module Admin
     module Sellers
       class ShipmentsController < Spree::Admin::Sellers::ResourceController
+        before_action :refresh_payments_statuses, only: [:edit],
+                                                  if: -> { params[:refresh_payments_statuses] }
+
         def index
           session[:return_to] = request.url
           @collection = @collection.reverse_chronological
@@ -47,6 +50,14 @@ module Spree
 
         def location_after_save
           spree.edit_admin_sellers_shipment_url(@shipment)
+        end
+
+        def refresh_payments_statuses
+          @shipment.order.payments.map(&:source).uniq.each do |source|
+            next unless source.is_a?(SolidusPaypalCommercePlatform::PaymentSource)
+
+            SolidusPaypalMarketplace::Sellers::Captures::StatusRefresh.call(source.capture_id)
+          end
         end
       end
     end

@@ -17,6 +17,8 @@
     <li>
       <%= link_to t('spree.ship').capitalize, spree.ship_admin_sellers_shipment_url, class: "button" %>
     </li>
+  <% else %>
+    <%= t('solidus_paypal_marketplace.sellers.contact_platform_owner') %>
   <% end %>
 <% end %>
 

@@ -2,22 +2,27 @@
 <% admin_breadcrumb(@shipment.number) %>
 
 <% content_for :page_actions do %>
-  <% if @shipment.pending? %>
+  <% if @shipment.pending? && @shipment.order.payments.all?(&:pending?) %>
     <li>
       <%= link_to t('spree.accept'), spree.accept_admin_sellers_shipment_url, class: "button" %>
     </li>
     <li>
       <%= link_to t('spree.reject'), spree.reject_admin_sellers_shipment_url, class: "button" %>
     </li>
-  <% elsif @shipment.order.payments.any?(&:paypal_pending?) %>
+  <% elsif @shipment.ready? && @shipment.order.payments.any?(&:paypal_pending?) %>
      <li class="text-danger">
       <%= t('solidus_paypal_marketplace.sellers.shipment_management.waiting_paypal_capture_webhook') %>
+      <small>
+        <%= link_to 'Refresh', spree.edit_admin_sellers_shipment_url(@shipment, refresh_payments_statuses: true), class: "button" %>
+      </small>
     </li>
-  <% elsif @shipment.ready? %>
+  <% elsif @shipment.ready? && @shipment.order.payments.all?(&:completed?) %>
     <li>
       <%= link_to t('spree.ship').capitalize, spree.ship_admin_sellers_shipment_url, class: "button" %>
     </li>
-  <% else %>
+  <% elsif @shipment.pending? && @shipment.order.payments.all?(&:failed?) %>
+      <%= link_to t('spree.cancel').capitalize, spree.cancel_admin_sellers_shipment_url, class: "button" %>
+  <% elsif @shipment.shipped? != true && @shipment.canceled? != true %>
     <%= t('solidus_paypal_marketplace.sellers.contact_platform_owner') %>
   <% end %>
 <% end %>

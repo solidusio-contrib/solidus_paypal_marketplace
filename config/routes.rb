@@ -9,6 +9,7 @@ Spree::Core::Engine.routes.draw do
       resources :shipments, only: [:index, :edit, :update] do
         member do
           get :accept
+          get :cancel
           get :reject
           get :ship
         end

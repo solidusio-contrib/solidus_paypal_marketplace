@@ -24,6 +24,15 @@ module Spree
           redirect_to spree.edit_admin_sellers_shipment_url(@shipment)
         end
 
+        def cancel
+          if SolidusPaypalMarketplace::Sellers::ShipmentManagement::Cancel.call(@shipment)
+            flash[:success] = I18n.t('solidus_paypal_marketplace.sellers.shipment_management.cancel_successfully')
+          else
+            flash[:error] = I18n.t('solidus_paypal_marketplace.sellers.shipment_management.cancel_failed')
+          end
+          redirect_to spree.edit_admin_sellers_shipment_url(@shipment)
+        end
+
         def reject
           if SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject.call(@shipment)
             flash[:success] = I18n.t('solidus_paypal_marketplace.sellers.shipment_management.reject_successfully')
@@ -58,6 +67,7 @@ module Spree
 
             SolidusPaypalMarketplace::Sellers::Captures::StatusRefresh.call(source.capture_id)
           end
+          @shipment.reload
         end
       end
     end

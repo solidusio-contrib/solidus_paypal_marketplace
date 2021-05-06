@@ -92,9 +92,16 @@ RSpec.describe SolidusPaypalMarketplace::Importer::Price do
       it 'updates the current price' do
         create(:price, amount: 44.0, seller: seller, variant: variant, currency: currency)
         pricing_options = Spree::Variant::SellersPricingOptions.new
-        expect{ price_importer.import }.to change {
-          variant.price_for_seller(seller, pricing_options).money
-        }.from(Spree::Money.new(44.0)).to(Spree::Money.new(1.0))
+
+        if ::Spree.solidus_gem_version >= Gem::Version.new('3.1.0.alpha')
+          expect{ price_importer.import }.to change {
+            variant.price_for_seller(seller, pricing_options)&.money
+          }.from(Spree::Money.new(44.0)).to(Spree::Money.new(1.0))
+        else
+          expect{ price_importer.import }.to change {
+            variant.price_for_seller(seller, pricing_options)
+          }.from(Spree::Money.new(44.0)).to(Spree::Money.new(1.0))
+        end
       end
 
       it 'updates seller\'s stock item availability' do

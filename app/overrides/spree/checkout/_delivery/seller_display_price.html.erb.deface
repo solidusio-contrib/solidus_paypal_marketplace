@@ -1,3 +1,8 @@
 <!-- replace "erb[loud]:contains('display_price(item.variant)')" -->
 
-<%= item.variant.price_for_seller(item.line_item.seller, current_pricing_options)&.money.to_html %>
+<% price = item.variant.price_for_seller(item.line_item.seller, current_pricing_options) %>
+<% if price.is_a? Spree::Money %>
+  <%= price.to_html %>
+<% else %>
+  <%= price&.money&.to_html %>
+<% end %>

@@ -3,9 +3,16 @@
 module ReturnLowestSellerPriceInProductPriceForDecorator
   def price_for(price_options)
     prices = prices_for_variants(price_options).compact
-    return prices.min_by(&:money) if prices.present?
+
+    return min_prices(prices) if prices.present?
 
     price_for_master(price_options)
+  end
+
+  def min_prices(prices)
+    return prices.min_by(&:money) if ::Spree.solidus_gem_version >= Gem::Version.new('3.1.0.alpha')
+
+    prices.min
   end
 
   def price_for_master(price_options)

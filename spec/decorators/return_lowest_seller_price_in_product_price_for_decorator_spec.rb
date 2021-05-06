@@ -32,9 +32,11 @@ RSpec.describe ReturnLowestSellerPriceInProductPriceForDecorator, type: :model d
       }
 
       it 'calls variants#lowest_sellers_price_for' do
-        allow(variant).to receive(:price_selector).and_return(price_selector)
+        allow_any_instance_of(Spree::Variant).to receive(:price_selector).and_return(price_selector) # rubocop:disable RSpec/AnyInstance
+
         price_for
-        expect(price_selector).to have_received(:lowest_seller_price_for)
+
+        expect(price_selector).to have_received(:lowest_seller_price_for).at_least(:once)
       end
 
       it 'calls master#lowest_sellers_price_for' do
@@ -53,16 +55,22 @@ RSpec.describe ReturnLowestSellerPriceInProductPriceForDecorator, type: :model d
       let(:other_variant) { create(:variant, product: variant.product) }
 
       it 'calls variants#lowest_sellers_price_for' do
-        allow(variant).to receive(:price_selector).and_return(price_selector)
+        allow_any_instance_of(Spree::Variant).to receive(:price_selector).and_return(price_selector) # rubocop:disable RSpec/AnyInstance
         price_for
-        expect(price_selector).to have_received(:lowest_seller_price_for)
+
+        expect(price_selector).to have_received(:lowest_seller_price_for).at_least(:once)
       end
 
       it 'returns sellers lowest price for any variant' do
         sellers = [create(:seller, name: 'One'), create(:seller, name: 'Two')]
-        create(:price, variant: variant, amount: 30.00, seller: sellers.second)
+        price = create(:price, variant: variant, amount: 30.00, seller: sellers.second)
         create(:price, variant: other_variant, amount: 50.00, seller: sellers.first)
-        expect(price_for.money).to eq Spree::Money.new(30.00, currency: 'USD')
+
+        if ::Spree.solidus_gem_version >= Gem::Version.new('3.1.0.alpha')
+          expect(price_for).to eq price
+        else
+          expect(price_for).to eq Spree::Money.new(30.00, currency: 'USD')
+        end
       end
     end
   end

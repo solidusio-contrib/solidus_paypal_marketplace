@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'solidus_paypal_marketplace/paypal_partner_sdk/create_partner_referral'
+require 'solidus_paypal_marketplace/paypal_partner_sdk/show_captured_payment_details'
 require 'solidus_paypal_marketplace/paypal_partner_sdk/show_seller_status'
 
 module SolidusPaypalMarketplace
@@ -13,6 +14,14 @@ module SolidusPaypalMarketplace
       return unless response
 
       response.result.links.detect { |l| l.rel == 'action_url' }.href
+    end
+
+    def show_captured_payment_details(capture_id:)
+      request = ShowCapturedPaymentDetails.new(capture_id: capture_id)
+      response = SolidusPaypalMarketplace::PaypalPartnerSdk.execute(request)
+      return unless response
+
+      response.result
     end
 
     def show_seller_status(merchant_id:)

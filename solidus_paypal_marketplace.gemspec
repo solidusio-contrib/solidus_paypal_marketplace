@@ -32,6 +32,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'solidus_paypal_commerce_platform', '~> 0.3.0'
   spec.add_dependency 'solidus_support', '~> 0.5'
 
+  # NB: seemingly necessary till rails dependencies are bumped to non-broken versions of the gem
+  spec.add_dependency 'execjs', '=2.7.0'
+
   spec.add_development_dependency 'rails-controller-testing', '~> 1.0.5'
   spec.add_development_dependency 'rspec-activemodel-mocks'
   spec.add_development_dependency 'shoulda-matchers'

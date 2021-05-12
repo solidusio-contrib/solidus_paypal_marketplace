@@ -54,7 +54,6 @@ gem 'solidus_auth_devise', '>= 2.1.0'
 gem 'rails-i18n'
 gem 'solidus_i18n'
 
-gem '$extension_name', path: '..'
 
 group :test, :development do
   platforms :mri do
@@ -75,7 +74,11 @@ unbundled bundle exec rails generate solidus:install \
   --payment-method=none \
   $@
 
+
 unbundled bundle exec rails generate solidus:auth:install
+
+echo "gem '${extension_name}', path: '..'" >> Gemfile
+unbundled bundle install
 unbundled bundle exec rails generate ${extension_name}:install
 unbundled bundle exec rails ${extension_name}:db:seed
 

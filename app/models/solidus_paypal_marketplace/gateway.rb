@@ -43,6 +43,14 @@ module SolidusPaypalMarketplace
       @client.execute(request)
     end
 
+    def void(_response_code, options)
+      payment = options[:originator]
+      authorization_id = payment.source.authorization_id
+      request = AuthorizationsVoidRequest.new(authorization_id)
+      request.headers["PayPal-Auth-Assertion"] = paypal_auth_assertion(payment)
+      @client.execute_with_response(request)
+    end
+
     private
 
     def generate_capture_payload(money, currency)
@@ -70,6 +78,23 @@ module SolidusPaypalMarketplace
       }
 
       capture_payload
+    end
+
+    def paypal_auth_assertion(payment)
+      merchant_id_in_paypal = payment.request_env[:merchant_id_in_paypal]
+      header = {
+        "alg" => "none"
+      }
+      payload = {
+        "iss" => SolidusPaypalMarketplace.config.paypal_client_id,
+        "payer_id" => merchant_id_in_paypal
+      }
+      signature = ""
+      [
+        Base64.strict_encode64(header.to_json),
+        Base64.strict_encode64(payload.to_json),
+        signature
+      ].join('.')
     end
   end
 end

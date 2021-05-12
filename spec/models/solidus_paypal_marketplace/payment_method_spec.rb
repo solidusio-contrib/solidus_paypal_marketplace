@@ -93,8 +93,12 @@ RSpec.describe SolidusPaypalMarketplace::PaymentMethod, type: :model do
       authorization_id = SecureRandom.hex(8)
       source = paypal_payment_method.payment_source_class.create(authorization_id: authorization_id)
       payment.source = source
-      expect_request(:AuthorizationsVoidRequest).to receive(:new).with(authorization_id)
-      paypal_payment_method.void(nil, originator: payment)
+      payment.request_env = {}
+      request = SolidusPaypalMarketplace::Gateway::AuthorizationsVoidRequest.new(authorization_id)
+      expect_request(:AuthorizationsVoidRequest).to receive(:new).with(authorization_id).and_return(request)
+      expect { paypal_payment_method.void(nil, originator: payment) }.to(
+        change { request.headers["PayPal-Auth-Assertion"] }.from(nil)
+      )
     end
   end
 

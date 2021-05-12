@@ -33,5 +33,4 @@ RSpec.describe AddPaypalChecksToPaymentDecorator, type: :model do
       expect(payment.paypal_pending?).to be(false)
     end
   end
-
 end

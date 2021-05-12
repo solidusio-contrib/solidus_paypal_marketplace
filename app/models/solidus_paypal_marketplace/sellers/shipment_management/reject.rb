@@ -4,11 +4,15 @@ module SolidusPaypalMarketplace
   module Sellers
     module ShipmentManagement
       class Reject < Base
-        def call(shipment)
-          return false unless shipment.order.payments.all?(&:can_void?) && shipment.can_cancel?
+        def call(shipment, merchant_id_in_paypal: nil)
+          payments = shipment.order.payments.map do |payment|
+            payment.request_env = { merchant_id_in_paypal: merchant_id_in_paypal }
+            payment
+          end
+          return false unless payments.all?(&:can_void?) && shipment.can_cancel?
 
           ActiveRecord::Base.transaction do
-            shipment.order.payments.each(&:void_transaction!)
+            payments.each(&:void_transaction!)
             shipment.cancel!
           end
         end

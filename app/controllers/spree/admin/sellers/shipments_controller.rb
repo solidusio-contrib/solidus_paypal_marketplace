@@ -34,7 +34,9 @@ module Spree
         end
 
         def reject
-          if SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject.call(@shipment)
+          if SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject.call(
+            @shipment, merchant_id_in_paypal: current_spree_user.seller.merchant_id_in_paypal
+          )
             flash[:success] = I18n.t('solidus_paypal_marketplace.sellers.shipment_management.reject_successfully')
           else
             flash[:error] = I18n.t('solidus_paypal_marketplace.sellers.shipment_management.reject_failed')

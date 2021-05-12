@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject do
-  subject(:do_reject) { described_class.call(shipment) }
+  subject(:do_reject) { described_class.call(shipment, merchant_id_in_paypal: 'merchant-id-in-paypal') }
 
   let(:line_item) { create(:line_item) }
   let(:order) { create(:completed_order_with_pending_payment, line_items: [line_item]) }
@@ -15,7 +15,7 @@ RSpec.describe SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject do
   end
 
   it do
-    expect(described_class.new).to respond_to(:call).with(1).arguments
+    expect(described_class.new).to respond_to(:call).with(1).arguments.and_keywords(:merchant_id_in_paypal)
   end
 
   describe '#call' do

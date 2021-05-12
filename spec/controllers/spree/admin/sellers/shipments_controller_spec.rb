@@ -50,10 +50,11 @@ describe Spree::Admin::Sellers::ShipmentsController, type: :controller do
     end
 
     it 'calls reject' do
+      seller.update(merchant_id_in_paypal: 'merchant-id-in-paypal')
       interactor = SolidusPaypalMarketplace::Sellers::ShipmentManagement::Reject
       allow(interactor).to receive(:call).and_return(true)
       get :reject, params: { id: shipment.number }
-      expect(interactor).to have_received(:call).with(shipment)
+      expect(interactor).to have_received(:call).with(shipment, merchant_id_in_paypal: 'merchant-id-in-paypal')
     end
   end
 

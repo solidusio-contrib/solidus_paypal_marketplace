@@ -6,11 +6,13 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
   subject(:seller_price_selector) { described_class.new(variant) }
 
   let!(:price) {
-    Spree::Price.find_or_create_by!(amount: 15,
-                                    country: country,
-                                    currency: pricing_options.currency,
-                                    seller: seller,
-                                    variant: variant)
+    Spree::Price.find_or_create_by!(
+      amount: 15,
+      country: country,
+      currency: pricing_options.currency,
+      seller: seller,
+      variant: variant
+    )
   }
   let(:country) { create(:country) }
   let(:pricing_options) { described_class.pricing_options_class.new(currency: 'USD', country_iso: country.iso) }
@@ -68,11 +70,13 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
       end
 
       it 'returns last price created by seller' do
-        new_price = Spree::Price.create!(amount: 20,
-                                         country: country,
-                                         currency: pricing_options.currency,
-                                         seller: seller,
-                                         variant: variant)
+        new_price = Spree::Price.create!(
+          amount: 20,
+          country: country,
+          currency: pricing_options.currency,
+          seller: seller,
+          variant: variant
+        )
         expect(price_for).to eq(new_price)
       end
     else
@@ -85,11 +89,13 @@ RSpec.describe Spree::Variant::SellersPriceSelector, type: :model do
       end
 
       it 'returns last price(money) created by seller' do
-        new_price = Spree::Price.create!(amount: 20,
-                                         country: country,
-                                         currency: pricing_options.currency,
-                                         seller: seller,
-                                         variant: variant)
+        new_price = Spree::Price.create!(
+          amount: 20,
+          country: country,
+          currency: pricing_options.currency,
+          seller: seller,
+          variant: variant
+        )
         expect(price_for).to eq(new_price.money)
       end
     end

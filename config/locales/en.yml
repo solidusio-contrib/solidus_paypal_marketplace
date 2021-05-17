@@ -29,7 +29,7 @@ en:
         seller_stock_availability: Stock availability
   solidus_paypal_marketplace:
     sellers:
-      confirm_paypal_primary_email: Confirm your Paypal primary email
+      confirm_paypal_primary_email: Confirm your PayPal primary email
       contact_paypal: Contact PayPal
       contact_platform_owner: Contact the platform owner
       shipment_management:
@@ -63,7 +63,7 @@ en:
         seller_already_processed: Seller has been already accepted or rejected
         sign_up_link_not_related: This authorization link is not related to this seller
         granted_permissions_insufficient: Given permission are not sufficient to proceed
-        waiting_webhook_confirmation: Waiting Paypal confirmation
+        waiting_webhook_confirmation: Waiting PayPal confirmation
     seller:
       start_onboarding: Start Onboarding
       refresh_sign_up_link: Refresh Sign-Up Link
@@ -76,5 +76,5 @@ en:
         accepted: Accepted
         rejected: Rejected
         revoked: Revoked
-        require_paypal_verification: Require Paypal Verification
-        waiting_paypal_confirmation: Waiting Paypal Confirmation
+        require_paypal_verification: Require PayPal Verification
+        waiting_paypal_confirmation: Waiting PayPal Confirmation

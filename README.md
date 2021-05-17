@@ -1,4 +1,4 @@
-# Solidus Paypal Marketplace
+# Solidus PayPal Marketplace
 
 [![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace)
 [![codecov](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace/branch/master/graph/badge.svg)](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace)
@@ -22,13 +22,18 @@ bin/rails solidus_paypal_marketplace:db:seed
 
 ## Requirements
 
-You will need an approved Paypal Platform Partner app.
+You will need an approved PayPal Platform Partner app.
 Some webhooks are needed to be enabled for the extension to work properly.
 
 Log in in your PayPal business account and edit your app.
 At the bottom of the form press the `Add Webhook` button.
 In the `Webhook URL field` insert the domain of your application, followed by `/paypal_webhooks` (eg: `https://myapp.com/paypal_webhooks`).
-Select `Merchant onboarding completed` and `Merchant partner-consent revoked` from the checkboxes list and save.
+Select the following events from the checkboxes list and save.
+
+Merchant onboarding completed
+Merchant partner-consent revoked
+Payment capture completed
+Payment capture denied
 
 This will create a `Webhook Id` to be used in the configuration below, along with the app `Client ID`, `Secret` and `Partner Code`.
 
@@ -48,15 +53,15 @@ SolidusPaypalMarketplace.configure do |config|
 end
 ```
 
-`Paypal Partner Id` and `Paypal Client Secret` can be found in the details of your approved partner app.
+`PayPal Partner Id` and `PayPal Client Secret` can be found in the details of your approved partner app.
 
-`Paypal Partner Code` will be given to you on marketplace approval from Paypal.
+`PayPal Partner Code` will be given to you on marketplace approval from PayPal.
 
-`Paypal Partner Id` is the `Account ID` found in the details of your Paypal approved partner account.
+`PayPal Partner Id` is the `Account ID` found in the details of your PayPal approved partner account.
 
-`Paypal Webhook Id` will be found on the bottom of your approved partner app details.
+`PayPal Webhook Id` will be found on the bottom of your approved partner app details.
 
-Then go to the "Settings/Payments" section and click the "New Payment Method" button. Select `Paypal Marlketplace Platform` as payment type. After creation, set the credentials by selecting `paypal_marketplace_credentials` as "Preference Source".
+Then go to the "Settings/Payments" section and click the "New Payment Method" button. Select `PayPal Marlketplace Platform` as payment type. After creation, set the credentials by selecting `paypal_marketplace_credentials` as "Preference Source".
 
 Sellers can be created in the "Sellers" section, a individual `percentage` value must be set in order to calulate the platform fee for each purchase.
 Click on the "Start Onboarding" button on the newly created seller to generate the `action_url` needed to perform his onboarding. This can be refreshed at any time if needed.

@@ -1,7 +1,7 @@
 # Solidus PayPal Marketplace
 
-[![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace)
-[![codecov](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace/branch/master/graph/badge.svg)](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace)
+[![CircleCI](https://circleci.com/gh/nebulab/solidus_paypal_marketplace.svg?style=shield)](https://circleci.com/gh/nebulab/solidus_paypal_marketplace)
+[![codecov](https://codecov.io/gh/nebulab/solidus_paypal_marketplace/branch/master/graph/badge.svg)](https://codecov.io/gh/nebulab/solidus_paypal_marketplace)
 
 <!-- Explain what your extension does. -->
 

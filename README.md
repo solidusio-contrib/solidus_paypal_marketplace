@@ -3,7 +3,15 @@
 [![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace)
 [![codecov](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace/branch/main/graph/badge.svg?token=ywAGAmYt9W)](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace)
 
-<!-- Explain what your extension does. -->
+Solidus PayPal Marketplace is a Solidus extension that provides one possible implementation of a marketplace using Solidus and PayPal Commerce Platform as payment method (via the [solidus_paypal_commerce_platform extension](https://github.com/solidusio-contrib/solidus_paypal_commerce_platform)). 
+
+[PayPal Commerce Platform](https://www.paypal.com/business/platforms-and-marketplaces) has a lot of built-in features specific for marketplaces and this extension take advantage of them to design a simple marketplace architecture.
+
+- Admin users will be able to create sellers and initiate their onboarding flow.
+- Sellers will receive the onboarding email and will be able to login and connect their seller account with their business PayPal account.
+- Once seller account is properly configured, they can manage their catalogue availability, prices, even via uploading a .csv file.
+- Sellers can manage their shipments, by accepting, rejecting or marking them as shipped.
+- Sellers will receive payoffs for their orders on their PayPal account directly.
 
 ## Installation
 

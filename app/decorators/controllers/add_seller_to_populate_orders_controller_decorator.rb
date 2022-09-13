@@ -24,7 +24,11 @@ module AddSellerToPopulateOrdersControllerDecorator
       format.html do
         if @order.errors.any?
           flash[:error] = @order.errors.full_messages.join(", ")
-          redirect_back_or_default(spree.root_path)
+          if Rails.gem_version > Gem::Version.new('7.0')
+            redirect_back_or_to(spree.root_path)
+          else
+            redirect_back(fallback_location: spree.root_path)
+          end
           return
         else
           redirect_to cart_path

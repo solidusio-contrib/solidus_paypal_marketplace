@@ -3,6 +3,8 @@
 [![CircleCI](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace.svg?style=shield)](https://circleci.com/gh/solidusio-contrib/solidus_paypal_marketplace)
 [![codecov](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace/branch/main/graph/badge.svg?token=ywAGAmYt9W)](https://codecov.io/gh/solidusio-contrib/solidus_paypal_marketplace)
 
+**WARNING**: This extension has not been released onto RubyGems and is not currently being developed upon.
+
 Solidus PayPal Marketplace is a Solidus extension that provides one possible implementation of a marketplace using Solidus and PayPal Commerce Platform as payment method (via the [solidus_paypal_commerce_platform extension](https://github.com/solidusio-contrib/solidus_paypal_commerce_platform)). 
 
 [PayPal Commerce Platform](https://www.paypal.com/business/platforms-and-marketplaces) has a lot of built-in features specific for marketplaces and this extension take advantage of them to design a simple marketplace architecture.
@@ -18,7 +20,7 @@ Solidus PayPal Marketplace is a Solidus extension that provides one possible imp
 Add solidus_paypal_marketplace to your Gemfile:
 
 ```ruby
-gem 'solidus_paypal_marketplace'
+gem 'solidus_paypal_marketplace', github: 'solidusio-contrib/solidus_paypal_marketplace', branch: 'main'
 ```
 
 Bundle your dependencies and run the installation generator, then seed the database:
